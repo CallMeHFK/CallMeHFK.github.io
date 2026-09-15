@@ -4,7 +4,7 @@
 
 <div align="center">
 
-**Leo Han**（`CallMeHFK`）· 合肥 · UTC+8
+**`CallMeHFK`** · UTC+8
 
 **系统思考者 —— 站在技术与业务的交界处**
 
@@ -42,15 +42,14 @@ $ cat principles.txt
 
 ## 🚀 当前
 
-- **专利工程** — 共振抑制 ANC（键盘）、FTO 检索与规避设计；引用逐条查原文，二手引用不入库
-- **固件在环** — Renode 周期精确仿真，性能声明打到指令级证据（μs 级单样本预算）
-- **多智能体工具链** — QwenPaw 六端派发拓扑、技能蒸馏与周蒸馏、共识排序
+- **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
+- **多智能体工具链** — QwenPaw 多端派发、技能蒸馏、共识排序
 - **开源** — [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) 多评审 LLM 共识排序 · sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）
 
 ## 📊
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=CallMeHFK&show_icons=true&count_private=true&theme=dark&bg_color=0d1117&text_color=c9d1d9&icon_color=e06a2d&ring_color=e06a2d&hide_border=true" alt="github stats" width="480">
+  <img src="https://github-readme-stats.vercel.app/api?username=CallMeHFK&show_icons=true&theme=dark&bg_color=0d1117&text_color=c9d1d9&icon_color=e06a2d&ring_color=e06a2d&hide_border=true" alt="github stats" width="480">
 </div>
 
 ---

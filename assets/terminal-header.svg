@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 172" width="760" height="172" role="img" aria-label="whoami: Leo Han, CallMeHFK">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 172" width="760" height="172" role="img" aria-label="whoami: CallMeHFK">
   <rect x="1" y="1" width="758" height="170" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1.5"/>
   <circle cx="24" cy="22" r="6" fill="#ff5f56"/>
   <circle cx="44" cy="22" r="6" fill="#ffbd2e"/>
   <circle cx="64" cy="22" r="6" fill="#27c93f"/>
-  <text x="380" y="26" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#8b949e">leo@hefei: ~</text>
+  <text x="380" y="26" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#8b949e">CallMeHFK: ~</text>
   <line x1="1" y1="40" x2="759" y2="40" stroke="#30363d" stroke-width="1"/>
   <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14.5">
-    <text x="24" y="70" fill="#8b949e">leo@hefei:~$</text>
-    <text x="112" y="70" fill="#c9d1d9">whoami</text>
-    <text x="24" y="94" fill="#3fb950">Leo Han · CallMeHFK — 技术与业务交界处的系统思考者</text>
-    <text x="24" y="122" fill="#8b949e">leo@hefei:~$</text>
-    <text x="112" y="122" fill="#c9d1d9">./soul</text>
+    <text x="24" y="70" fill="#8b949e">CallMeHFK:~$</text>
+    <text x="182" y="70" fill="#c9d1d9">whoami</text>
+    <text x="24" y="94" fill="#3fb950">CallMeHFK — 技术与业务交界处的系统思考者</text>
+    <text x="24" y="122" fill="#8b949e">CallMeHFK:~$</text>
+    <text x="182" y="122" fill="#c9d1d9">./soul</text>
     <text x="24" y="146" fill="#e06a2d">14 mental models · 14 hard red lines · 0 寒暄 · 100% 结论先行</text>
   </g>
 </svg>
