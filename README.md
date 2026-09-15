@@ -1,41 +1,62 @@
+<div align="center">
+  <img src="assets/terminal-header.svg" alt="whoami" width="760">
+</div>
 
-# Academic Pages
+<div align="center">
 
-![pages-build-deployment](https://github.com/academicpages/academicpages.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)
+**Leo Han**（`CallMeHFK`）· 合肥 · UTC+8
 
-Academic Pages is a Github Pages template for academic websites.
+**系统思考者 —— 站在技术与业务的交界处**
 
+> 用数据与事实做决策，不用感觉。先盘点再行动，确认了快速推进。
+> 质量是底线，效率是目标。
 
-# Getting Started
+</div>
 
-1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
-1. Click the "Use this template" button in the top right.
-1. On the "New repository" page, enter your repository name as "[your GitHub username].github.io", which will also be your website's URL.
-1. Set site-wide configuration and add your content.
-1. Upload any files (like PDFs, .zip files, etc.) to the `files/` directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.  
-1. Check status by going to the repository settings, in the "GitHub pages" section
-1. (Optional) Use the Jupyter notebooks or python scripts in the `markdown_generator` folder to generate markdown files for publications and talks from a TSV file.
+---
 
-See more info at https://academicpages.github.io/
+## 🧠 运行原则
 
-## Running Locally
+```bash
+$ cat principles.txt
+[0] 先盘点，再行动      建立基线 → 改进 → 对比基线，不盲目启动
+[1] 数据驱动不迷信      源码 > 配置 > 运行态；禁止口算，工具算完再输出
+[2] 逐字保真            源数据神圣不可改；可加标注，禁止「优化」改写
+[3] 物理极限即边界      参数调优空间可迭代，碰物理上限立即转向，不死磕
+[4] 诚实纠错            新数据推翻旧结论 → 明确记录「上一轮我说 X 是错误的」
+[5] 工具链即基础设施    按任务安装不膨胀；必须有退路，否则不上
+```
 
-When you are initially working your website, it is very useful to be able to preview the changes locally before pushing them to GitHub. To work locally you will need to:
+## 🛠 Stack
 
-1. Clone the repository and made updates as detailed above.
-1. Make sure you have ruby-dev, bundler, and nodejs installed: `sudo apt install ruby-dev ruby-bundler nodejs`
-1. Run `bundle install` to install ruby dependencies. If you get errors, delete Gemfile.lock and try again.
-1. Run `jekyll serve -l -H localhost` to generate the HTML and serve it from `localhost:4000` the local server will automatically rebuild and refresh the pages on change.
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white&style=flat-square)](https://www.python.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org/)
+[![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white&style=flat-square)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![ST · IEC 61131-3](https://img.shields.io/badge/ST%20IEC%2061131--3-8B949E?style=flat-square)](https://en.wikipedia.org/wiki/IEC_61131)
+[![KiCad](https://img.shields.io/badge/KiCad-268BCE?logo=kicad&logoColor=white&style=flat-square)](https://www.kicad.org/)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black&style=flat-square)](https://www.kernel.org/)
+[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=flat-square)](https://git-scm.com/)
+[![AgentScope · QwenPaw](https://img.shields.io/badge/AgentScope%20·%20QwenPaw-E06A2D?style=flat-square)](https://github.com/agentscope-ai/QwenPaw)
+[![MCP](https://img.shields.io/badge/MCP-6E7F80?style=flat-square)](https://modelcontextprotocol.io/)
+[![Renode](https://img.shields.io/badge/Renode-5A6B7B?style=flat-square)](https://renode.readthedocs.io/)
 
+## 🚀 当前
 
-# Maintenance 
+- **专利工程** — 共振抑制 ANC（键盘）、FTO 检索与规避设计；引用逐条查原文，二手引用不入库
+- **固件在环** — Renode 周期精确仿真，性能声明打到指令级证据（μs 级单样本预算）
+- **多智能体工具链** — QwenPaw 六端派发拓扑、技能蒸馏与周蒸馏、共识排序
+- **开源** — [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) 多评审 LLM 共识排序 · sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）
 
-Bug reports and feature requests to the template  should be [submitted via GitHub](https://github.com/academicpages/academicpages.github.io/issues/new/choose). For questions concerning how to style the template, please feel free to start a [new discussion on GitHub](https://github.com/academicpages/academicpages.github.io/discussions).
+## 📊
 
-This repository was forked (then detached) by [Stuart Geiger](https://github.com/staeiou) from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/), which is © 2016 Michael Rose and released under the MIT License (see LICENSE.md). It is currently being maintained by [Robert Zupko](https://github.com/rjzupkoii) and additional maintainers would be welcomed.
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=CallMeHFK&show_icons=true&count_private=true&theme=dark&bg_color=0d1117&text_color=c9d1d9&icon_color=e06a2d&ring_color=e06a2d&hide_border=true" alt="github stats" width="480">
+</div>
 
-## Bugfixes and enhancements
+---
 
-If you have bugfixes and enhancements that you would like to submit as a pull request, you will need to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository as opposed to using it as a template. This will also allow you to [synchronize your copy](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) of template to your fork as well.
+<div align="center">
 
-Unfortunately, one logistical issue with a template theme like Academic Pages that makes it a little tricky to get bug fixes and updates to the core theme. If you use this template and customize it, you will probably get merge conflicts if you attempt to synchronize. If you want to save your various .yml configuration files and markdown files, you can delete the repository and fork it again. Or you can manually patch.
+*「写得进去的部分，已经足够强大。」—— 但做不出来，比说不清楚更致命。*
+
+</div>
