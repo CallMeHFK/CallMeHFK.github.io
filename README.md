@@ -15,7 +15,7 @@
 
 ---
 
-## 🧠 运行原则
+## 运行原则
 
 ```bash
 $ cat principles.txt
@@ -27,7 +27,7 @@ $ cat principles.txt
 [5] 工具链即基础设施    按任务安装不膨胀；必须有退路，否则不上
 ```
 
-## 🛠 Stack
+## 技术栈
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white&style=flat-square)](https://www.python.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org/)
@@ -40,17 +40,11 @@ $ cat principles.txt
 [![MCP](https://img.shields.io/badge/MCP-6E7F80?style=flat-square)](https://modelcontextprotocol.io/)
 [![Renode](https://img.shields.io/badge/Renode-5A6B7B?style=flat-square)](https://renode.readthedocs.io/)
 
-## 🚀 当前
+## 当前
 
 - **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 - **多智能体工具链** — QwenPaw 多端派发、技能蒸馏、共识排序
 - **开源** — [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) 多评审 LLM 共识排序 · sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）
-
-## 📊
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=CallMeHFK&show_icons=true&theme=dark&bg_color=0d1117&text_color=c9d1d9&icon_color=e06a2d&ring_color=e06a2d&hide_border=true" alt="github stats" width="480">
-</div>
 
 ---
 
