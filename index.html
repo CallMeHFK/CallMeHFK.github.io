@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="CallMeHFK 的技术与业务实践">
+  <title>CallMeHFK</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #111821;
+      --line: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --accent: #e06a2d;
+      --green: #3fb950;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: radial-gradient(circle at 80% 0%, #17202a 0, var(--bg) 42rem);
+      font: 16px/1.7 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: #79c0ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .shell {
+      width: min(900px, calc(100% - 2rem));
+      margin: clamp(2rem, 7vw, 5rem) auto;
+      padding: clamp(1rem, 4vw, 2.5rem);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(17, 24, 33, .96), rgba(13, 17, 23, .96));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+    }
+    .hero img { display: block; width: 100%; height: auto; border-radius: 12px; }
+    .handle { margin: 1.35rem 0 .25rem; color: var(--muted); font: .9rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    h1, h2 { line-height: 1.25; }
+    h1 { margin: 0; color: #f0f6fc; font-size: clamp(1.8rem, 5vw, 3rem); }
+    h2 { margin: 2.2rem 0 .8rem; color: #f0f6fc; font-size: 1.2rem; }
+    .lead { margin: .75rem 0 0; color: #b7c0ca; }
+    blockquote { margin: 1.5rem 0 0; padding: .1rem 0 .1rem 1rem; border-left: 3px solid var(--accent); color: #b7c0ca; }
+    .rule { height: 1px; margin: 2rem 0 0; border: 0; background: var(--line); }
+    code { padding: .12rem .35rem; border-radius: 5px; background: #161b22; color: #e6edf3; font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; }
+    pre { overflow-x: auto; padding: 1rem; border: 1px solid var(--line); border-radius: 10px; background: #0b0f14; }
+    pre code { padding: 0; background: transparent; color: #c9d1d9; }
+    .badges { display: flex; flex-wrap: wrap; gap: .55rem; margin: .2rem 0 0; }
+    .badges a { display: inline-flex; align-items: center; min-height: 28px; padding: .2rem .65rem; border: 1px solid var(--line); border-radius: 999px; color: #c9d1d9; font-size: .88rem; }
+    .badges a:hover { border-color: var(--accent); color: #fff; text-decoration: none; }
+    .current { margin: 0; padding-left: 1.2rem; }
+    .current li + li { margin-top: .4rem; }
+    footer { margin-top: 2.4rem; color: var(--muted); font-size: .9rem; text-align: center; }
+    @media (max-width: 560px) {
+      .shell { width: calc(100% - 1rem); margin: .5rem auto; padding: 1rem; border-radius: 12px; }
+      blockquote { padding-left: .8rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <img src="assets/terminal-header.svg" alt="whoami: CallMeHFK">
+      <p class="handle">CallMeHFK · UTC+8</p>
+      <h1>站在技术与业务的交界处</h1>
+      <p class="lead">用数据与事实做决策，不用感觉。先盘点再行动，确认了快速推进。<br>质量是底线，效率是目标。</p>
+    </header>
+
+    <hr class="rule">
+    <section>
+      <h2>运行原则</h2>
+      <pre><code>$ cat principles.txt
+[0] 先盘点，再行动      建立基线 → 改进 → 对比基线，不盲目启动
+[1] 数据驱动不迷信      源码 &gt; 配置 &gt; 运行态；禁止口算，工具算完再输出
+[2] 逐字保真            源数据神圣不可改；可加标注，禁止「优化」改写
+[3] 物理极限即边界      参数调优空间可迭代，碰物理上限立即转向，不死磕
+[4] 诚实纠错            新数据推翻旧结论 → 明确记录「上一轮我说 X 是错误的」
+[5] 工具链即基础设施    按任务安装不膨胀；必须有退路，否则不上</code></pre>
+    </section>
+
+    <section>
+      <h2>技术栈</h2>
+      <div class="badges">
+        <a href="https://www.python.org/">Python 3.12</a>
+        <a href="https://www.typescriptlang.org/">TypeScript</a>
+        <a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a>
+        <a href="https://en.wikipedia.org/wiki/IEC_61131">ST · IEC 61131-3</a>
+        <a href="https://www.kicad.org/">KiCad</a>
+        <a href="https://www.kernel.org/">Linux</a>
+        <a href="https://git-scm.com/">Git</a>
+        <a href="https://github.com/agentscope-ai/QwenPaw">AgentScope · QwenPaw</a>
+        <a href="https://modelcontextprotocol.io/">MCP</a>
+        <a href="https://renode.readthedocs.io/">Renode</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>当前</h2>
+      <ul class="current">
+        <li><strong>嵌入式与固件</strong> — 周期精确仿真验证，性能结论落到指令级证据</li>
+        <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、技能蒸馏、共识排序</li>
+        <li><strong>开源</strong> — <a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a> 多评审 LLM 共识排序 · sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）</li>
+      </ul>
+    </section>
+
+    <blockquote>「写得进去的部分，已经足够强大。」—— 但做不出来，比说不清楚更致命。</blockquote>
+    <footer>CallMeHFK · GitHub</footer>
+  </main>
+</body>
+</html>
