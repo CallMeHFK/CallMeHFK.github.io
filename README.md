@@ -42,12 +42,12 @@
 | [game-input-mcp](https://github.com/CallMeHFK/game-input-mcp) | 游戏输入自动化 MCP Server | 鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入 |
 | Audio Driver | Windows APO 音频驱动 | 基于 WDK `CBaseAudioProcessingObject` + ATL 的 capture APO：AEC 双级链（16k 回声消除 → 因果流式降噪），CPU 用户态运行（~0.5% 单核）、无需 DSP/NPU |
 | ScheduleCopilot | 多智能体排期风险识别系统 | 基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离 |
-| ATPO | 自适应树策略优化 | 多轮对话场景下的策略搜索与冷启动 |
 
 ### 适配与贡献
 
 | 项目 | 做了什么 | 事实 |
 |---|---|---|
+| [ATPO](https://arxiv.org/abs/2603.02216)（[代码](https://github.com/Quark-Medical/ATPO)） | 论文研读与工程迁移 | 精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档 |
 | [sepia](https://github.com/Nanako0129/sepia) | QwenPaw 插件适配 | 将 Agent Skill 兼容的去 AI 味写作技能包适配为 QwenPaw 原生插件（issue #244 → PR）；基于 StoryScope（arXiv:2604.03136）叙事结构检测 |
 | [text-to-cad](https://github.com/CallMeHFK/text-to-cad) | CAD/CAE/CAM Skill 库接入 | 将 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Agent Skill 库接入本地生态 |
 | Agent Skill 工程化 | 技能蒸馏与质量门控 | 182 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环 |
@@ -60,7 +60,8 @@
 - **Agent Skill 工程** — 技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；从零设计可复用的领域 Skill
 - **插件与工具开发** — QwenPaw 原生插件开发与适配（共识排序、sepia 去 AI 味）；MCP Server 工程化（游戏输入控制）
 - **Windows 音频驱动** — APO 驱动全流程：官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付；AEC + 流式降噪链路
-- **算法与数据** — 自适应树策略优化（ATPO），数据驱动的参数与方案选型
+- **论文研读与方法迁移** — 精读 ATPO（ICLR 2026）等 RL-for-agents 工作，把不确定性预算分配、树搜索信用分配等机制迁移到自建 Agent 系统
+- **算法与数据** — 数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE）
 - **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 - **工业软件** — TPM 数字员工平台部署，TDMS 缺陷提取流水线
 
