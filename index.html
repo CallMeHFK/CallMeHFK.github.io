@@ -70,47 +70,10 @@ h3.sub{
 h3.sub::before{content:"# "; color:var(--muted); font-family:inherit}
 
 /* ── diagrams ── */
-.flow{
-  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  gap:.7rem; margin:0 0 .5rem; padding:1.3rem 1.1rem;
-  border:1px dashed var(--line); border-radius:12px; background:#0b0f14;
+.diagram-img{
+  display:block; width:100%; max-width:760px; height:auto;
+  margin:0 0 1.6rem; border-radius:12px;
 }
-.flow-col{position:relative; display:flex; flex-direction:column; gap:.4rem; padding-left:1.1rem}
-.flow-col::before{
-  content:""; position:absolute; left:0; top:20%; bottom:20%;
-  width:2px; background:linear-gradient(180deg,transparent,rgba(63,185,80,.55),transparent);
-}
-.flow-col .flow-node::before{
-  content:""; position:absolute; left:.55rem; width:.55rem; height:2px;
-  background:rgba(63,185,80,.55);
-}
-.flow-node{position:relative}
-.flow-node{
-  padding:.32rem .7rem; border:1px solid var(--line); border-radius:7px;
-  background:#111821; color:var(--text); font-size:.8rem; font-weight:600;
-  white-space:nowrap;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-}
-.flow-node.judge{border-color:rgba(63,185,80,.45); color:var(--green)}
-.flow-node.agg{border-color:rgba(224,106,45,.5); color:var(--accent)}
-.flow-node.out{border-color:rgba(121,192,255,.45); color:var(--blue)}
-.flow-node.cycle{border-color:rgba(63,185,80,.45); color:var(--green)}
-.flow-node.tune{border-color:rgba(224,106,45,.5); color:var(--accent)}
-.flow-node.limit{border-color:rgba(224,106,45,.5); color:var(--accent)}
-.flow-node.pivot{border-color:rgba(210,168,255,.45); color:var(--violet)}
-.flow-arrow{color:var(--muted); font-size:.82rem; letter-spacing:-.05em}
-.flow-note{margin:0 0 1.6rem; color:var(--muted); font-size:.78rem; text-align:center}
-.loop{
-  margin:0 0 1.6rem; padding:1.15rem 1.1rem;
-  border:1px dashed var(--line); border-radius:12px; background:#0b0f14;
-}
-.loop-row{display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:.55rem}
-.loop-tag{
-  margin-left:.4rem; padding:.15rem .45rem; border:1px solid var(--line);
-  border-radius:5px; color:var(--muted); font-size:.72rem;
-}
-.loop-back{margin-top:.85rem; text-align:center; color:var(--muted); font-size:.78rem; line-height:1.7}
-.loop-back em{color:var(--accent); font-style:normal; font-weight:600}
 
 /* ── project tables ── */
 .tbl-wrap{overflow-x:auto; margin:0 0 1.6rem}
@@ -208,50 +171,16 @@ ul.current li::marker{color:var(--accent)}
 
   <!-- ══ 图解 ══ -->
   <section>
-    <div class="sec-head"><h2>图解</h2><span class="tag mono">ASCII</span></div>
+    <div class="sec-head"><h2>图解</h2><span class="tag mono">Diagram</span></div>
 
     <h3 class="sub mono">多智能体共识排序</h3>
-    <div class="flow">
-      <div class="flow-node src">候选答案</div>
-      <div class="flow-arrow">──→</div>
-      <div class="flow-col">
-        <div class="flow-node judge">Judge A</div>
-        <div class="flow-node judge">Judge B</div>
-        <div class="flow-node judge">Judge C</div>
-      </div>
-      <div class="flow-arrow">──→</div>
-      <div class="flow-node agg">Borda 聚合</div>
-      <div class="flow-arrow">──→</div>
-      <div class="flow-node out">最终排序</div>
-    </div>
-    <p class="flow-note mono">多模型独立打分 · 输出交叉一致性报告</p>
+    <img class="diagram-img" src="assets/consensus-flow.png" alt="多智能体共识排序流程：候选答案经 Judge A/B/C 并行打分，Borda 聚合后输出最终排序" width="760" height="153">
 
     <h3 class="sub mono">Agent Skill 生态闭环</h3>
-    <div class="loop">
-      <div class="loop-row">
-        <span class="flow-node cycle">安装</span><span class="flow-arrow">──→</span>
-        <span class="flow-node cycle">运行</span><span class="flow-arrow">──→</span>
-        <span class="flow-node cycle">蒸馏</span><span class="flow-arrow">──→</span>
-        <span class="flow-node cycle">评分</span>
-        <span class="loop-tag mono">SkillLens 9 维</span>
-      </div>
-      <div class="loop-back">
-        <span class="mono">└── <em>优化</em>（SkillOpt 门控）回到安装 ──┘</span>
-      </div>
-    </div>
+    <img class="diagram-img" src="assets/skill-loop.png" alt="Agent Skill 生态闭环：安装 → 运行 → 蒸馏 → 评分（SkillLens 9 维），再由 SkillOpt 门控优化回到安装" width="760" height="85">
 
     <h3 class="sub mono">决策边界</h3>
-    <div class="loop">
-      <div class="loop-row">
-        <span class="flow-node tune">参数调优</span><span class="flow-arrow">──→</span>
-        <span class="flow-node limit">物理上限</span><span class="flow-arrow">──→</span>
-        <span class="flow-node pivot">立即转向</span>
-      </div>
-      <div class="loop-back">
-        <span class="mono">└── <em>建立基线</em> → <em>改进</em> → <em>对比基线</em>：碰上限即转向，不死磕 ──┘</span>
-      </div>
-    </div>
-  </section>
+    <img class="diagram-img" src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760" height="114"></section>
 
   <!-- ══ 项目与成果 ══ -->
   <section>

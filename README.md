@@ -19,29 +19,15 @@
 
 ### 多智能体共识排序
 
-```text
-候选答案 ──→ ┌── Judge A ──┐
-             ├── Judge B ──┼──→ Borda 聚合 ──→ 最终排序
-             └── Judge C ──┘
-             多模型独立打分 · 输出交叉一致性报告
-```
+<img src="assets/consensus-flow.png" alt="多智能体共识排序流程：候选答案经 Judge A/B/C 并行打分，Borda 聚合后输出最终排序" width="760">
 
 ### Agent Skill 生态闭环
 
-```text
-安装 ──→ 运行 ──→ 蒸馏 ──→ 评分  (SkillLens 9 维)
-  ↑                        │
-  └── 优化 (SkillOpt 门控) ─┘
-```
+<img src="assets/skill-loop.png" alt="Agent Skill 生态闭环：安装 → 运行 → 蒸馏 → 评分（SkillLens 9 维），再由 SkillOpt 门控优化回到安装" width="760">
 
 ### 决策边界
 
-```text
-参数调优 ──→ 物理上限 ──→ 立即转向
-     ↑                      │
-     └── 建立基线 → 改进 → 对比基线 ──┘
-     碰上限即转向，不死磕
-```
+<img src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760">
 
 ---
 
