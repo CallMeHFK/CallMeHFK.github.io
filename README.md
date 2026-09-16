@@ -39,6 +39,9 @@
 |---|---|---|
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 共识排序插件 | 多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件 |
 | [skill-recorder](https://github.com/CallMeHFK/skill-recorder) | 桌面端工作流录制工具 | 录制 → 意图 + 有序步骤 → 可复用 Skill 或自动化 |
+| [game-input-mcp](https://github.com/CallMeHFK/game-input-mcp) | 游戏输入自动化 MCP Server | 鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入 |
+| Audio Driver | Windows APO 音频驱动 | 基于 WDK `CBaseAudioProcessingObject` + ATL 的 capture APO：AEC 双级链（16k 回声消除 → 因果流式降噪），CPU 用户态运行（~0.5% 单核）、无需 DSP/NPU |
+| ScheduleCopilot | 多智能体排期风险识别系统 | 基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离 |
 | ATPO | 自适应树策略优化 | 多轮对话场景下的策略搜索与冷启动 |
 
 ### 适配与贡献
@@ -53,9 +56,10 @@
 
 ## 能力画像
 
-- **多智能体系统** — AgentScope / QwenPaw 多端派发，MCP 协议接入，技能路由与共识
-- **Agent Skill 工程** — 技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路
-- **插件开发** — QwenPaw 原生插件开发与适配（共识排序、sepia 去 AI 味）
+- **多智能体系统** — AgentScope / QwenPaw 多端派发，Agent Team 编排（Leader + 多 Worker），MCP 协议接入，技能路由与共识
+- **Agent Skill 工程** — 技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；从零设计可复用的领域 Skill
+- **插件与工具开发** — QwenPaw 原生插件开发与适配（共识排序、sepia 去 AI 味）；MCP Server 工程化（游戏输入控制）
+- **Windows 音频驱动** — APO 驱动全流程：官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付；AEC + 流式降噪链路
 - **算法与数据** — 自适应树策略优化（ATPO），数据驱动的参数与方案选型
 - **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 - **工业软件** — TPM 数字员工平台部署，TDMS 缺陷提取流水线
@@ -67,6 +71,8 @@
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white&style=flat-square)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)
 ![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white&style=flat-square)
+![C++ · ATL](https://img.shields.io/badge/C%2B%2B%20·%20ATL-00599C?logo=cplusplus&logoColor=white&style=flat-square)
+![WDK · APO](https://img.shields.io/badge/WDK%20·%20APO-0078D4?logo=windows&logoColor=white&style=flat-square)
 ![ST · IEC 61131-3](https://img.shields.io/badge/ST%20IEC%2061131--3-8B949E?style=flat-square)
 ![KiCad](https://img.shields.io/badge/KiCad-268BCE?logo=kicad&logoColor=white&style=flat-square)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black&style=flat-square)
@@ -93,8 +99,9 @@ CallMeHFK:~$ cat principles.txt
 
 ## 当前
 
-- **多智能体工具链** — QwenPaw 多端派发、技能蒸馏、共识排序
-- **开源** — sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）· qwenpaw-consensus-rank 多评审共识排序
+- **多智能体工具链** — QwenPaw 多端派发、Agent Team 编排、技能蒸馏、共识排序
+- **开源** — sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）· qwenpaw-consensus-rank 多评审共识排序 · game-input-mcp 游戏输入自动化
+- **系统级开发** — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行
 - **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 
 ---
