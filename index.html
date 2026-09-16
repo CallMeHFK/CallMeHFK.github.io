@@ -218,11 +218,6 @@ ul.current li::marker{color:var(--accent)}
             <td>多智能体排期风险识别系统</td>
             <td>基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离</td>
           </tr>
-          <tr>
-            <td>ATPO</td>
-            <td>自适应树策略优化</td>
-            <td>多轮对话场景下的策略搜索与冷启动</td>
-          </tr>
         </tbody>
       </table>
     </div>
@@ -234,6 +229,11 @@ ul.current li::marker{color:var(--accent)}
           <tr><th>项目</th><th>做了什么</th><th>事实</th></tr>
         </thead>
         <tbody>
+          <tr>
+            <td><a href="https://arxiv.org/abs/2603.02216">ATPO</a>（<a href="https://github.com/Quark-Medical/ATPO">代码</a>）</td>
+            <td>论文研读与工程迁移</td>
+            <td>精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档</td>
+          </tr>
           <tr>
             <td><a href="https://github.com/Nanako0129/sepia">sepia</a></td>
             <td>QwenPaw 插件适配</td>
@@ -275,8 +275,12 @@ ul.current li::marker{color:var(--accent)}
         <div class="cap-evidence">APO 驱动全流程：官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付；AEC + 流式降噪链路</div>
       </div>
       <div class="cap">
+        <div class="cap-title">论文研读与方法迁移</div>
+        <div class="cap-evidence">精读 ATPO（ICLR 2026）等 RL-for-agents 工作，把不确定性预算分配、树搜索信用分配等机制迁移到自建 Agent 系统</div>
+      </div>
+      <div class="cap">
         <div class="cap-title">算法与数据</div>
-        <div class="cap-evidence">自适应树策略优化（ATPO），数据驱动的参数与方案选型</div>
+        <div class="cap-evidence">数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE）</div>
       </div>
       <div class="cap">
         <div class="cap-title">嵌入式与固件</div>
