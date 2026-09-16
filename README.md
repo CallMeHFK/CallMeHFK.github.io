@@ -1,8 +1,8 @@
 <div align="center">
-  <img src="assets/terminal-header.svg" alt="whoami" width="760">
-</div>
 
-<div align="center">
+<img src="assets/terminal-header.svg" alt="whoami" width="760">
+
+<br>
 
 **`CallMeHFK`** · UTC+8
 
@@ -12,6 +12,74 @@
 > 质量是底线，效率是目标。
 
 </div>
+
+---
+
+## 图解
+
+### 多智能体共识排序
+
+```
+候选答案 ──→ Judge A ──┐
+                Judge B ──┼──→ Borda 聚合 ──→ 最终排序
+                Judge C ──┘      多模型独立打分，
+                                 交叉一致性报告
+```
+
+### Agent Skill 生态闭环
+
+```
+安装 ──→ 运行 ──→ 蒸馏 ──→ 评分（SkillLens 9 维）
+  ↑                                      │
+  └──────────── 优化（SkillOpt 门控） ────┘
+```
+
+### 决策边界
+
+```
+参数调优 ──→ 碰到物理上限 ──→ 立即转向
+     │                              │
+     └── 建立基线 → 改进 → 对比基线 ←┘
+```
+
+---
+
+## 项目与成果
+
+| 项目 | 定位 | 事实 |
+|---|---|---|
+| [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 共识排序插件 | 多模型独立打分 → Borda 聚合，输出交叉一致性报告 |
+| [sepia](https://github.com/Nanako0129/sepia) | 去 AI 味写作技能包 | Agent Skill 兼容，77+ agent 一键安装；五平台原生插件；基于 StoryScope 叙事结构检测 |
+| [text-to-cad](https://github.com/CallMeHFK/text-to-cad) | CAD/CAE/CAM Agent Skill 库 | 覆盖 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式 |
+| [skill-recorder](https://github.com/CallMeHFK/skill-recorder) | 桌面端工作流录制工具 | 录制 → 意图 + 有序步骤 → 可复用 Skill 或自动化 |
+| ATPO | 自适应树策略优化 | 多轮对话场景下的策略搜索与冷启动 |
+| Agent Skill 工程化 | 技能蒸馏与质量门控 | 182 个已安装 Skill；9 维评分 + 门控优化闭环 |
+
+---
+
+## 能力画像
+
+- **多智能体系统** — AgentScope / QwenPaw 多端派发，MCP 协议接入，技能路由与共识
+- **Agent Skill 工程** — 技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路
+- **开源贡献** — sepia（去 AI 味）、qwenpaw-consensus-rank、text-to-cad、skill-recorder
+- **算法与数据** — 自适应树策略优化（ATPO），数据驱动的参数与方案选型
+- **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
+- **工业软件** — TPM 数字员工平台部署，TDMS 缺陷提取流水线
+
+---
+
+## 技术栈
+
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white&style=flat-square)](https://www.python.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org/)
+[![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white&style=flat-square)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![ST · IEC 61131-3](https://img.shields.io/badge/ST%20IEC%2061131--3-8B949E?style=flat-square)](https://en.wikipedia.org/wiki/IEC_61131)
+[![KiCad](https://img.shields.io/badge/KiCad-268BCE?logo=kicad&logoColor=white&style=flat-square)](https://www.kicad.org/)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black&style=flat-square)](https://www.kernel.org/)
+[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=flat-square)](https://git-scm.com/)
+[![AgentScope · QwenPaw](https://img.shields.io/badge/AgentScope%20·%20QwenPaw-E06A2D?style=flat-square)](https://github.com/agentscope-ai/QwenPaw)
+[![MCP](https://img.shields.io/badge/MCP-6E7F80?style=flat-square)](https://modelcontextprotocol.io/)
+[![Renode](https://img.shields.io/badge/Renode-5A6B7B?style=flat-square)](https://renode.readthedocs.io/)
 
 ---
 
@@ -27,24 +95,11 @@ $ cat principles.txt
 [5] 工具链即基础设施    按任务安装不膨胀；必须有退路，否则不上
 ```
 
-## 技术栈
-
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white&style=flat-square)](https://www.python.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org/)
-[![C](https://img.shields.io/badge/C-00599C?logo=c&logoColor=white&style=flat-square)](https://en.wikipedia.org/wiki/C_(programming_language))
-[![ST · IEC 61131-3](https://img.shields.io/badge/ST%20IEC%2061131--3-8B949E?style=flat-square)](https://en.wikipedia.org/wiki/IEC_61131)
-[![KiCad](https://img.shields.io/badge/KiCad-268BCE?logo=kicad&logoColor=white&style=flat-square)](https://www.kicad.org/)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black&style=flat-square)](https://www.kernel.org/)
-[![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=flat-square)](https://git-scm.com/)
-[![AgentScope · QwenPaw](https://img.shields.io/badge/AgentScope%20·%20QwenPaw-E06A2D?style=flat-square)](https://github.com/agentscope-ai/QwenPaw)
-[![MCP](https://img.shields.io/badge/MCP-6E7F80?style=flat-square)](https://modelcontextprotocol.io/)
-[![Renode](https://img.shields.io/badge/Renode-5A6B7B?style=flat-square)](https://renode.readthedocs.io/)
-
 ## 当前
 
-- **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 - **多智能体工具链** — QwenPaw 多端派发、技能蒸馏、共识排序
-- **开源** — [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) 多评审 LLM 共识排序 · sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）
+- **开源** — sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）· qwenpaw-consensus-rank 多评审共识排序
+- **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 
 ---
 
