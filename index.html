@@ -4,164 +4,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a0e13">
 <meta name="description" content="CallMeHFK —— 多智能体系统 · Agent Skill 工程 · 插件开发">
 <title>CallMeHFK</title>
-<style>
-:root{
-  color-scheme:dark;
-  --bg:#0d1117; --panel:#111821; --line:#30363d;
-  --text:#c9d1d9; --muted:#8b949e; --bright:#f0f6fc;
-  --accent:#e06a2d; --green:#3fb950; --blue:#79c0ff; --violet:#d2a8ff;
-}
-*{box-sizing:border-box}
-html{background:var(--bg); scroll-behavior:smooth}
-body{
-  margin:0; color:var(--text); min-height:100vh;
-  display:flex; flex-direction:column; align-items:center;
-  background:radial-gradient(circle at 80% 0%, #17202a 0, var(--bg) 42rem);
-  font:16px/1.75 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",
-       "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-a{color:var(--blue); text-decoration:none}
-a:hover{text-decoration:underline}
-
-.shell{
-  width:min(880px,calc(100% - 2rem));
-  margin:clamp(1.5rem,6vw,3.5rem) 0;
-  padding:clamp(1rem,4vw,2.75rem);
-  border:1px solid var(--line); border-radius:18px;
-  background:linear-gradient(145deg,rgba(17,24,33,.96),rgba(13,17,23,.96));
-  box-shadow:0 24px 70px rgba(0,0,0,.28);
-}
-
-/* ── hero ── */
-.hero{text-align:center}
-.hero img{display:block; width:100%; height:auto; border-radius:12px}
-.handle{margin:1.4rem 0 .35rem; color:var(--muted); font-size:.9rem; letter-spacing:.02em}
-.tagline{margin:.15rem 0 0; color:var(--bright); font-size:1.06rem}
-.tagline strong{font-weight:600}
-.quote{
-  margin:1.6rem auto 0; max-width:44rem; padding:.15rem 0 .15rem 1.1rem;
-  border-left:3px solid var(--accent); color:#b7c0ca; text-align:left;
-}
-.quote p{margin:.25rem 0}
-
-/* ── section headings ── */
-section{margin-top:3rem}
-.sec-head{display:flex; align-items:center; gap:.7rem; margin:0 0 1.2rem; flex-wrap:wrap}
-.sec-head h2{
-  margin:0; color:var(--bright); font-size:1.22rem; font-weight:650;
-  letter-spacing:.01em;
-}
-.sec-head .tag{
-  padding:.15rem .5rem; border:1px solid var(--line); border-radius:6px;
-  background:#161b22; color:var(--muted); font-size:.72rem; line-height:1.4;
-}
-.sec-head::after{
-  content:""; flex:1 1 3rem; height:1px;
-  background:linear-gradient(90deg,var(--line),transparent);
-}
-h3.sub{
-  margin:1.9rem 0 .9rem; color:var(--bright);
-  font-size:.95rem; font-weight:600; letter-spacing:.02em;
-}
-h3.sub::before{content:"# "; color:var(--muted); font-family:inherit}
-
-/* ── diagrams ── */
-.diagram-img{
-  display:block; width:100%; max-width:760px; height:auto;
-  margin:0 0 1.6rem; border-radius:12px;
-}
-
-/* ── project tables ── */
-.tbl-wrap{overflow-x:auto; margin:0 0 1.6rem}
-table.project{width:100%; border-collapse:collapse; font-size:.9rem}
-table.project th{
-  padding:.6rem .8rem; border-bottom:2px solid var(--line);
-  color:var(--bright); font-size:.76rem; font-weight:650;
-  text-transform:uppercase; letter-spacing:.06em; text-align:left; white-space:nowrap;
-}
-table.project td{
-  padding:.8rem .8rem; border-bottom:1px solid var(--line);
-  vertical-align:top; line-height:1.65;
-}
-table.project tr:hover td{background:rgba(224,106,45,.045)}
-table.project td:first-child{white-space:nowrap; font-weight:600}
-table.project.self td:first-child{border-left:3px solid var(--green); padding-left:calc(.8rem - 3px)}
-table.project.adapt td:first-child{border-left:3px solid var(--accent); padding-left:calc(.8rem - 3px)}
-table.project td.venue{color:var(--muted); font-size:.86rem}
-.kv-badge{
-  display:inline-block; margin-right:.3rem; padding:.1rem .42rem;
-  border:1px solid var(--line); border-radius:5px; background:#161b22;
-  color:var(--muted); font-size:.72rem;
-}
-
-/* ── capability grid ── */
-.cap-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:.85rem}
-.cap{
-  padding:.95rem 1.05rem; border:1px solid var(--line); border-radius:12px;
-  background:linear-gradient(145deg,rgba(17,24,33,.92),rgba(13,17,23,.92));
-  transition:border-color .18s ease, transform .18s ease;
-}
-.cap:hover{border-color:var(--accent); transform:translateY(-2px)}
-.cap .cap-title{color:var(--bright); font-size:.95rem; font-weight:650; margin-bottom:.35rem}
-.cap .cap-evidence{color:var(--muted); font-size:.84rem; line-height:1.6}
-
-/* ── tech stack ── */
-.badges{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center}
-.badges img{display:block; height:20px}
-
-/* ── principles terminal ── */
-.terminal{
-  margin:0; border:1px solid var(--line); border-radius:12px;
-  background:#0b0f14; overflow:hidden;
-}
-.terminal-bar{
-  display:flex; align-items:center; gap:.4rem;
-  padding:.55rem .85rem; border-bottom:1px solid var(--line); background:#111821;
-}
-.terminal-bar i{width:9px; height:9px; border-radius:50%; display:block}
-.terminal-bar .r{background:#ff5f56} .terminal-bar .y{background:#ffbd2e} .terminal-bar .g{background:#27c93f}
-.terminal-bar span{margin-left:.5rem; color:var(--muted); font-size:.76rem}
-.rules{
-  padding:.95rem 1.2rem 1.05rem; overflow-x:auto;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:.82rem; line-height:1.6;
-}
-.rule{
-  display:grid; grid-template-columns:2.4rem 11.5rem 1fr;
-  gap:.6rem; padding:.28rem 0; align-items:baseline;
-}
-.rule .num{color:var(--muted)}
-.rule .rname{color:var(--bright); font-weight:600}
-.rule .rtext{color:#b7c0ca}
-
-/* ── list ── */
-ul.current{margin:0; padding-left:1.15rem}
-ul.current li{margin:.45rem 0; line-height:1.7}
-ul.current li::marker{color:var(--accent)}
-
-/* ── footer ── */
-.footnote{
-  margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--line);
-  color:var(--muted); font-size:.86rem; text-align:center; font-style:italic;
-}
-@media (max-width:560px){
-  .shell{width:calc(100% - 1rem); margin:.5rem auto; padding:1rem; border-radius:12px}
-  .cap-grid{grid-template-columns:1fr}
-  table.project td:first-child{white-space:normal}
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <main class="shell">
+  <div class="appbar">
+    <span class="traffic" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></span>
+    <span class="appbar-title">CallMeHFK — ~/index.html</span>
+    <span class="appbar-meta">zh-CN</span>
+  </div>
+
+  <div class="screen">
 
   <!-- ══ HERO ══ -->
   <header class="hero">
-    <img src="assets/terminal-header.svg" alt="CallMeHFK 终端标识" width="760">
-    <p class="handle mono">CallMeHFK · UTC+8</p>
+    <div class="hero-frame">
+      <img class="hero-svg" src="assets/terminal-header.svg" alt="CallMeHFK 终端标识" width="760">
+      <div class="tty" role="img" aria-label="CallMeHFK 终端标识">
+        <div class="tty-bar">
+          <span class="traffic" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></span>
+          <span class="tty-title">CallMeHFK: ~</span>
+        </div>
+        <div class="tty-body">
+          <div><span class="cmd">CallMeHFK:~$</span> whoami</div>
+          <div class="stdout-ok">CallMeHFK — 技术与业务交界处的系统思考者</div>
+          <div><span class="cmd">CallMeHFK:~$</span> ./soul</div>
+          <div class="stdout-accent">14 mental models · 14 hard red lines · 0 寒暄 · 100% 结论先行</div>
+          <div><span class="cmd">CallMeHFK:~$</span><span class="caret" aria-hidden="true"></span></div>
+        </div>
+      </div>
+    </div>
+    <p class="handle">CallMeHFK · UTC+8<span class="caret" aria-hidden="true"></span></p>
     <p class="tagline"><strong>系统思考者 —— 站在技术与业务的交界处</strong></p>
     <blockquote class="quote">
       <p>用数据与事实做决策，不用感觉。先盘点再行动，确认了快速推进。</p>
@@ -171,22 +50,37 @@ ul.current li::marker{color:var(--accent)}
 
   <!-- ══ 图解 ══ -->
   <section>
-    <div class="sec-head"><h2>图解</h2><span class="tag mono">Diagram</span></div>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>图解</h2>
+      <span class="tag">Diagram</span>
+    </div>
 
-    <h3 class="sub mono">多智能体共识排序</h3>
-    <img class="diagram-img" src="assets/consensus-flow.png" alt="多智能体共识排序流程：候选答案经 Judge A/B/C 并行打分，Borda 聚合后输出最终排序" width="760" height="153">
+    <h3 class="sub">多智能体共识排序</h3>
+    <div class="diagram-frame">
+      <img class="diagram-img" src="assets/consensus-flow.png" alt="多智能体共识排序流程：候选答案经 Judge A/B/C 并行打分，Borda 聚合后输出最终排序" width="760" height="153">
+    </div>
 
-    <h3 class="sub mono">Agent Skill 生态闭环</h3>
-    <img class="diagram-img" src="assets/skill-loop.png" alt="Agent Skill 生态闭环：安装 → 运行 → 蒸馏 → 评分（SkillLens 9 维），再由 SkillOpt 门控优化回到安装" width="760" height="85">
+    <h3 class="sub">Agent Skill 生态闭环</h3>
+    <div class="diagram-frame">
+      <img class="diagram-img" src="assets/skill-loop.png" alt="Agent Skill 生态闭环：安装 → 运行 → 蒸馏 → 评分（SkillLens 9 维），再由 SkillOpt 门控优化回到安装" width="760" height="85">
+    </div>
 
-    <h3 class="sub mono">决策边界</h3>
-    <img class="diagram-img" src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760" height="114"></section>
+    <h3 class="sub">决策边界</h3>
+    <div class="diagram-frame">
+      <img class="diagram-img" src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760" height="114">
+    </div>
+  </section>
 
   <!-- ══ 项目与成果 ══ -->
   <section>
-    <div class="sec-head"><h2>项目与成果</h2><span class="tag mono">自建 · 适配</span></div>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>项目与成果</h2>
+      <span class="tag">自建 · 适配</span>
+    </div>
 
-    <h3 class="sub mono">自建</h3>
+    <h3 class="sub">自建</h3>
     <div class="tbl-wrap">
       <table class="project self">
         <thead>
@@ -194,30 +88,30 @@ ul.current li::marker{color:var(--accent)}
         </thead>
         <tbody>
           <tr>
-            <td><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
-            <td>多评审 LLM 共识排序插件</td>
-            <td>多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件</td>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
+            <td data-label="做了什么">多评审 LLM 共识排序插件</td>
+            <td data-label="事实">多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件</td>
           </tr>
           <tr>
-            <td>game-input-mcp</td>
-            <td>游戏输入自动化 MCP Server</td>
-            <td>鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入</td>
+            <td data-label="项目">game-input-mcp</td>
+            <td data-label="做了什么">游戏输入自动化 MCP Server</td>
+            <td data-label="事实">鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入</td>
           </tr>
           <tr>
-            <td>Audio Driver</td>
-            <td>Windows APO 音频驱动</td>
-            <td>基于 WDK <code>CBaseAudioProcessingObject</code> + ATL 的 capture APO：AEC 双级链（16k 回声消除 → 因果流式降噪），CPU 用户态运行（~0.5% 单核）、无需 DSP/NPU</td>
+            <td data-label="项目">Audio Driver</td>
+            <td data-label="做了什么">Windows APO 音频驱动</td>
+            <td data-label="事实">基于 WDK <code>CBaseAudioProcessingObject</code> + ATL 的 capture APO：AEC 双级链（16k 回声消除 → 因果流式降噪），CPU 用户态运行（~0.5% 单核）、无需 DSP/NPU</td>
           </tr>
           <tr>
-            <td>ScheduleCopilot</td>
-            <td>多智能体排期风险识别系统</td>
-            <td>基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离</td>
+            <td data-label="项目">ScheduleCopilot</td>
+            <td data-label="做了什么">多智能体排期风险识别系统</td>
+            <td data-label="事实">基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <h3 class="sub mono">适配与贡献</h3>
+    <h3 class="sub">适配与贡献</h3>
     <div class="tbl-wrap">
       <table class="project adapt">
         <thead>
@@ -225,29 +119,29 @@ ul.current li::marker{color:var(--accent)}
         </thead>
         <tbody>
           <tr>
-            <td><a href="https://arxiv.org/abs/2603.02216">ATPO</a>（<a href="https://github.com/Quark-Medical/ATPO">代码</a>）</td>
-            <td>论文研读与工程迁移</td>
-            <td>精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档</td>
+            <td data-label="项目"><a href="https://arxiv.org/abs/2603.02216">ATPO</a>（<a href="https://github.com/Quark-Medical/ATPO">代码</a>）</td>
+            <td data-label="做了什么">论文研读与工程迁移</td>
+            <td data-label="事实">精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档</td>
           </tr>
           <tr>
-            <td><a href="https://github.com/Nanako0129/sepia">sepia</a></td>
-            <td>QwenPaw 插件适配</td>
-            <td>将 Agent Skill 兼容的去 AI 味写作技能包适配为 QwenPaw 原生插件（issue #244 → PR）；基于 StoryScope（arXiv:2604.03136）叙事结构检测</td>
+            <td data-label="项目"><a href="https://github.com/Nanako0129/sepia">sepia</a></td>
+            <td data-label="做了什么">QwenPaw 插件适配</td>
+            <td data-label="事实">将 Agent Skill 兼容的去 AI 味写作技能包适配为 QwenPaw 原生插件（issue #244 → PR）；基于 StoryScope（arXiv:2604.03136）叙事结构检测</td>
           </tr>
           <tr>
-            <td><a href="https://github.com/CallMeHFK/text-to-cad">text-to-cad</a></td>
-            <td>CAD/CAE/CAM Skill 库接入</td>
-            <td>将 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Agent Skill 库接入本地生态</td>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/text-to-cad">text-to-cad</a></td>
+            <td data-label="做了什么">CAD/CAE/CAM Skill 库接入</td>
+            <td data-label="事实">将 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Agent Skill 库接入本地生态</td>
           </tr>
           <tr>
-            <td>Agent Skill 工程化</td>
-            <td>技能蒸馏与质量门控</td>
-            <td>182 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
+            <td data-label="项目">Agent Skill 工程化</td>
+            <td data-label="做了什么">技能蒸馏与质量门控</td>
+            <td data-label="事实">182 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
           </tr>
           <tr>
-            <td><a href="https://github.com/microsoft/skill-recorder">skill-recorder</a></td>
-            <td>上游工具跟踪</td>
-            <td>跟踪 microsoft/skill-recorder（桌面端工作流录制 → 意图 + 有序步骤 → 可复用 Skill）；fork 用于本地适配验证</td>
+            <td data-label="项目"><a href="https://github.com/microsoft/skill-recorder">skill-recorder</a></td>
+            <td data-label="做了什么">上游工具跟踪</td>
+            <td data-label="事实">跟踪 microsoft/skill-recorder（桌面端工作流录制 → 意图 + 有序步骤 → 可复用 Skill）；fork 用于本地适配验证</td>
           </tr>
         </tbody>
       </table>
@@ -256,7 +150,11 @@ ul.current li::marker{color:var(--accent)}
 
   <!-- ══ 能力画像 ══ -->
   <section>
-    <div class="sec-head"><h2>能力画像</h2><span class="tag mono">能力 × 证据</span></div>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>能力画像</h2>
+      <span class="tag">能力 × 证据</span>
+    </div>
     <div class="cap-grid">
       <div class="cap">
         <div class="cap-title">多智能体系统</div>
@@ -295,7 +193,11 @@ ul.current li::marker{color:var(--accent)}
 
   <!-- ══ 技术栈 ══ -->
   <section>
-    <div class="sec-head"><h2>技术栈</h2><span class="tag mono">Badges</span></div>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>技术栈</h2>
+      <span class="tag">Badges</span>
+    </div>
     <div class="badges">
       <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&amp;logoColor=white&amp;style=flat-square" alt="Python">
       <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&amp;logoColor=white&amp;style=flat-square" alt="TypeScript">
@@ -314,24 +216,35 @@ ul.current li::marker{color:var(--accent)}
 
   <!-- ══ 运行原则 ══ -->
   <section>
-    <div class="sec-head"><h2>运行原则</h2><span class="tag mono">principles.txt</span></div>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>运行原则</h2>
+      <span class="tag">principles.txt</span>
+    </div>
     <div class="terminal">
       <div class="terminal-bar">
         <i class="r"></i><i class="y"></i><i class="g"></i>
-        <span class="mono">CallMeHFK:~$ cat principles.txt</span>
+        <span>CallMeHFK:~$ cat principles.txt</span>
       </div>
-      <div class="rules mono"><div class="rule"><span class="num">[0]</span><span class="rname">先盘点，再行动</span><span class="rtext">建立基线 → 改进 → 对比基线，不盲目启动</span></div>
-<div class="rule"><span class="num">[1]</span><span class="rname">数据驱动不迷信</span><span class="rtext">源码 &gt; 配置 &gt; 运行态；禁止口算，工具算完再输出</span></div>
-<div class="rule"><span class="num">[2]</span><span class="rname">逐字保真</span><span class="rtext">源数据神圣不可改；可加标注，禁止「优化」改写</span></div>
-<div class="rule"><span class="num">[3]</span><span class="rname">物理极限即边界</span><span class="rtext">参数调优空间可迭代，碰物理上限立即转向，不死磕</span></div>
-<div class="rule"><span class="num">[4]</span><span class="rname">诚实纠错</span><span class="rtext">新数据推翻旧结论 → 明确记录「上一轮我说 X 是错误的」</span></div>
-<div class="rule"><span class="num">[5]</span><span class="rname">工具链即基础设施</span><span class="rtext">按任务安装不膨胀；必须有退路，否则不上</span></div></div>
+      <div class="rules">
+        <div class="rule"><span class="num">[0]</span><span class="rname">先盘点，再行动</span><span class="rtext">建立基线 → 改进 → 对比基线，不盲目启动</span></div>
+        <div class="rule"><span class="num">[1]</span><span class="rname">数据驱动不迷信</span><span class="rtext">源码 &gt; 配置 &gt; 运行态；禁止口算，工具算完再输出</span></div>
+        <div class="rule"><span class="num">[2]</span><span class="rname">逐字保真</span><span class="rtext">源数据神圣不可改；可加标注，禁止「优化」改写</span></div>
+        <div class="rule"><span class="num">[3]</span><span class="rname">物理极限即边界</span><span class="rtext">参数调优空间可迭代，碰物理上限立即转向，不死磕</span></div>
+        <div class="rule"><span class="num">[4]</span><span class="rname">诚实纠错</span><span class="rtext">新数据推翻旧结论 → 明确记录「上一轮我说 X 是错误的」</span></div>
+        <div class="rule"><span class="num">[5]</span><span class="rname">工具链即基础设施</span><span class="rtext">按任务安装不膨胀；必须有退路，否则不上</span></div>
+        <div class="rules-end">CallMeHFK:~$<span class="caret" aria-hidden="true"></span></div>
+      </div>
     </div>
   </section>
 
   <!-- ══ 当前 ══ -->
   <section>
-    <div class="sec-head"><h2>当前</h2><span class="tag mono">in-progress</span></div>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>当前</h2>
+      <span class="tag">in-progress</span>
+    </div>
     <ul class="current">
       <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏、共识排序</li>
       <li><strong>开源</strong> — sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）· qwenpaw-consensus-rank 多评审共识排序 · game-input-mcp 游戏输入自动化</li>
@@ -342,6 +255,12 @@ ul.current li::marker{color:var(--accent)}
 
   <p class="footnote">「写得进去的部分，已经足够强大。」—— 但做不出来，比说不清楚更致命。</p>
 
+  </div>
+
+  <div class="statusbar" aria-hidden="true">
+    <span><span class="ok">●</span> ready</span>
+    <span>utf-8 · dark · #e06a2d</span>
+  </div>
 </main>
 </body>
 </html>
