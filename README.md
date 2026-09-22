@@ -37,7 +37,9 @@
 
 | 项目 | 做了什么 | 事实 |
 |---|---|---|
+| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督插件 | 观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器（只在自然检查点、或 CUSUM 逼近告警线时唤醒）。漂移阈值由蒙特卡洛仿真标定到**会话级**误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown）再退回错误文法。`shepherd eval` 是离线反事实基准：单点注故障，报每检测器的精确率、召回、检测延迟与监督成本，CI 里跑。 |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 共识排序插件 | 多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件 |
+| [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务回调插件 | 补上 QwenPaw `submit_to_agent` 缺的 push 侧：常驻 watcher 线程轮询子任务，完成后把结果作为新一轮投递回**注册方**会话；含僵尸任务回收测试 |
 | game-input-mcp | 游戏输入自动化 MCP Server | 鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入 |
 | Audio Driver | Windows APO 音频驱动 | 基于 WDK `CBaseAudioProcessingObject` + ATL 的 capture APO：AEC 双级链（16k 回声消除 → 因果流式降噪），CPU 用户态运行（~0.5% 单核）、无需 DSP/NPU |
 | ScheduleCopilot | 多智能体排期风险识别系统 | 基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离 |
@@ -46,22 +48,22 @@
 
 | 项目 | 做了什么 | 事实 |
 |---|---|---|
+| [sepia](https://github.com/Nanako0129/sepia) | QwenPaw 原生插件适配，**已合并上游** | issue #244 → [PR #250](https://github.com/Nanako0129/sepia/pull/250)（MERGED 2026-09-17，+318/−25）：新增 `.qwenpaw-plugin/` 插件包（`plugin.json` + `plugin.py`，复用同一批 Skill 并注册 `/sepia` 斜杠命令），同步更新三份 README 的 QwenPaw 安装说明。fork main 上另有未推上游的部分：把 QwenPaw 提为第五个安装目标、`sync_skills.py` 的 sha256 字节级同步校验 + 漂移即失败的 CI；并在 issue #274 反馈了零 Skill 静默安装问题。基于 StoryScope（arXiv:2604.03136）叙事结构检测 |
+| [text-to-cad](https://github.com/earthtojake/text-to-cad) | CAD/CAE/CAM Skill 库多端分发，上游待审 | [PR #429](https://github.com/earthtojake/text-to-cad/pull/429)（open，+1207/−40）：把覆盖 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Skill 库一次性投递到 QwenPaw、ZCode、Cursor 三个安装目标，附各自的插件清单与同步脚本 |
 | [ATPO](https://arxiv.org/abs/2603.02216)（[代码](https://github.com/Quark-Medical/ATPO)） | 论文研读与工程迁移 | 精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档 |
-| [sepia](https://github.com/Nanako0129/sepia) | QwenPaw 插件适配 | 将 Agent Skill 兼容的去 AI 味写作技能包适配为 QwenPaw 原生插件（issue #244 → PR）；基于 StoryScope（arXiv:2604.03136）叙事结构检测 |
-| [text-to-cad](https://github.com/CallMeHFK/text-to-cad) | CAD/CAE/CAM Skill 库接入 | 将 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Agent Skill 库接入本地生态 |
-| Agent Skill 工程化 | 技能蒸馏与质量门控 | 182 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环 |
-| [skill-recorder](https://github.com/microsoft/skill-recorder) | 上游工具跟踪 | 跟踪 microsoft/skill-recorder（桌面端工作流录制 → 意图 + 有序步骤 → 可复用 Skill）；fork 用于本地适配验证 |
+| Agent Skill 工程化 | 技能蒸馏与质量门控 | 186 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环 |
 
 ---
 
 ## 能力画像
 
 - **多智能体系统** — AgentScope / QwenPaw 多端派发，Agent Team 编排（Leader + 多 Worker），MCP 协议接入，技能路由与共识
+- **智能体过程监督** — 两层策略引擎（确定性检测器 + PRM 式 LLM 判定），偏航检测与纠正注入；阈值靠蒙特卡洛仿真与 conformal risk control 标定，用离线反事实基准验证是否真的有用
 - **Agent Skill 工程** — 技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；从零设计可复用的领域 Skill
-- **插件与工具开发** — QwenPaw 原生插件开发与适配（共识排序、sepia 去 AI 味）；MCP Server 工程化（游戏输入控制）
+- **插件与工具开发** — QwenPaw 原生插件开发与适配（共识排序、后台任务回调、sepia 去 AI 味已合并上游）；MCP Server 工程化（游戏输入控制）
 - **Windows 音频驱动** — APO 驱动全流程：官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付；AEC + 流式降噪链路
 - **论文研读与方法迁移** — 精读 ATPO（ICLR 2026）等 RL-for-agents 工作，把不确定性预算分配、树搜索信用分配等机制迁移到自建 Agent 系统
-- **算法与数据** — 数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE）
+- **算法与数据** — 数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE、CUSUM、CRC）
 - **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 - **工业软件** — TPM 数字员工平台部署，TDMS 缺陷提取流水线
 
@@ -100,8 +102,9 @@ CallMeHFK:~$ cat principles.txt
 
 ## 当前
 
-- **多智能体工具链** — QwenPaw 多端派发、Agent Team 编排、技能蒸馏、共识排序
-- **开源** — sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）· qwenpaw-consensus-rank 多评审共识排序 · game-input-mcp 游戏输入自动化
+- **智能体过程监督** — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分），160 项测试，反事实基准跑在 CI
+- **多智能体工具链** — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（186 Skill）、共识排序、后台任务回调
+- **开源** — sepia QwenPaw 原生插件 PR 已合并上游（2026-09-17）· text-to-cad 多端分发 PR #429 待审 · qwenpaw-consensus-rank
 - **系统级开发** — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行
 - **嵌入式与固件** — 周期精确仿真验证，性能结论落到指令级证据
 
