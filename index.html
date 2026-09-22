@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0e13">
-<meta name="description" content="CallMeHFK —— 多智能体系统 · Agent Skill 工程 · 插件开发">
+<meta name="description" content="CallMeHFK —— 多智能体系统 · 智能体过程监督 · Agent Skill 工程 · 插件开发">
 <title>CallMeHFK</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,9 +88,19 @@
         </thead>
         <tbody>
           <tr>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/agent-shepherd">agent-shepherd</a></td>
+            <td data-label="做了什么">智能体过程监督插件</td>
+            <td data-label="事实">观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器（只在自然检查点、或 CUSUM 逼近告警线时唤醒）。漂移阈值由蒙特卡洛仿真标定到<strong>会话级</strong>误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown）再退回错误文法。<code>shepherd eval</code> 是离线反事实基准：单点注故障，报每检测器的精确率、召回、检测延迟与监督成本，CI 里跑。</td>
+          </tr>
+          <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
             <td data-label="做了什么">多评审 LLM 共识排序插件</td>
             <td data-label="事实">多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件</td>
+          </tr>
+          <tr>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/agent-task-callback">agent-task-callback</a></td>
+            <td data-label="做了什么">跨 Agent 后台任务回调插件</td>
+            <td data-label="事实">补上 QwenPaw <code>submit_to_agent</code> 缺的 push 侧：常驻 watcher 线程轮询子任务，完成后把结果作为新一轮投递回<strong>注册方</strong>会话；含僵尸任务回收测试</td>
           </tr>
           <tr>
             <td data-label="项目">game-input-mcp</td>
@@ -119,29 +129,24 @@
         </thead>
         <tbody>
           <tr>
+            <td data-label="项目"><a href="https://github.com/Nanako0129/sepia">sepia</a></td>
+            <td data-label="做了什么">QwenPaw 原生插件适配，<strong>已合并上游</strong></td>
+            <td data-label="事实">issue #244 → <a href="https://github.com/Nanako0129/sepia/pull/250">PR #250</a>（MERGED 2026-09-17，+318/−25）：新增 <code>.qwenpaw-plugin/</code> 插件包（<code>plugin.json</code> + <code>plugin.py</code>，复用同一批 Skill 并注册 <code>/sepia</code> 斜杠命令），同步更新三份 README 的 QwenPaw 安装说明。fork main 上另有未推上游的部分：把 QwenPaw 提为第五个安装目标、<code>sync_skills.py</code> 的 sha256 字节级同步校验 + 漂移即失败的 CI；并在 issue #274 反馈了零 Skill 静默安装问题。基于 StoryScope（arXiv:2604.03136）叙事结构检测</td>
+          </tr>
+          <tr>
+            <td data-label="项目"><a href="https://github.com/earthtojake/text-to-cad">text-to-cad</a></td>
+            <td data-label="做了什么">CAD/CAE/CAM Skill 库多端分发，上游待审</td>
+            <td data-label="事实"><a href="https://github.com/earthtojake/text-to-cad/pull/429">PR #429</a>（open，+1207/−40）：把覆盖 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Skill 库一次性投递到 QwenPaw、ZCode、Cursor 三个安装目标，附各自的插件清单与同步脚本</td>
+          </tr>
+          <tr>
             <td data-label="项目"><a href="https://arxiv.org/abs/2603.02216">ATPO</a>（<a href="https://github.com/Quark-Medical/ATPO">代码</a>）</td>
             <td data-label="做了什么">论文研读与工程迁移</td>
             <td data-label="事实">精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档</td>
           </tr>
           <tr>
-            <td data-label="项目"><a href="https://github.com/Nanako0129/sepia">sepia</a></td>
-            <td data-label="做了什么">QwenPaw 插件适配</td>
-            <td data-label="事实">将 Agent Skill 兼容的去 AI 味写作技能包适配为 QwenPaw 原生插件（issue #244 → PR）；基于 StoryScope（arXiv:2604.03136）叙事结构检测</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/text-to-cad">text-to-cad</a></td>
-            <td data-label="做了什么">CAD/CAE/CAM Skill 库接入</td>
-            <td data-label="事实">将 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Agent Skill 库接入本地生态</td>
-          </tr>
-          <tr>
             <td data-label="项目">Agent Skill 工程化</td>
             <td data-label="做了什么">技能蒸馏与质量门控</td>
-            <td data-label="事实">182 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/microsoft/skill-recorder">skill-recorder</a></td>
-            <td data-label="做了什么">上游工具跟踪</td>
-            <td data-label="事实">跟踪 microsoft/skill-recorder（桌面端工作流录制 → 意图 + 有序步骤 → 可复用 Skill）；fork 用于本地适配验证</td>
+            <td data-label="事实">186 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
           </tr>
         </tbody>
       </table>
@@ -161,12 +166,16 @@
         <div class="cap-evidence">AgentScope / QwenPaw 多端派发，Agent Team 编排（Leader + 多 Worker），MCP 协议接入，技能路由与共识</div>
       </div>
       <div class="cap">
+        <div class="cap-title">智能体过程监督</div>
+        <div class="cap-evidence">两层策略引擎（确定性检测器 + PRM 式 LLM 判定），偏航检测与纠正注入；阈值靠蒙特卡洛仿真与 conformal risk control 标定，用离线反事实基准验证是否真的有用</div>
+      </div>
+      <div class="cap">
         <div class="cap-title">Agent Skill 工程</div>
         <div class="cap-evidence">技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；从零设计可复用的领域 Skill</div>
       </div>
       <div class="cap">
         <div class="cap-title">插件与工具开发</div>
-        <div class="cap-evidence">QwenPaw 原生插件开发与适配（共识排序、sepia 去 AI 味）；MCP Server 工程化（游戏输入控制）</div>
+        <div class="cap-evidence">QwenPaw 原生插件开发与适配（共识排序、后台任务回调、sepia 去 AI 味已合并上游）；MCP Server 工程化（游戏输入控制）</div>
       </div>
       <div class="cap">
         <div class="cap-title">Windows 音频驱动</div>
@@ -178,7 +187,7 @@
       </div>
       <div class="cap">
         <div class="cap-title">算法与数据</div>
-        <div class="cap-evidence">数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE）</div>
+        <div class="cap-evidence">数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE、CUSUM、CRC）</div>
       </div>
       <div class="cap">
         <div class="cap-title">嵌入式与固件</div>
@@ -246,8 +255,9 @@
       <span class="tag">in-progress</span>
     </div>
     <ul class="current">
-      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏、共识排序</li>
-      <li><strong>开源</strong> — sepia 去 AI 味写作技能包（QwenPaw 插件适配推进中）· qwenpaw-consensus-rank 多评审共识排序 · game-input-mcp 游戏输入自动化</li>
+      <li><strong>智能体过程监督</strong> — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分），160 项测试，反事实基准跑在 CI</li>
+      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（186 Skill）、共识排序、后台任务回调</li>
+      <li><strong>开源</strong> — sepia QwenPaw 原生插件 PR 已合并上游（2026-09-17）· text-to-cad 多端分发 PR #429 待审 · qwenpaw-consensus-rank</li>
       <li><strong>系统级开发</strong> — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行</li>
       <li><strong>嵌入式与固件</strong> — 周期精确仿真验证，性能结论落到指令级证据</li>
     </ul>
