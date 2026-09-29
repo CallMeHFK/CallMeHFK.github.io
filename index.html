@@ -77,7 +77,7 @@
     <div class="sec-head">
       <span class="prompt" aria-hidden="true">$</span>
       <h2>项目与成果</h2>
-      <span class="tag">自建 · 适配</span>
+      <span class="tag">自建 · 多宿主接入</span>
     </div>
 
     <h3 class="sub">自建</h3>
@@ -93,9 +93,14 @@
             <td data-label="事实">观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器（只在自然检查点、或 CUSUM 逼近告警线时唤醒）。漂移阈值由蒙特卡洛仿真标定到<strong>会话级</strong>误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown）再退回错误文法。<code>shepherd eval</code> 是离线反事实基准：单点注故障，报每检测器的精确率、召回、检测延迟与监督成本，CI 里跑。</td>
           </tr>
           <tr>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/dispatch-guard">dispatch-guard</a></td>
+            <td data-label="做了什么">编排 Agent 的输出路由中间件</td>
+            <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 三条拦截规则，默认 Agent 试图自己落交付物时直接 deny，并把「该派给谁」回给它。Shell 侧交付物启发式只 warn，<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；路由表在 <code>routes.json</code>，模式按文件 mtime 缓存热切。纯标准库、零 pip 依赖、无遥测；13 项测试，CI 通过</td>
+          </tr>
+          <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
             <td data-label="做了什么">多评审 LLM 共识排序插件</td>
-            <td data-label="事实">多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件</td>
+            <td data-label="事实">多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件，v1.4.9 修掉了对宿主版本的过紧上界</td>
           </tr>
           <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/agent-task-callback">agent-task-callback</a></td>
@@ -122,6 +127,7 @@
     </div>
 
     <h3 class="sub">适配与贡献</h3>
+    <p class="lede">主线只有一条：<strong>把 Agent Skill / 插件生态接进别人的宿主</strong>。同一套 Skill 不改内容，换清单与路由即可落到 QwenPaw、Claude Code、Codex、Cursor、Qoder、ZCode；已合并上游 2 个（sepia、nacos），待审 3 个（ResearchStudio、SemaPLC、text-to-cad）。</p>
     <div class="tbl-wrap">
       <table class="project adapt">
         <thead>
@@ -134,9 +140,24 @@
             <td data-label="事实">issue #244 → <a href="https://github.com/Nanako0129/sepia/pull/250">PR #250</a>（MERGED 2026-09-17，+318/−25）：新增 <code>.qwenpaw-plugin/</code> 插件包（<code>plugin.json</code> + <code>plugin.py</code>，复用同一批 Skill 并注册 <code>/sepia</code> 斜杠命令），同步更新三份 README 的 QwenPaw 安装说明。fork main 上另有未推上游的部分：把 QwenPaw 提为第五个安装目标、<code>sync_skills.py</code> 的 sha256 字节级同步校验 + 漂移即失败的 CI；并在 issue #274 反馈了零 Skill 静默安装问题。基于 StoryScope（arXiv:2604.03136）叙事结构检测</td>
           </tr>
           <tr>
+            <td data-label="项目"><a href="https://github.com/microsoft/ResearchStudio">ResearchStudio</a></td>
+            <td data-label="做了什么">研究全流程 Skill 库的安装器扩展</td>
+            <td data-label="事实"><a href="https://github.com/microsoft/ResearchStudio/pull/60">PR #60</a>（open，2026-09-18，+289/−71）：在原生支持 Claude Code / Codex 的安装器里并列加上 QwenPaw 与 Qoder 两个宿主，Skill 本体零改动</td>
+          </tr>
+          <tr>
+            <td data-label="项目"><a href="https://github.com/midea-ai/SemaPLC">SemaPLC</a></td>
+            <td data-label="做了什么">自然语言生成/校验 PLC 程序的 Agentic IDE 接入</td>
+            <td data-label="事实"><a href="https://github.com/midea-ai/SemaPLC/pull/6">PR #6</a>（open，2026-09-18，+2907/−2465）：QwenPaw / Claude Code / Cursor 三平台一键接入，顺带完成 Vitest 4 适配</td>
+          </tr>
+          <tr>
             <td data-label="项目"><a href="https://github.com/earthtojake/text-to-cad">text-to-cad</a></td>
             <td data-label="做了什么">CAD/CAE/CAM Skill 库多端分发，上游待审</td>
             <td data-label="事实"><a href="https://github.com/earthtojake/text-to-cad/pull/429">PR #429</a>（open，+1207/−40）：把覆盖 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Skill 库一次性投递到 QwenPaw、ZCode、Cursor 三个安装目标，附各自的插件清单与同步脚本</td>
+          </tr>
+          <tr>
+            <td data-label="项目"><a href="https://github.com/alibaba/nacos">nacos</a></td>
+            <td data-label="做了什么">早期上游贡献，<strong>已合并</strong></td>
+            <td data-label="事实"><a href="https://github.com/alibaba/nacos/pull/12127">PR #12127</a>（MERGED 2024-06-03，+198/−2）：响应 issue #12074，为 nacos 补 Python services sample code</td>
           </tr>
           <tr>
             <td data-label="项目"><a href="https://arxiv.org/abs/2603.02216">ATPO</a>（<a href="https://github.com/Quark-Medical/ATPO">代码</a>）</td>
@@ -146,7 +167,7 @@
           <tr>
             <td data-label="项目">Agent Skill 工程化</td>
             <td data-label="做了什么">技能蒸馏与质量门控</td>
-            <td data-label="事实">186 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
+            <td data-label="事实">189 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
           </tr>
         </tbody>
       </table>
@@ -162,6 +183,10 @@
     </div>
     <div class="cap-grid">
       <div class="cap">
+        <div class="cap-title">第三方宿主接入</div>
+        <div class="cap-evidence">让同一套 Skill / 插件在 QwenPaw、Claude Code、Codex、Cursor、Qoder、ZCode 上跑起来：换清单与路由、不改技能本体；两个上游已合并、三个待审</div>
+      </div>
+      <div class="cap">
         <div class="cap-title">多智能体系统</div>
         <div class="cap-evidence">AgentScope / QwenPaw 多端派发，Agent Team 编排（Leader + 多 Worker），MCP 协议接入，技能路由与共识</div>
       </div>
@@ -175,7 +200,7 @@
       </div>
       <div class="cap">
         <div class="cap-title">插件与工具开发</div>
-        <div class="cap-evidence">QwenPaw 原生插件开发与适配（共识排序、后台任务回调、sepia 去 AI 味已合并上游）；MCP Server 工程化（游戏输入控制）</div>
+        <div class="cap-evidence">QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制）</div>
       </div>
       <div class="cap">
         <div class="cap-title">Windows 音频驱动</div>
@@ -255,9 +280,9 @@
       <span class="tag">in-progress</span>
     </div>
     <ul class="current">
-      <li><strong>智能体过程监督</strong> — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分），160 项测试，反事实基准跑在 CI</li>
-      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（186 Skill）、共识排序、后台任务回调</li>
-      <li><strong>开源</strong> — sepia QwenPaw 原生插件 PR 已合并上游（2026-09-17）· text-to-cad 多端分发 PR #429 待审 · qwenpaw-consensus-rank</li>
+      <li><strong>智能体过程监督与路由约束</strong> — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分，161 项测试，反事实基准跑在 CI）· dispatch-guard 把派发规则从 prompt 移进工具接缝</li>
+      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（189 Skill）、共识排序、后台任务回调</li>
+      <li><strong>开源</strong> — 上游已合并 sepia QwenPaw 插件（2026-09-17）· 待审 ResearchStudio #60 / SemaPLC #6 / text-to-cad #429</li>
       <li><strong>系统级开发</strong> — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行</li>
       <li><strong>嵌入式与固件</strong> — Renode 上跑裸机固件在环，与 float32 参考实现逐位对齐后再下性能结论</li>
     </ul>
