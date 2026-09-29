@@ -340,6 +340,18 @@ h3.sub::before {
   color: var(--muted);
 }
 
+/* section lead-in */
+.lede {
+  margin: 0.2rem 0 1.1rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--accent-dim);
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.lede strong { color: var(--accent); font-weight: 600; }
+
 /* ── diagrams ── */
 .diagram-frame {
   margin: 0 0 1.45rem;
