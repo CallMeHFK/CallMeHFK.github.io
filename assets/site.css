@@ -369,6 +369,9 @@ h3.sub::before {
   margin: 0 auto;
 }
 
+/* only shown where the diagram actually overflows (see the narrow media query) */
+.scroll-hint { display: none; }
+
 /* ── project tables ── */
 .tbl-wrap {
   overflow-x: auto;
@@ -663,9 +666,31 @@ ul.current li strong { color: var(--bright); font-weight: 600; }
 
   .tty { display: block; }
 
+  .diagram-frame {
+    margin-bottom: 0.3rem;
+    -webkit-mask-image: linear-gradient(to right, #000 76%, transparent 99%);
+            mask-image: linear-gradient(to right, #000 76%, transparent 99%);
+  }
+
+  .diagram-frame:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 2px;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+
   .diagram-img {
     min-width: 620px;
     max-width: none;
+  }
+
+  .scroll-hint {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--muted);
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
+    margin: 0 0.2rem 1.45rem;
   }
 }
 
