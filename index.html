@@ -101,6 +101,11 @@
             <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 <code>shell_enforce</code> 关掉重定向旁路），<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 <code>routes.json</code> 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；60 项测试、2,171 行 Python，CI 通过，已发 v0.1.6（<code>qwenpaw plugin install &lt;release URL&gt;</code> 一行可用）</td>
           </tr>
           <tr>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-openviking">qwenpaw-openviking</a></td>
+            <td data-label="做了什么">长期语义记忆接入插件</td>
+            <td data-label="事实">把 <a href="https://github.com/volcengine/OpenViking">OpenViking</a>（Volcengine 开源的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python、不起 Node 运行时、零第三方依赖。注册 7 个原生工具 + 5 个 Skill（教 agent 走 recall → work → persist 闭环），startup / shutdown 钩子各探测一次且全部 fail-open——服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型处置。27 项测试、1,358 行，CI 通过，v0.1.0 一行安装</td>
+          </tr>
+          <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
             <td data-label="做了什么">多评审 LLM 共识排序插件</td>
             <td data-label="事实">多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件，v1.4.9 修掉了对宿主版本的过紧上界</td>
@@ -170,7 +175,7 @@
           <tr>
             <td data-label="项目">Agent Skill 工程化</td>
             <td data-label="做了什么">技能蒸馏与质量门控</td>
-            <td data-label="事实">189 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
+            <td data-label="事实">200 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
           </tr>
         </tbody>
       </table>
@@ -203,7 +208,7 @@
       </div>
       <div class="cap">
         <div class="cap-title">插件与工具开发</div>
-        <div class="cap-evidence">QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制）</div>
+        <div class="cap-evidence">QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、长期语义记忆、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制）</div>
       </div>
       <div class="cap">
         <div class="cap-title">Windows 音频驱动</div>
@@ -284,7 +289,7 @@
     </div>
     <ul class="current">
       <li><strong>智能体过程监督与路由约束</strong> — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分，161 项测试，反事实基准跑在 CI）· dispatch-guard 把派发规则从 prompt 移进工具接缝</li>
-      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（189 Skill）、共识排序、后台任务回调</li>
+      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（200 Skill）、共识排序、路由守卫、长期语义记忆、后台任务回调</li>
       <li><strong>开源</strong> — 上游已合并 sepia QwenPaw 插件（2026-09-17）· 待审 ResearchStudio #60 / SemaPLC #6 / text-to-cad #429</li>
       <li><strong>系统级开发</strong> — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行</li>
       <li><strong>嵌入式与固件</strong> — Renode 上跑裸机固件在环，与 float32 参考实现逐位对齐后再下性能结论</li>
