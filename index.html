@@ -95,7 +95,7 @@
           <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/dispatch-guard">dispatch-guard</a></td>
             <td data-label="做了什么">编排 Agent 的输出路由中间件</td>
-            <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 三条拦截规则，默认 Agent 试图自己落交付物时直接 deny，并把「该派给谁」回给它。Shell 侧交付物启发式只 warn，<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；路由表在 <code>routes.json</code>，模式按文件 mtime 缓存热切。纯标准库、零 pip 依赖、无遥测；13 项测试，CI 通过</td>
+            <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 <code>shell_enforce</code> 关掉重定向旁路），<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 <code>routes.json</code> 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；60 项测试、2,171 行 Python，CI 通过，已发 v0.1.6（<code>qwenpaw plugin install &lt;release URL&gt;</code> 一行可用）</td>
           </tr>
           <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>

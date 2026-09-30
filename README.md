@@ -38,7 +38,7 @@
 | 项目 | 做了什么 | 事实 |
 |---|---|---|
 | [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督插件 | 观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器（只在自然检查点、或 CUSUM 逼近告警线时唤醒）。漂移阈值由蒙特卡洛仿真标定到**会话级**误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown）再退回错误文法。`shepherd eval` 是离线反事实基准：单点注故障，报每检测器的精确率、召回、检测延迟与监督成本，CI 里跑。 |
-| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 的输出路由中间件 | 把派发约束从 system prompt 挪到工具接缝：`on_acting` 三条拦截规则，默认 Agent 试图自己落交付物时直接 deny，并把「该派给谁」回给它。Shell 侧交付物启发式只 warn，`spawn_subagent` 作为配置层关停之外的兜底 deny；路由表在 `routes.json`，模式按文件 mtime 缓存热切。纯标准库、零 pip 依赖、无遥测；13 项测试，CI 通过 |
+| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 的输出路由中间件 | 把派发约束从 system prompt 挪到工具接缝：`on_acting` 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 `shell_enforce` 关掉重定向旁路），`spawn_subagent` 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 `routes.json` 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；60 项测试、2,171 行 Python，CI 通过，已发 v0.1.6（`qwenpaw plugin install <release URL>` 一行可用） |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 共识排序插件 | 多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件，v1.4.9 修掉了对宿主版本的过紧上界 |
 | [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务回调插件 | 补上 QwenPaw `submit_to_agent` 缺的 push 侧：常驻 watcher 线程轮询子任务，完成后把结果作为新一轮投递回**注册方**会话；含僵尸任务回收测试 |
 | game-input-mcp | 游戏输入自动化 MCP Server | 鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入 |
