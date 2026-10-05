@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0e13">
-<meta name="description" content="CallMeHFK —— 多智能体系统 · 智能体过程监督 · Agent Skill 工程 · 插件开发">
+<meta name="description" content="CallMeHFK —— Agent 系统工程师：多智能体过程监督与路由约束、Agent Skill 工程，并能下到 Windows APO 驱动与 Renode 固件在环。">
 <title>CallMeHFK</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,26 +41,105 @@
       </div>
     </div>
     <p class="handle">CallMeHFK · UTC+8<span class="caret" aria-hidden="true"></span></p>
-    <p class="tagline"><strong>系统思考者 —— 站在技术与业务的交界处</strong></p>
-    <blockquote class="quote">
-      <p>用数据与事实做决策，不用感觉。先盘点再行动，确认了快速推进。</p>
-      <p>质量是底线，效率是目标。</p>
-    </blockquote>
+    <p class="tagline"><strong>Agent 系统工程师 —— 让多智能体有过程监督、有质量门控，并能下到驱动与固件层</strong></p>
+    <p class="statline">
+      <b>5</b> 个自建 Agent 插件（HEAD 提交 CI 全绿）
+      <span class="dot" aria-hidden="true">·</span>
+      <b>2</b> 个上游 PR 已合并，<b>3</b> 个待审
+      <span class="dot" aria-hidden="true">·</span>
+      <b>200</b> 个已安装 Skill 的蒸馏与评分闭环
+    </p>
   </header>
 
-  <!-- ══ 图解 ══ -->
+  <!-- ══ 代表作 ══ -->
   <section>
     <div class="sec-head">
       <span class="prompt" aria-hidden="true">$</span>
-      <h2>图解</h2>
-      <span class="tag">Diagram</span>
+      <h2>代表作</h2>
+      <span class="tag">3 个</span>
     </div>
 
-    <h3 class="sub">多智能体共识排序</h3>
-    <div class="diagram-frame" tabindex="0">
-      <img class="diagram-img" src="assets/consensus-flow.png" alt="多智能体共识排序流程：候选答案经 Judge A/B/C 并行打分，Borda 聚合后输出最终排序" width="760" height="153">
+    <article class="work">
+      <h3 class="work-head"><a href="https://github.com/CallMeHFK/agent-shepherd">agent-shepherd</a><span class="work-role">智能体过程监督插件</span></h3>
+      <p class="work-lede">观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。</p>
+      <ul class="work-points">
+        <li>两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器——只在自然检查点、或 CUSUM 逼近告警线时唤醒，健康的 agent 不浪费裁判</li>
+        <li>阈值不靠拍：漂移告警由蒙特卡洛仿真标定到<strong>会话级</strong>误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown），所以 <code>grep error logs/</code> 不会被当成失败</li>
+        <li><code>shepherd eval</code> 是离线反事实基准：单点注入故障，报每个检测器的精确率、召回、检测延迟与监督成本——先回答“到底有没有用”，再回答“准不准”</li>
+      </ul>
+      <p class="work-meta">161 项测试 · 9,483 行 Python · v0.2.1</p>
+    </article>
+
+    <article class="work">
+      <h3 class="work-head"><a href="https://github.com/CallMeHFK/dispatch-guard">dispatch-guard</a><span class="work-role">编排 Agent 的输出路由中间件</span></h3>
+      <p class="work-lede">把派发约束从 system prompt 挪进工具接缝：编排者想自己落交付物时直接 deny，并把「该派给谁」回给它。</p>
+      <ul class="work-points">
+        <li>三条拦截规则各有明确边界：写入按交付物目录/扩展名 + 白名单判定；shell 侧默认只 warn，开 <code>shell_enforce</code> 才堵重定向旁路；<code>spawn_subagent</code> 作为配置层关停之外的兜底——<strong>读操作与基础文件读写永不拦截</strong></li>
+        <li>路由表 <code>routes.json</code> 按文件 mtime 热切，加载时自审矛盾规则、死规则、未知 mode；新装先从各 agent 声明的派发策略草拟一份 warn 模式草稿</li>
+        <li>纯标准库、零 pip 依赖、无遥测</li>
+      </ul>
+      <p class="work-meta">65 项测试 · 2,294 行 Python · v0.1.7 · release 一行安装</p>
+    </article>
+
+    <article class="work">
+      <h3 class="work-head"><a href="https://github.com/CallMeHFK/qwenpaw-openviking">qwenpaw-openviking</a><span class="work-role">长期语义记忆接入插件</span></h3>
+      <p class="work-lede">把 <a href="https://github.com/volcengine/OpenViking">OpenViking</a>（Volcengine 的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件。</p>
+      <ul class="work-points">
+        <li>纯 Python：不起 Node 运行时、零第三方依赖；注册 7 个原生工具 + 5 个 Skill，教 agent 走 recall → work → persist 闭环</li>
+        <li>全部 fail-open：服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型自己处置</li>
+      </ul>
+      <p class="work-meta">40 项测试 · 1,594 行 Python · v0.1.0</p>
+    </article>
+  </section>
+
+  <!-- ══ 其余项目 ══ -->
+  <section>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>其余项目</h2>
+      <span class="tag">自建 · 上游</span>
     </div>
-    <div class="scroll-hint" aria-hidden="true">◀─ 横向滑动查看完整图 ─▶</div>
+    <ul class="plist">
+      <li><a href="https://github.com/CallMeHFK/site-kg">site-kg</a> — 站点 URL → 知识图谱 → MCP。边只从语料推，没有交叉引用就判 <code>NOT-READY</code>，不画装饰性线团。12 项测试 / 1,418 行</li>
+      <li><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a> — 多评审 LLM 共识排序：匿名化候选独立打分 → Borda 聚合 + Spearman 与位置稳定性报告。119 项测试 / ⭐2</li>
+      <li><a href="https://github.com/CallMeHFK/agent-task-callback">agent-task-callback</a> — 补上 QwenPaw <code>submit_to_agent</code> 缺的 push 侧：常驻 watcher 轮询子任务，完成后把结果作为新一轮投递回注册方会话。16 项测试 / v0.1.3</li>
+      <li><strong>game-input-mcp</strong> — 游戏输入自动化 MCP Server（stdio）：屏幕截图、精确按压时长、可编排序列，面向低延迟输入注入</li>
+      <li><strong>Audio Driver</strong> — Windows capture APO（WDK <code>CBaseAudioProcessingObject</code> + ATL）：AEC 双级链，16k 回声消除 → 因果流式降噪，CPU 用户态 ~0.5% 单核、无需 DSP/NPU</li>
+      <li><strong>ScheduleCopilot</strong> — AgentScope Agent Team 排期风险识别：Leader 编排 6 类 Worker，配 10 个领域 Skill 与多租户隔离</li>
+      <li><strong>ATPO</strong>（<a href="https://arxiv.org/abs/2603.02216">arXiv:2603.02216</a>）— 精读该树搜索 RL 并走读 VeRL 实现，把「不确定性驱动 rollout 预算分配」迁移进自建 Agent 系统</li>
+    </ul>
+    <p class="lede"><strong>上游贡献</strong>是同一条主线：同一套 Skill 不改内容，换清单与路由即可落到 QwenPaw / Claude Code / Codex / Cursor / Qoder / ZCode。已合并 <a href="https://github.com/Nanako0129/sepia/pull/250">sepia PR #250</a>（2026-09-17，+318/−25，<code>.qwenpaw-plugin/</code> 原生插件包）与 <a href="https://github.com/alibaba/nacos/pull/12127">nacos PR #12127</a>（2024-06-03，Python services sample）；待审 <a href="https://github.com/microsoft/ResearchStudio/pull/60">ResearchStudio #60</a> · <a href="https://github.com/midea-ai/SemaPLC/pull/6">SemaPLC #6</a> · <a href="https://github.com/earthtojake/text-to-cad/pull/429">text-to-cad #429</a>。</p>
+  </section>
+
+  <!-- ══ 能力与栈 ══ -->
+  <section>
+    <div class="sec-head">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h2>能力与栈</h2>
+      <span class="tag">能力 × 证据</span>
+    </div>
+    <div class="cap-grid">
+      <div class="cap">
+        <div class="cap-title">第三方宿主接入</div>
+        <div class="cap-evidence">让同一套 Skill / 插件在六种宿主上跑起来：换清单与路由、不改技能本体。两个上游已合并、三个待审</div>
+      </div>
+      <div class="cap">
+        <div class="cap-title">Agent 过程监督与路由约束</div>
+        <div class="cap-evidence">两层策略引擎（确定性检测 + PRM 式 LLM 判定）与工具接缝层的写入拦截；阈值靠蒙特卡洛与 conformal risk control 标定，用反事实基准验证是否真的有用</div>
+      </div>
+      <div class="cap">
+        <div class="cap-title">Agent Skill 工程</div>
+        <div class="cap-evidence">安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；200 个已安装 Skill</div>
+      </div>
+      <div class="cap">
+        <div class="cap-title">系统级与底层</div>
+        <div class="cap-evidence">Windows APO 驱动全流程（官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付）；Renode 周期精确在环，裸机 Cortex-M4F 固件与 float32 参考实现逐位对齐，仿真器没实现的计数器用差分采样反推</div>
+      </div>
+      <div class="cap">
+        <div class="cap-title">数据与校准</div>
+        <div class="cap-evidence">参数与方案选型按统计口径评估（EMA 回流、ECE、CUSUM、CRC），碰物理上限立即转向</div>
+      </div>
+    </div>
 
     <h3 class="sub">Agent Skill 生态闭环</h3>
     <div class="diagram-frame" tabindex="0">
@@ -68,196 +147,17 @@
     </div>
     <div class="scroll-hint" aria-hidden="true">◀─ 横向滑动查看完整图 ─▶</div>
 
-    <h3 class="sub">决策边界</h3>
-    <div class="diagram-frame" tabindex="0">
-      <img class="diagram-img" src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760" height="114">
-    </div>
-    <div class="scroll-hint" aria-hidden="true">◀─ 横向滑动查看完整图 ─▶</div>
-  </section>
-
-  <!-- ══ 项目与成果 ══ -->
-  <section>
-    <div class="sec-head">
-      <span class="prompt" aria-hidden="true">$</span>
-      <h2>项目与成果</h2>
-      <span class="tag">自建 · 多宿主接入</span>
-    </div>
-
-    <h3 class="sub">自建</h3>
-    <div class="tbl-wrap">
-      <table class="project self">
-        <thead>
-          <tr><th>项目</th><th>做了什么</th><th>事实</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/agent-shepherd">agent-shepherd</a></td>
-            <td data-label="做了什么">智能体过程监督插件</td>
-            <td data-label="事实">观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器（只在自然检查点、或 CUSUM 逼近告警线时唤醒）。漂移阈值由蒙特卡洛仿真标定到<strong>会话级</strong>误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown）再退回错误文法。<code>shepherd eval</code> 是离线反事实基准：单点注故障，报每检测器的精确率、召回、检测延迟与监督成本，CI 里跑。</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/dispatch-guard">dispatch-guard</a></td>
-            <td data-label="做了什么">编排 Agent 的输出路由中间件</td>
-            <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 <code>shell_enforce</code> 关掉重定向旁路），<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 <code>routes.json</code> 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；65 项测试、2,294 行 Python，CI 通过，已发 v0.1.7（<code>qwenpaw plugin install &lt;release URL&gt;</code> 一行可用）</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-openviking">qwenpaw-openviking</a></td>
-            <td data-label="做了什么">长期语义记忆接入插件</td>
-            <td data-label="事实">把 <a href="https://github.com/volcengine/OpenViking">OpenViking</a>（Volcengine 开源的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python、不起 Node 运行时、零第三方依赖。注册 7 个原生工具 + 5 个 Skill（教 agent 走 recall → work → persist 闭环），startup / shutdown 钩子各探测一次且全部 fail-open——服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型处置。40 项测试、1,594 行，CI 通过，v0.1.0 一行安装</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/site-kg">site-kg</a></td>
-            <td data-label="做了什么">站点 → 知识图谱 → MCP 服务</td>
-            <td data-label="事实">给一个站点 URL，它爬站、建图、通过 MCP 把图交给 AI agent。清单探测按 <code>objects.inv</code>（Sphinx）→ <code>navtreeindex0.js</code>（Doxygen 的 index.html 是 JS 壳，没有静态链接）→ <code>sitemap.xml</code> → 同源 BFS 逐级降级，不从本地文件名反猜页面清单；边只从语料里推，站点没有交叉引用就判 <code>NOT-READY</code> 而不是画一团装饰性线团，绝不编造链接；结构层（检索 / 取页 / 邻居 / 站统计）不需要 LLM，配了 <code>LLM_API_KEY</code> 才挂可选的语义层。12 项测试、1,320 行 Python，CI 通过</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
-            <td data-label="做了什么">多评审 LLM 共识排序插件</td>
-            <td data-label="事实">多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件，v1.4.9 修掉了对宿主版本的过紧上界</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/CallMeHFK/agent-task-callback">agent-task-callback</a></td>
-            <td data-label="做了什么">跨 Agent 后台任务回调插件</td>
-            <td data-label="事实">补上 QwenPaw <code>submit_to_agent</code> 缺的 push 侧：常驻 watcher 线程轮询子任务，完成后把结果作为新一轮投递回<strong>注册方</strong>会话；含僵尸任务回收测试</td>
-          </tr>
-          <tr>
-            <td data-label="项目">game-input-mcp</td>
-            <td data-label="做了什么">游戏输入自动化 MCP Server</td>
-            <td data-label="事实">鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入</td>
-          </tr>
-          <tr>
-            <td data-label="项目">Audio Driver</td>
-            <td data-label="做了什么">Windows APO 音频驱动</td>
-            <td data-label="事实">基于 WDK <code>CBaseAudioProcessingObject</code> + ATL 的 capture APO：AEC 双级链（16k 回声消除 → 因果流式降噪），CPU 用户态运行（~0.5% 单核）、无需 DSP/NPU</td>
-          </tr>
-          <tr>
-            <td data-label="项目">ScheduleCopilot</td>
-            <td data-label="做了什么">多智能体排期风险识别系统</td>
-            <td data-label="事实">基于 AgentScope Agent Service + Agent Team 构建：Leader 编排 6 类 Worker 完成风险识别、知识检索、方案补全与优化、报告生成与反馈分析；配 10 个领域 Skill，另有长期记忆中间件、双通道日志与多租户隔离</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 class="sub">适配与贡献</h3>
-    <p class="lede">主线只有一条：<strong>把 Agent Skill / 插件生态接进别人的宿主</strong>。同一套 Skill 不改内容，换清单与路由即可落到 QwenPaw、Claude Code、Codex、Cursor、Qoder、ZCode；已合并上游 2 个（sepia、nacos），待审 3 个（ResearchStudio、SemaPLC、text-to-cad）。</p>
-    <div class="tbl-wrap">
-      <table class="project adapt">
-        <thead>
-          <tr><th>项目</th><th>做了什么</th><th>事实</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/Nanako0129/sepia">sepia</a></td>
-            <td data-label="做了什么">QwenPaw 原生插件适配，<strong>已合并上游</strong></td>
-            <td data-label="事实">issue #244 → <a href="https://github.com/Nanako0129/sepia/pull/250">PR #250</a>（MERGED 2026-09-17，+318/−25）：新增 <code>.qwenpaw-plugin/</code> 插件包（<code>plugin.json</code> + <code>plugin.py</code>，复用同一批 Skill 并注册 <code>/sepia</code> 斜杠命令），同步更新三份 README 的 QwenPaw 安装说明。fork main 上另有未推上游的部分：把 QwenPaw 提为第五个安装目标、<code>sync_skills.py</code> 的 sha256 字节级同步校验 + 漂移即失败的 CI；并在 issue #274 反馈了零 Skill 静默安装问题。基于 StoryScope（arXiv:2604.03136）叙事结构检测</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/microsoft/ResearchStudio">ResearchStudio</a></td>
-            <td data-label="做了什么">研究全流程 Skill 库的安装器扩展</td>
-            <td data-label="事实"><a href="https://github.com/microsoft/ResearchStudio/pull/60">PR #60</a>（open，2026-09-18，+289/−71）：在原生支持 Claude Code / Codex 的安装器里并列加上 QwenPaw 与 Qoder 两个宿主，Skill 本体零改动</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/midea-ai/SemaPLC">SemaPLC</a></td>
-            <td data-label="做了什么">自然语言生成/校验 PLC 程序的 Agentic IDE 接入</td>
-            <td data-label="事实"><a href="https://github.com/midea-ai/SemaPLC/pull/6">PR #6</a>（open，2026-09-18，+2907/−2465）：QwenPaw / Claude Code / Cursor 三平台一键接入，顺带完成 Vitest 4 适配</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/earthtojake/text-to-cad">text-to-cad</a></td>
-            <td data-label="做了什么">CAD/CAE/CAM Skill 库多端分发，上游待审</td>
-            <td data-label="事实"><a href="https://github.com/earthtojake/text-to-cad/pull/429">PR #429</a>（open，+1207/−40）：把覆盖 STEP / STL / 3MF / URDF / SDF / SRDF 六种产物格式的 Skill 库一次性投递到 QwenPaw、ZCode、Cursor 三个安装目标，附各自的插件清单与同步脚本</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://github.com/alibaba/nacos">nacos</a></td>
-            <td data-label="做了什么">早期上游贡献，<strong>已合并</strong></td>
-            <td data-label="事实"><a href="https://github.com/alibaba/nacos/pull/12127">PR #12127</a>（MERGED 2024-06-03，+198/−2）：响应 issue #12074，为 nacos 补 Python services sample code</td>
-          </tr>
-          <tr>
-            <td data-label="项目"><a href="https://arxiv.org/abs/2603.02216">ATPO</a>（<a href="https://github.com/Quark-Medical/ATPO">代码</a>）</td>
-            <td data-label="做了什么">论文研读与工程迁移</td>
-            <td data-label="事实">精读 ATPO: Adaptive Tree Policy Optimization（Cao et al., ICLR 2026；arXiv:2603.02216）——多轮医疗对话的自适应树搜索 RL——并走读其 VeRL 实现，把「不确定性驱动 rollout 预算分配」等机制映射到自身 Agent 系统：落出不确定性统计与结果回流原型（路由预测 + EMA 回传 + ECE 校准），用于采集门控与路由分档</td>
-          </tr>
-          <tr>
-            <td data-label="项目">Agent Skill 工程化</td>
-            <td data-label="做了什么">技能蒸馏与质量门控</td>
-            <td data-label="事实">200 个已安装 Skill；SkillLens 9 维评分 + SkillOpt 门控优化闭环</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ══ 能力画像 ══ -->
-  <section>
-    <div class="sec-head">
-      <span class="prompt" aria-hidden="true">$</span>
-      <h2>能力画像</h2>
-      <span class="tag">能力 × 证据</span>
-    </div>
-    <div class="cap-grid">
-      <div class="cap">
-        <div class="cap-title">第三方宿主接入</div>
-        <div class="cap-evidence">让同一套 Skill / 插件在 QwenPaw、Claude Code、Codex、Cursor、Qoder、ZCode 上跑起来：换清单与路由、不改技能本体；两个上游已合并、三个待审</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">多智能体系统</div>
-        <div class="cap-evidence">AgentScope / QwenPaw 多端派发，Agent Team 编排（Leader + 多 Worker），MCP 协议接入，技能路由与共识</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">智能体过程监督</div>
-        <div class="cap-evidence">两层策略引擎（确定性检测器 + PRM 式 LLM 判定），偏航检测与纠正注入；阈值靠蒙特卡洛仿真与 conformal risk control 标定，用离线反事实基准验证是否真的有用</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">Agent Skill 工程</div>
-        <div class="cap-evidence">技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；从零设计可复用的领域 Skill</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">插件与工具开发</div>
-        <div class="cap-evidence">QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、长期语义记忆、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制、站点转知识图谱）</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">Windows 音频驱动</div>
-        <div class="cap-evidence">APO 驱动全流程：官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付；AEC + 流式降噪链路</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">论文研读与方法迁移</div>
-        <div class="cap-evidence">精读 ATPO（ICLR 2026）等 RL-for-agents 工作，把不确定性预算分配、树搜索信用分配等机制迁移到自建 Agent 系统</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">算法与数据</div>
-        <div class="cap-evidence">数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE、CUSUM、CRC）</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">嵌入式与固件</div>
-        <div class="cap-evidence">Renode 周期精确在环：裸机 Cortex-M4F 固件与 float32 参考实现逐位对齐；仿真器没实现的计数器用差分采样反推，性能结论落到指令级证据</div>
-      </div>
-      <div class="cap">
-        <div class="cap-title">工业软件</div>
-        <div class="cap-evidence">TPM 数字员工平台部署，TDMS 缺陷提取流水线</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ 技术栈 ══ -->
-  <section>
-    <div class="sec-head">
-      <span class="prompt" aria-hidden="true">$</span>
-      <h2>技术栈</h2>
-      <span class="tag">Badges</span>
-    </div>
     <div class="badges">
       <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&amp;logoColor=white&amp;style=flat-square" alt="Python">
       <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&amp;logoColor=white&amp;style=flat-square" alt="TypeScript">
       <img src="https://img.shields.io/badge/C-00599C?logo=c&amp;logoColor=white&amp;style=flat-square" alt="C">
       <img src="https://img.shields.io/badge/C%2B%2B%20·%20ATL-00599C?logo=cplusplus&amp;logoColor=white&amp;style=flat-square" alt="C++ · ATL">
       <img src="https://img.shields.io/badge/WDK%20·%20APO-0078D4?logo=windows&amp;logoColor=white&amp;style=flat-square" alt="WDK · APO">
-      <img src="https://img.shields.io/badge/ST%20IEC%2061131--3-8B949E?style=flat-square" alt="ST IEC 61131-3">
-      <img src="https://img.shields.io/badge/KiCad-268BCE?logo=kicad&amp;logoColor=white&amp;style=flat-square" alt="KiCad">
+      <img src="https://img.shields.io/badge/Renode-5A6B7B?style=flat-square" alt="Renode">
       <img src="https://img.shields.io/badge/Linux-FCC624?logo=linux&amp;logoColor=black&amp;style=flat-square" alt="Linux">
       <img src="https://img.shields.io/badge/Git-F05032?logo=git&amp;logoColor=white&amp;style=flat-square" alt="Git">
       <img src="https://img.shields.io/badge/AgentScope%20·%20QwenPaw-E06A2D?style=flat-square" alt="AgentScope · QwenPaw">
       <img src="https://img.shields.io/badge/MCP-6E7F80?style=flat-square" alt="MCP">
-      <img src="https://img.shields.io/badge/Renode-5A6B7B?style=flat-square" alt="Renode">
     </div>
   </section>
 
@@ -268,6 +168,17 @@
       <h2>运行原则</h2>
       <span class="tag">principles.txt</span>
     </div>
+    <blockquote class="quote">
+      <p>用数据与事实做决策，不用感觉。先盘点再行动，确认了快速推进。</p>
+      <p>质量是底线，效率是目标。</p>
+    </blockquote>
+
+    <h3 class="sub">决策边界</h3>
+    <div class="diagram-frame" tabindex="0">
+      <img class="diagram-img" src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760" height="114">
+    </div>
+    <div class="scroll-hint" aria-hidden="true">◀─ 横向滑动查看完整图 ─▶</div>
+
     <div class="terminal">
       <div class="terminal-bar">
         <i class="r"></i><i class="y"></i><i class="g"></i>
@@ -283,23 +194,6 @@
         <div class="rules-end">CallMeHFK:~$<span class="caret" aria-hidden="true"></span></div>
       </div>
     </div>
-  </section>
-
-  <!-- ══ 当前 ══ -->
-  <section>
-    <div class="sec-head">
-      <span class="prompt" aria-hidden="true">$</span>
-      <h2>当前</h2>
-      <span class="tag">in-progress</span>
-    </div>
-    <ul class="current">
-      <li><strong>智能体过程监督与路由约束</strong> — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分，161 项测试，反事实基准跑在 CI）· dispatch-guard 把派发规则从 prompt 移进工具接缝</li>
-      <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（200 Skill）、共识排序、路由守卫、长期语义记忆、后台任务回调</li>
-      <li><strong>站点知识图谱</strong> — site-kg：给 URL 就爬站建图并以 MCP 提供检索与图遍历，边只从语料推、证据不足判 NOT-READY</li>
-      <li><strong>开源</strong> — 上游已合并 sepia QwenPaw 插件（2026-09-17）· 待审 ResearchStudio #60 / SemaPLC #6 / text-to-cad #429</li>
-      <li><strong>系统级开发</strong> — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行</li>
-      <li><strong>嵌入式与固件</strong> — Renode 上跑裸机固件在环，与 float32 参考实现逐位对齐后再下性能结论</li>
-    </ul>
   </section>
 
   <p class="footnote">「写得进去的部分，已经足够强大。」—— 但做不出来，比说不清楚更致命。</p>

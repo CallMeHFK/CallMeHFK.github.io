@@ -352,6 +352,71 @@ h3.sub::before {
 
 .lede strong { color: var(--accent); font-weight: 600; }
 
+/* ── hero stat line ── */
+.statline {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.95;
+}
+
+.statline b { color: var(--green); font-weight: 600; }
+.statline .dot { margin: 0 0.4rem; color: var(--line); }
+
+/* ── featured work cards ── */
+.work {
+  margin: 0 0 1.1rem;
+  padding: 1rem 1.15rem 0.85rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  background: linear-gradient(165deg, rgba(17, 24, 33, 0.95), rgba(13, 17, 23, 0.95));
+}
+
+.work-head {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.work-role {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.73rem;
+  font-weight: 500;
+}
+
+.work-lede { margin: 0.25rem 0 0.5rem; color: var(--text); font-size: 0.83rem; line-height: 1.7; }
+.work-points { margin: 0.2rem 0 0.5rem; padding-left: 1.15rem; }
+
+.work-points li {
+  margin: 0.34rem 0;
+  color: var(--quote);
+  font-size: 0.8rem;
+  line-height: 1.75;
+}
+
+.work-meta {
+  margin: 0.5rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--line-soft);
+  color: var(--green);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── compact project list ── */
+.plist { margin: 0 0 1.1rem; padding-left: 1.2rem; }
+
+.plist li {
+  margin: 0.42rem 0;
+  color: var(--quote);
+  font-size: 0.82rem;
+  line-height: 1.72;
+}
+
 /* ── diagrams ── */
 .diagram-frame {
   margin: 0 0 1.45rem;
