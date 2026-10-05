@@ -38,8 +38,9 @@
 | 项目 | 做了什么 | 事实 |
 |---|---|---|
 | [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督插件 | 观测 QwenPaw / Claude Code / Codex 的推理与工具调用，偏航时注入纠正。两层策略：Tier 0 确定性检测器（循环、回归、越权编辑、binding drift、context rot、CUSUM 漂移告警），Tier 1 PRM 式 LLM 打分器（只在自然检查点、或 CUSUM 逼近告警线时唤醒）。漂移阈值由蒙特卡洛仿真标定到**会话级**误报预算，判定阈值由 conformal risk control 按实测结果再拟合；工具结局先按结构化证据三态分类（failed / ok / unknown）再退回错误文法。`shepherd eval` 是离线反事实基准：单点注故障，报每检测器的精确率、召回、检测延迟与监督成本，CI 里跑。 |
-| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 的输出路由中间件 | 把派发约束从 system prompt 挪到工具接缝：`on_acting` 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 `shell_enforce` 关掉重定向旁路），`spawn_subagent` 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 `routes.json` 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；60 项测试、2,171 行 Python，CI 通过，已发 v0.1.6（`qwenpaw plugin install <release URL>` 一行可用） |
-| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | 长期语义记忆接入插件 | 把 [OpenViking](https://github.com/volcengine/OpenViking)（Volcengine 开源的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python、不起 Node 运行时、零第三方依赖。注册 7 个原生工具 + 5 个 Skill（教 agent 走 recall → work → persist 闭环），startup / shutdown 钩子各探测一次且全部 fail-open——服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型处置。27 项测试、1,358 行，CI 通过，v0.1.0 一行安装 |
+| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 的输出路由中间件 | 把派发约束从 system prompt 挪到工具接缝：`on_acting` 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 `shell_enforce` 关掉重定向旁路），`spawn_subagent` 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 `routes.json` 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；65 项测试、2,294 行 Python，CI 通过，已发 v0.1.7（`qwenpaw plugin install <release URL>` 一行可用） |
+| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | 长期语义记忆接入插件 | 把 [OpenViking](https://github.com/volcengine/OpenViking)（Volcengine 开源的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python、不起 Node 运行时、零第三方依赖。注册 7 个原生工具 + 5 个 Skill（教 agent 走 recall → work → persist 闭环），startup / shutdown 钩子各探测一次且全部 fail-open——服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型处置。40 项测试、1,594 行，CI 通过，v0.1.0 一行安装 |
+| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 → 知识图谱 → MCP 服务 | 给一个站点 URL，它爬站、建图、通过 MCP 把图交给 AI agent。清单探测按 `objects.inv`（Sphinx）→ `navtreeindex0.js`（Doxygen 的 index.html 是 JS 壳，没有静态链接）→ `sitemap.xml` → 同源 BFS 逐级降级，不从本地文件名反猜页面清单；边只从语料里推，站点没有交叉引用就判 `NOT-READY` 而不是画一团装饰性线团，绝不编造链接；结构层（检索 / 取页 / 邻居 / 站统计）不需要 LLM，配了 `LLM_API_KEY` 才挂可选的语义层。12 项测试、1,320 行 Python，CI 通过 |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 共识排序插件 | 多模型独立打分 → Borda 聚合，输出交叉一致性报告；QwenPaw 原生插件，v1.4.9 修掉了对宿主版本的过紧上界 |
 | [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务回调插件 | 补上 QwenPaw `submit_to_agent` 缺的 push 侧：常驻 watcher 线程轮询子任务，完成后把结果作为新一轮投递回**注册方**会话；含僵尸任务回收测试 |
 | game-input-mcp | 游戏输入自动化 MCP Server | 鼠标/键盘控制的 MCP 工具集（stdio 传输），含屏幕截图、精确按压时长、可编排序列；面向游戏场景的低延迟输入注入 |
@@ -68,7 +69,7 @@
 - **多智能体系统** — AgentScope / QwenPaw 多端派发，Agent Team 编排（Leader + 多 Worker），MCP 协议接入，技能路由与共识
 - **智能体过程监督** — 两层策略引擎（确定性检测器 + PRM 式 LLM 判定），偏航检测与纠正注入；阈值靠蒙特卡洛仿真与 conformal risk control 标定，用离线反事实基准验证是否真的有用
 - **Agent Skill 工程** — 技能安装、蒸馏、评分（SkillLens 9 维）、门控优化全链路；从零设计可复用的领域 Skill
-- **插件与工具开发** — QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、长期语义记忆、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制）
+- **插件与工具开发** — QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、长期语义记忆、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制、站点转知识图谱）
 - **Windows 音频驱动** — APO 驱动全流程：官方 COM 契约 → 构建签名 → 测试机部署 → 验收交付；AEC + 流式降噪链路
 - **论文研读与方法迁移** — 精读 ATPO（ICLR 2026）等 RL-for-agents 工作，把不确定性预算分配、树搜索信用分配等机制迁移到自建 Agent 系统
 - **算法与数据** — 数据驱动的参数与方案选型，统计口径与校准评估（EMA 回流、ECE、CUSUM、CRC）
@@ -112,6 +113,7 @@ CallMeHFK:~$ cat principles.txt
 
 - **智能体过程监督与路由约束** — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分，161 项测试，反事实基准跑在 CI）· dispatch-guard 把派发规则从 prompt 移进工具接缝
 - **多智能体工具链** — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（200 Skill）、共识排序、路由守卫、长期语义记忆、后台任务回调
+- **站点知识图谱** — site-kg：给 URL 就爬站建图并以 MCP 提供检索与图遍历，边只从语料推、证据不足判 NOT-READY
 - **开源** — 上游已合并 sepia QwenPaw 插件（2026-09-17）· 待审 ResearchStudio #60 / SemaPLC #6 / text-to-cad #429
 - **系统级开发** — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行
 - **嵌入式与固件** — Renode 上跑裸机固件在环，与 float32 参考实现逐位对齐后再下性能结论
