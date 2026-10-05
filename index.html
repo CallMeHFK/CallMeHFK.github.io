@@ -98,12 +98,17 @@
           <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/dispatch-guard">dispatch-guard</a></td>
             <td data-label="做了什么">编排 Agent 的输出路由中间件</td>
-            <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 <code>shell_enforce</code> 关掉重定向旁路），<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 <code>routes.json</code> 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；60 项测试、2,171 行 Python，CI 通过，已发 v0.1.6（<code>qwenpaw plugin install &lt;release URL&gt;</code> 一行可用）</td>
+            <td data-label="事实">把派发约束从 system prompt 挪到工具接缝：<code>on_acting</code> 拦截交付物形状的写入并 deny，回给它「该派给谁」；shell 侧交付物启发式默认只 warn（可开 <code>shell_enforce</code> 关掉重定向旁路），<code>spawn_subagent</code> 作为配置层关停之外的兜底 deny；读操作与基础文件读写永不拦截。路由表 <code>routes.json</code> 按 mtime 热切、加载时做规则自审（矛盾、死规则、未知 mode）。纯标准库、零 pip 依赖、无遥测；65 项测试、2,294 行 Python，CI 通过，已发 v0.1.7（<code>qwenpaw plugin install &lt;release URL&gt;</code> 一行可用）</td>
           </tr>
           <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-openviking">qwenpaw-openviking</a></td>
             <td data-label="做了什么">长期语义记忆接入插件</td>
-            <td data-label="事实">把 <a href="https://github.com/volcengine/OpenViking">OpenViking</a>（Volcengine 开源的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python、不起 Node 运行时、零第三方依赖。注册 7 个原生工具 + 5 个 Skill（教 agent 走 recall → work → persist 闭环），startup / shutdown 钩子各探测一次且全部 fail-open——服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型处置。27 项测试、1,358 行，CI 通过，v0.1.0 一行安装</td>
+            <td data-label="事实">把 <a href="https://github.com/volcengine/OpenViking">OpenViking</a>（Volcengine 开源的 Agent 长期语义记忆引擎）上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python、不起 Node 运行时、零第三方依赖。注册 7 个原生工具 + 5 个 Skill（教 agent 走 recall → work → persist 闭环），startup / shutdown 钩子各探测一次且全部 fail-open——服务挂了只降级成告警，不弄坏宿主；工具包装从不把异常抛进运行时，认证失败、超时、不可达一律回结构化错误串交给模型处置。40 项测试、1,594 行，CI 通过，v0.1.0 一行安装</td>
+          </tr>
+          <tr>
+            <td data-label="项目"><a href="https://github.com/CallMeHFK/site-kg">site-kg</a></td>
+            <td data-label="做了什么">站点 → 知识图谱 → MCP 服务</td>
+            <td data-label="事实">给一个站点 URL，它爬站、建图、通过 MCP 把图交给 AI agent。清单探测按 <code>objects.inv</code>（Sphinx）→ <code>navtreeindex0.js</code>（Doxygen 的 index.html 是 JS 壳，没有静态链接）→ <code>sitemap.xml</code> → 同源 BFS 逐级降级，不从本地文件名反猜页面清单；边只从语料里推，站点没有交叉引用就判 <code>NOT-READY</code> 而不是画一团装饰性线团，绝不编造链接；结构层（检索 / 取页 / 邻居 / 站统计）不需要 LLM，配了 <code>LLM_API_KEY</code> 才挂可选的语义层。12 项测试、1,320 行 Python，CI 通过</td>
           </tr>
           <tr>
             <td data-label="项目"><a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank">qwenpaw-consensus-rank</a></td>
@@ -208,7 +213,7 @@
       </div>
       <div class="cap">
         <div class="cap-title">插件与工具开发</div>
-        <div class="cap-evidence">QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、长期语义记忆、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制）</div>
+        <div class="cap-evidence">QwenPaw 原生插件开发与适配（过程监督、共识排序、路由守卫、长期语义记忆、后台任务回调，以及已合并上游的 sepia）；MCP Server 工程化（游戏输入控制、站点转知识图谱）</div>
       </div>
       <div class="cap">
         <div class="cap-title">Windows 音频驱动</div>
@@ -290,6 +295,7 @@
     <ul class="current">
       <li><strong>智能体过程监督与路由约束</strong> — agent-shepherd 两层监督策略引擎（Tier 0 确定性检测 + Tier 1 LLM 打分，161 项测试，反事实基准跑在 CI）· dispatch-guard 把派发规则从 prompt 移进工具接缝</li>
       <li><strong>多智能体工具链</strong> — QwenPaw 多端派发、Agent Team 编排、技能蒸馏（200 Skill）、共识排序、路由守卫、长期语义记忆、后台任务回调</li>
+      <li><strong>站点知识图谱</strong> — site-kg：给 URL 就爬站建图并以 MCP 提供检索与图遍历，边只从语料推、证据不足判 NOT-READY</li>
       <li><strong>开源</strong> — 上游已合并 sepia QwenPaw 插件（2026-09-17）· 待审 ResearchStudio #60 / SemaPLC #6 / text-to-cad #429</li>
       <li><strong>系统级开发</strong> — Windows APO 音频驱动（AEC + 流式降噪），CPU 用户态实时运行</li>
       <li><strong>嵌入式与固件</strong> — Renode 上跑裸机固件在环，与 float32 参考实现逐位对齐后再下性能结论</li>
