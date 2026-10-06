@@ -8,13 +8,14 @@
 
 过程监督 / 输出路由 / 技能质量
 
-![CI](https://img.shields.io/badge/CI-6%2F6%20repos%20green-3fb950?style=flat-square)
+![CI](https://img.shields.io/badge/CI-7%2F7%20repos%20green-3fb950?style=flat-square)
 ![upstream](https://img.shields.io/badge/upstream%20PR-2%20merged%20%C2%B7%203%20open-e06a2d?style=flat-square)
 ![skills](https://img.shields.io/badge/skills%20installed-200-79c0ff?style=flat-square)
 ![plugins](https://img.shields.io/badge/qwenpaw%20plugins-5-8b949e?style=flat-square)
 
 <code><img height="20" alt="python" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
 <code><img height="20" alt="typescript" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/typescript/typescript.png"></code>
+<code><img height="20" alt="go" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/go/go.png"></code>
 <code><img height="20" alt="c" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/c/c.png"></code>
 <code><img height="20" alt="cpp" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/cpp/cpp.png"></code>
 <code><img height="20" alt="linux" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/linux/linux.png"></code>
@@ -37,8 +38,9 @@
 | [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL → 知识图谱 → MCP 服务 | 12 | — |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 119 | v1.4.9 |
 | [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 16 | v0.1.3 |
+| [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | 19 | v0.2.0 |
 
-测试数为 `pytest --collect-only` 收例数，六仓库 HEAD 的 CI 全绿。
+测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），七仓库 HEAD 的 CI 全绿。
 
 ## 代表作
 
