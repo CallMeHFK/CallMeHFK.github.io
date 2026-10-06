@@ -796,3 +796,7 @@ details.fold > summary::before { content: "▸ "; color: var(--accent); }
 details.fold[open] > summary::before { content: "▾ "; }
 details.fold .fold-body { padding: 0.15rem 0.8rem 0.85rem; }
 details.fold .plist { margin-bottom: 0; }
+
+@media (max-width: 700px) {
+  table.rtbl { min-width: 560px; }
+}
