@@ -769,3 +769,30 @@ ul.current li strong { color: var(--bright); font-weight: 600; }
 
   body::before { opacity: 0.35; }
 }
+
+/* ── github-native scan layout (2026-10-06) ── */
+.chips { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center; margin: 0.9rem 0 0.55rem; }
+.chip { padding: 0.16rem 0.6rem; border: 1px solid var(--line); border-radius: 999px;
+        color: var(--muted); font-size: 0.7rem; letter-spacing: 0.02em; }
+.chip b { color: var(--green); font-weight: 600; }
+.chip.warn b { color: var(--accent); font-weight: 600; }
+.icons { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; justify-content: center; margin: 0.4rem 0 0.15rem; }
+.icons img.sq { height: 20px; width: 20px; }
+.icons img.bdg { height: 20px; }
+.rtbl-wrap { overflow-x: auto; margin: 0 0 1.1rem; border: 1px solid var(--line); border-radius: 6px; }
+table.rtbl { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+table.rtbl th { text-align: left; padding: 0.5rem 0.7rem; color: var(--muted); font-weight: 600;
+                font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase;
+                background: var(--panel-2); border-bottom: 1px solid var(--line); }
+table.rtbl td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line-soft);
+                color: var(--quote); line-height: 1.6; vertical-align: top; }
+table.rtbl tr:last-child td { border-bottom: none; }
+table.rtbl td:first-child { white-space: nowrap; }
+details.fold { margin: 0 0 1.1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel-2); }
+details.fold > summary { cursor: pointer; padding: 0.55rem 0.8rem; color: var(--text);
+                         font-size: 0.82rem; font-weight: 600; list-style: none; }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before { content: "▸ "; color: var(--accent); }
+details.fold[open] > summary::before { content: "▾ "; }
+details.fold .fold-body { padding: 0.15rem 0.8rem 0.85rem; }
+details.fold .plist { margin-bottom: 0; }
