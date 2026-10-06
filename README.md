@@ -53,8 +53,8 @@
 - [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) — 跨家族评审独立打分（候选匿名化，各评审一套 candidate→letter 映射），mean-rank 出共识，报 per-judge Spearman ρ、评审间 pairwise ρ 与位置稳定性。119 项测试 / ⭐2
 - [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) — 补 QwenPaw `submit_to_agent` 缺的 push 侧：常驻 watcher 轮询子任务，完成后把结果作为新一轮投递回注册方会话。含僵尸任务回收测试。16 项测试 / v0.1.3
 - **GameForge MCP Server**（闭源）— 截屏与鼠标键盘注入的 MCP 工具集，stdio / HTTP / SSE 三种 transport，`mouse_click` 与 `key_press` 带 duration 参数
-- **Windows capture APO**（闭源）— WDK `CBaseAudioProcessingObject` + ATL，iic JAEC 16k AEC 后接自研因果流式降噪核（DD-Wiener / MCRA，512 FFT / 256 hop，无前瞻）；audiodg 内 CPU 用户态，实测 ~0.5% 单核，无 DSP/NPU offload 路径
-- **ScheduleCopilot**（闭源）— AgentScope Agent Team：Leader 编排 6 类 Worker，10 个领域 Skill，长期记忆中间件与多租户隔离
+- **Windows capture APO**（闭源）— WDK `CBaseAudioProcessingObject` + ATL，iic JAEC 回声消除后接自研因果流式降噪核（DD-Wiener / MCRA，无前瞻）；audiodg 内 CPU 用户态实时运行，不经 DSP/NPU offload
+- **ScheduleCopilot**（闭源）— AgentScope Agent Team：Leader 编排多类 Worker，配领域 Skill、长期记忆中间件与多租户隔离
 - ATPO（[arXiv:2603.02216](https://arxiv.org/abs/2603.02216)）— 走读其 VeRL 实现；不确定性驱动的 rollout 预算分配用进了自己的采集门控与路由分档
 
 上游 PR 是同一件事：Skill 内容不动，只改 manifest 与路由，把同一批 Skill 装进 QwenPaw / Claude Code / Codex / Cursor / Qoder / ZCode。merged：[sepia #250](https://github.com/Nanako0129/sepia/pull/250)（2026-09-17，+318/−25，`.qwenpaw-plugin/` 插件包 + `/sepia` 斜杠命令）、[nacos #12127](https://github.com/alibaba/nacos/pull/12127)（2024-06-03，Python services sample）。open：[ResearchStudio #60](https://github.com/microsoft/ResearchStudio/pull/60)、[SemaPLC #6](https://github.com/midea-ai/SemaPLC/pull/6)、[text-to-cad #429](https://github.com/earthtojake/text-to-cad/pull/429)。
