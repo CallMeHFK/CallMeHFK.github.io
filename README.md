@@ -6,9 +6,9 @@
 
 **`CallMeHFK`** · UTC+8
 
-### Agent 系统工程师：过程监督、输出路由、技能质量
+### Agent 系统工程师 · 过程监督 / 输出路由 / 技能质量
 
-> **5** 个自建 Agent 插件（HEAD 提交 CI 全绿） · **2** 个上游 PR 已合并，**3** 个在审 · **200** 个已安装 Skill
+> **5** 个自建 Agent 插件（HEAD CI 全绿） · 上游 PR **2** merged / **3** open · **200** 个已安装 Skill
 
 </div>
 
@@ -18,30 +18,30 @@
 
 ### [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) — 智能体过程监督插件
 
-观测 QwenPaw / Claude Code / Codex 的推理与工具调用，agent 偏航时注入纠正。
+观测 QwenPaw / Claude Code / Codex 的 reasoning 与 tool call 流，偏航时注入纠正。
 
-- Tier 0 是确定性检测器：循环、回归、越权编辑、binding drift、context rot，再加一路 CUSUM 漂移告警。Tier 1 才动用 LLM 打分器，触发条件是自然检查点，或者 CUSUM 逼近告警线；多数会话只跑 Tier 0，裁判不调用。
-- 漂移阈值用蒙特卡洛仿真标定到会话级误报预算，判定阈值再由 conformal risk control 按实测结果拟合。工具结局先按结构化证据分成 failed / ok / unknown，所以 `grep error logs/` 匹配到的正常调用不会被判成失败。
-- `shepherd eval` 是离线反事实基准：注入单个故障，输出每个检测器的精确率、召回、检测延迟和监督成本。
+- Tier 0 确定性检测器：loop、regression、越权编辑、binding drift、context rot，加一路 CUSUM 漂移告警。Tier 1 是 PRM 式 LLM 判定，只在 natural checkpoint 或 CUSUM 逼近告警线时唤醒，常态会话零裁判开销。
+- 漂移阈值由蒙特卡洛仿真标定到会话级 FP 预算，判定阈值再由 conformal risk control 按实测结果拟合。工具结局先做结构化证据三态分类（failed / ok / unknown），错误串文法只当 fallback，`grep error logs/` 型误报进不了判定。
+- `shepherd eval`：离线反事实基准，单点注故障，按检测器报 precision / recall / detection latency / supervision cost。CI 里以 `--fail-under-f1 0.8` 当门。
 
 169 项测试 · 9,483 行 Python（含测试） · v0.2.1
 
 ### [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) — 编排 Agent 的输出路由中间件
 
-把派发约束从 system prompt 挪到工具接缝：编排者想自己写交付物时直接 deny，并把该派给谁回给它。
+把派发约束从 system prompt 移到 tool seam：`on_acting` 拦截交付物形状的写入并 deny，回填该派给谁。
 
-- 写入按交付物目录和扩展名加白名单判定。shell 侧默认只 warn，开了 `shell_enforce` 才堵重定向旁路。`spawn_subagent` 是配置层关停之外的兜底。读操作和基础文件读写不拦。
-- 路由表 `routes.json` 按文件 mtime 热切，加载时自审矛盾规则、死规则和未知 mode。首次安装没有配置时，从各 agent 在 `agent.json` 里声明的派发策略草拟一份 warn 模式的 `routes.draft.json`，改名才生效。
-- 只用标准库，无 pip 依赖，不联网。
+- 写入判定按交付物目录 / 扩展名 + 白名单。shell 侧默认 warn，`shell_enforce` 才堵重定向旁路。`spawn_subagent` 是 config 层关停之外的兜底 deny。读与基础文件 IO 不拦。
+- `routes.json` 按 mtime 热加载，load 时做规则自审：矛盾规则、死规则、未知 mode。无配置时从各 agent 在 `agent.json` 里声明的派发策略草拟 `routes.draft.json`（warn 模式），改名才生效。
+- 纯标准库，零 pip 依赖，插件运行时不联网。
 
 65 项测试 · 2,294 行 Python（含测试） · v0.1.7 · release 一行安装
 
 ### [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) — 长期语义记忆接入插件
 
-把 [OpenViking](https://github.com/volcengine/OpenViking)（Volcengine 的 Agent 长期语义记忆引擎）上游的 Node.js stdio MCP 代理移植成 QwenPaw 原生插件。
+把 [OpenViking](https://github.com/volcengine/OpenViking) 上游那套 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python，不起 Node 运行时，`dependencies: []`。
 
-- 纯 Python，不起 Node 运行时，零第三方依赖。7 个原生工具加 5 个 Skill，Skill 教 agent 先 recall、再干活、最后 persist。
-- 服务不可达、认证失败、超时都返回结构化错误串交给模型处置。startup / shutdown 钩子各探测一次，记忆服务挂掉只降级成告警，宿主照常跑。
+- 7 个原生工具（find / search / read / remember / write / add_skill / health）+ 5 个 Skill，Skill 侧教 agent 走 recall → work → persist。
+- hook 与工具包装一律 fail-open：认证失败、超时、不可达返回结构化错误串给模型处置，异常不进 runtime；记忆服务挂掉降级成告警，宿主照常跑。
 
 40 项测试 · 1,594 行 Python（含测试） · v0.1.0
 
@@ -49,23 +49,23 @@
 
 ## 其余项目
 
-- [site-kg](https://github.com/CallMeHFK/site-kg) — 站点 URL → 知识图谱 → MCP。边从语料里的链接推；站点没有交叉引用就判 `NOT-READY`，不编链接。12 项测试 / 1,418 行
-- [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) — 多个 LLM 评审各自对匿名化候选独立打分，位次平均出共识，再报 Spearman 相关与逐评审位置稳定性。119 项测试 / ⭐2
-- [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) — 补 QwenPaw `submit_to_agent` 缺的 push 侧：常驻 watcher 轮询子任务，完成后把结果作为新一轮投递回注册方会话。16 项测试 / v0.1.3
-- **GameForge MCP Server**（本地，未开源）— 鼠标键盘与截屏的 MCP 工具集，stdio 和 HTTP 两种传输，点击与按键可指定按住时长
-- **Windows capture APO**（本地，未开源）— WDK `CBaseAudioProcessingObject` + ATL，跑 iic JAEC 16k 回声消除，后接自研因果流式降噪核；在 audiodg 用户态 CPU 运行，实测约 0.5% 单核，不经 DSP/NPU
-- **ScheduleCopilot**（未开源）— AgentScope Agent Team 排期风险识别：Leader 编排 6 类 Worker，10 个领域 Skill，多租户隔离
-- ATPO（[arXiv:2603.02216](https://arxiv.org/abs/2603.02216)）— 精读这篇多轮医疗对话的树搜索 RL 并走读其 VeRL 实现；不确定性驱动的 rollout 预算分配，落到了自己的采集门控与路由分档设计上
+- [site-kg](https://github.com/CallMeHFK/site-kg) — 站点 URL → 知识图谱 → MCP。清单探测按 `objects.inv` → `navtreeindex0.js` → `sitemap.xml` → 同源 BFS 降级；边只从语料链接推，零可解析边判 `NOT-READY`；结构层不需要 LLM，语义层配了 key 才挂。12 项测试 / 1,418 行
+- [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) — 跨家族评审独立打分（候选匿名化，各评审一套 candidate→letter 映射），mean-rank 出共识，报 per-judge Spearman ρ、评审间 pairwise ρ 与位置稳定性。119 项测试 / ⭐2
+- [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) — 补 QwenPaw `submit_to_agent` 缺的 push 侧：常驻 watcher 轮询子任务，完成后把结果作为新一轮投递回注册方会话。含僵尸任务回收测试。16 项测试 / v0.1.3
+- **GameForge MCP Server**（闭源）— 截屏与鼠标键盘注入的 MCP 工具集，stdio / HTTP / SSE 三种 transport，`mouse_click` 与 `key_press` 带 duration 参数
+- **Windows capture APO**（闭源）— WDK `CBaseAudioProcessingObject` + ATL，iic JAEC 16k AEC 后接自研因果流式降噪核（DD-Wiener / MCRA，512 FFT / 256 hop，无前瞻）；audiodg 内 CPU 用户态，实测 ~0.5% 单核，无 DSP/NPU offload 路径
+- **ScheduleCopilot**（闭源）— AgentScope Agent Team：Leader 编排 6 类 Worker，10 个领域 Skill，长期记忆中间件与多租户隔离
+- ATPO（[arXiv:2603.02216](https://arxiv.org/abs/2603.02216)）— 走读其 VeRL 实现；不确定性驱动的 rollout 预算分配用进了自己的采集门控与路由分档
 
-上游那几个 PR 是同一件事：同一套 Skill 内容不动，改清单和路由就能装进 QwenPaw / Claude Code / Codex / Cursor / Qoder / ZCode。已合并 [sepia PR #250](https://github.com/Nanako0129/sepia/pull/250)（2026-09-17，+318/−25，加 `.qwenpaw-plugin/` 原生插件包与 `/sepia` 斜杠命令）和 [nacos PR #12127](https://github.com/alibaba/nacos/pull/12127)（2024-06-03，补 Python services sample）；[ResearchStudio #60](https://github.com/microsoft/ResearchStudio/pull/60)、[SemaPLC #6](https://github.com/midea-ai/SemaPLC/pull/6)、[text-to-cad #429](https://github.com/earthtojake/text-to-cad/pull/429) 还在审。
+上游 PR 是同一件事：Skill 内容不动，只改 manifest 与路由，把同一批 Skill 装进 QwenPaw / Claude Code / Codex / Cursor / Qoder / ZCode。merged：[sepia #250](https://github.com/Nanako0129/sepia/pull/250)（2026-09-17，+318/−25，`.qwenpaw-plugin/` 插件包 + `/sepia` 斜杠命令）、[nacos #12127](https://github.com/alibaba/nacos/pull/12127)（2024-06-03，Python services sample）。open：[ResearchStudio #60](https://github.com/microsoft/ResearchStudio/pull/60)、[SemaPLC #6](https://github.com/midea-ai/SemaPLC/pull/6)、[text-to-cad #429](https://github.com/earthtojake/text-to-cad/pull/429)。
 
 ---
 
 ## 能力与栈
 
-日常做的是把同一套 Skill 或插件装进别人的宿主，只换清单和路由，不动技能内容。过程监督这块是两层策略引擎加上工具接缝层的写入拦截，阈值走统计标定（蒙特卡洛、conformal risk control、CUSUM），效果用离线反事实基准量。技能侧装了 200 个 Skill，配 9 维评分和门控优化，评分口径参照 SkillLens 的实证基线。
+两条线。Agent 侧：宿主接入（换 manifest 与路由，不动 Skill 内容）、过程监督与输出路由（两层检测 + 统计标定阈值 + 反事实基准）、技能质量（200 个已安装 Skill，9 维评分与门控优化，评分口径参照 SkillLens 的实证基线）。
 
-另一半在系统层。Windows APO 驱动从官方 COM 契约走到构建签名、测试机部署、验收交付；嵌入式侧用 Renode 跑周期精确在环，裸机 Cortex-M4F 固件与 float32 参考实现逐位对齐，仿真器没实现的计数器靠差分采样反推。
+系统侧：Windows APO 驱动从官方 COM 契约走到构建签名、测试机部署与验收；嵌入式用 Renode 跑周期精确在环，裸机 Cortex-M4F 固件与 float32 参考实现逐位对齐，仿真器没实现的计数器靠差分采样反推。
 
 <img src="assets/skill-loop.png" alt="Agent Skill 生态闭环：安装 → 运行 → 蒸馏 → 评分（SkillLens 9 维），再由 SkillOpt 门控优化回到安装" width="760">
 
