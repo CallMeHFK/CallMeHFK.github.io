@@ -34,7 +34,7 @@
 |---|---|---|---|
 | [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | 169 | v0.2.1 |
 | [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | 65 | v0.1.7 |
-| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 长期记忆的 QwenPaw 原生插件 | 40 | v0.1.0 |
+| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | 40 | v0.1.0 |
 | [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL → 知识图谱 → MCP 服务 | 12 | — |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 119 | v1.4.9 |
 | [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 16 | v0.1.3 |
@@ -42,7 +42,9 @@
 
 测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），七仓库 HEAD 的 CI 全绿。
 
-## 代表作
+## 系统设计
+
+只展开自己从零写的两个；上游移植与宿主适配走上表，不占这一节。
 
 ### [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) — 过程监督
 
@@ -58,13 +60,6 @@
 
 - 写入按交付物目录 / 扩展名 + 白名单判定；shell 侧默认 warn，`shell_enforce` 才堵重定向旁路；`spawn_subagent` 是 config 层关停之外的兜底 deny。读与基础文件 IO 不拦。
 - `routes.json` 按 mtime 热加载并自审矛盾规则、死规则、未知 mode；无配置时从各 agent 声明的派发策略草拟 warn 模式的 `routes.draft.json`，改名才生效。纯标准库，插件运行时不联网。
-
-### [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) — 长期记忆
-
-把 [OpenViking](https://github.com/volcengine/OpenViking) 上游的 Node.js stdio MCP 代理移植成 QwenPaw 原生插件：纯 Python，不起 Node 运行时，`dependencies: []`。
-
-- 7 个原生工具（find / search / read / remember / write / add_skill / health）+ 5 个 Skill，Skill 侧教 agent 走 recall → work → persist。
-- hook 与工具包装一律 fail-open：认证失败、超时、不可达返回结构化错误串，异常不进 runtime；记忆服务挂掉降级成告警，宿主照常跑。
 
 ## 上游 PR
 
