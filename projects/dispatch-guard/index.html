@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="编排 Agent 输出路由的 tool-seam 中间件：交付物写入拦截 + spawn 兜底 — CallMeHFK PROJECT LAB">
+<title>dispatch-guard · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#e06a2d;--p-rgb:224,106,45;--p2:#ffbd2e;--p2-rgb:255,189,46">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">QWENPAW MIDDLEWARE · 01/08</span>
+    <h1 class="hero-title"><span class="glitch" data-text="dispatch-guard"><span class="grad">dispatch-guard</span></span></h1>
+    <p class="hero-tag">把调度纪律从<span class="hl">提示词</span>，写进<span class="hl">工具层</span>。</p>
+    <p class="hero-sub">ENFORCEMENT AT THE TOOL SEAM, NOT THE PROMPT</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.7</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>MIDDLEWARE</span><span>DISPATCH TABLE</span><span>ZERO DEP</span><span>FAIL-SAFE</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>MIDDLEWARE</span><span>DISPATCH TABLE</span><span>ZERO DEP</span><span>FAIL-SAFE</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">多 agent 宿主里总会长出一个挂着几十个技能、还带着 spawn_subagent 的「全能」默认 agent——自己动手永远看起来最便宜，于是提示词里的派单规则输给工具列表。dispatch-guard 把执行从提示词搬到工具缝：即使模型决定自己写，写入也永远不会落盘，拒绝消息会精确告诉它该派给哪个 agent。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⛔</div><h3>工具缝拦截</h3><p>write 调用被中间件拦下：交付物形状 <b>且</b> 环境中存在归属专家 agent → 拒绝写入并返回派单提示。无归属者不拦。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🛡️</div><h3>spawn 兜底</h3><p>spawn_subagent 一并拒绝，作为配置层禁用的最后保险——绕路也被堵死。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔍</div><h3>自动发现</h3><p>插件自己扫描环境中的 agent，按声明技能起草派单表，然后才开始执法。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">📦</div><h3>零依赖</h3><p>纯 stdlib 实现，无 pip 依赖、无遥测。读操作、笔记、脚本、配置写入一律放行。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🔐</div><h3>路由表归你</h3><p>仓库只发布脱敏的 routes.example.json，打包步骤拒绝把真实 routes.json 打进归档。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🌱</div><h3>unconfigured 模式</h3><p>新装实例以挂载但不阻塞的模式上线，引导 agent 与你一起把派单表建起来。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>拦截链路</h2></div>
+  <div class="flow reveal"><pre>orchestrator ──► write_file(<span class='acc'>deliverable.md</span>)
+        │
+        ▼
+dispatch-guard · 交付物形状? <span class='acc'>YES</span> ── 归属专家存在? <span class='acc'>YES</span>
+        │
+        ▼
+<span class='acc'>DENIED</span> · 写入从未落盘 · 回复：<span class='acc2'>「派给 @Specialist-Agent」</span></pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/dispatch-guard&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · mode = unconfigured (non-blocking)&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 与 agent 共建 routes.json 后切到 enforcing&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ guard on · 3 rules · 4 modes · 0 deps&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="65" data-suffix="">65</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">第三方依赖</div></div>
+      <div class="stat reveal"><div class="num" data-count="3" data-suffix="">3</div><div class="lbl">拦截规则</div></div>
+      <div class="stat reveal"><div class="num" data-count="4" data-suffix="">4</div><div class="lbl">运行模式</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../sovereign-echo/"><span class="dir">← PREV · 08</span><div class="name">sovereign-echo</div></a>
+    <a class="next" href="../agent-shepherd/"><span class="dir">NEXT · 02 →</span><div class="name">agent-shepherd</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>

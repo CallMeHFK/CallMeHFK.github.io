@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="看着 AI 编码 agent 干活的监督者：漂移的循环中段注入一句纠偏 — CallMeHFK PROJECT LAB">
+<title>agent-shepherd · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#d2a8ff;--p-rgb:210,168,255;--p2:#79c0ff;--p2-rgb:121,192,255">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">AGENT SUPERVISOR · 02/08</span>
+    <h1 class="hero-title"><span class="glitch" data-text="agent-shepherd"><span class="grad">agent-shepherd</span></span></h1>
+    <p class="hero-tag">在 agent <span class="hl">跑偏的当下</span>纠偏，而不是事后复盘。</p>
+    <p class="hero-sub">ONE CORRECTIVE SENTENCE, MID-LOOP</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.1</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/agent-shepherd" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>SUPERVISION</span><span>MID-LOOP</span><span>RISK GATE</span><span>LEDGER</span><span>REPLAY</span><span>COUNTERFACTUAL</span><span>SUPERVISION</span><span>MID-LOOP</span><span>RISK GATE</span><span>LEDGER</span><span>REPLAY</span><span>COUNTERFACTUAL</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">agent-shepherd 监督 QwenPaw / Claude Code / Codex 的推理与工具执行。Tier 0 是零成本确定性探测器——不调用模型、从不猜测；Tier 1 是可选的 LLM 步骤打分器，只在 Tier 0 看到证据时才醒来，让昂贵的评审在 agent 健康时保持沉睡。判定通过一道由观测结果拟合的风险门，而非裁判自报的置信度。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⚡</div><h3>Tier-0 确定性探测器</h3><p>每个事件都跑，零模型成本；规则命中才算数，绝不猜。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🧠</div><h3>Tier-1 LLM 步骤打分</h3><p>为最近步骤评 on-goal / justified / verified；只在 Tier 0 有证据时唤醒。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🚪</div><h3>风险门控</h3><p>判定准入由观测到的结果拟合，不采信裁判自报的置信度。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">👁️</div><h3>三宿主适配</h3><p>QwenPaw · Claude Code · Codex 一套钩子全部覆盖，install 绝不盲写覆盖。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">📒</div><h3>可审计账本</h3><p>看到的一切都追加进 ledger，支持离线 replay。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📏</div><h3>反事实基准</h3><p>「它值这个成本吗」是一条可以运行的命令，不是 README 里的口号。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>两层监督</h2></div>
+  <div class="flow reveal"><pre>agent events ──► <span class='acc'>Tier 0</span> detectors · 0 cost · deterministic
+        │  有证据?
+        ▼
+<span class='acc2'>Tier 1</span> LLM scorer ──► on-goal / justified / verified
+        │
+        ▼
+risk gate (fitted from outcomes) ──► <span class='acc'>一句纠偏，注入循环中段</span></pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ uv pip install \&quot;git+https://github.com/CallMeHFK/agent-shepherd.git\&quot;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ shepherd start-bg &amp;&amp; shepherd install qwenpaw&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ daemon on 127.0.0.1:4890 · hooks written&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ shepherd stats qwenpaw &lt;session-id&gt;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 看到什么 · 纠了什么 · 花了多少&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="169" data-suffix="">169</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="2" data-suffix="">2</div><div class="lbl">监督层级</div></div>
+      <div class="stat reveal"><div class="num" data-count="3" data-suffix="">3</div><div class="lbl">宿主适配</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">Tier-0 成本</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../dispatch-guard/"><span class="dir">← PREV · 01</span><div class="name">dispatch-guard</div></a>
+    <a class="next" href="../qwenpaw-openviking/"><span class="dir">NEXT · 03 →</span><div class="name">qwenpaw-openviking</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/agent-shepherd" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>

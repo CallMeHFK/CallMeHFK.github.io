@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="多评审 LLM 位次平均共识排序：跨家族评委各自独立匿名排序 — CallMeHFK PROJECT LAB">
+<title>qwenpaw-consensus-rank · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#79c0ff;--p-rgb:121,192,255;--p2:#3fb950;--p2-rgb:63,185,80">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">MULTI-JUDGE RANKING · 05/08</span>
+    <h1 class="hero-title"><span class="glitch" data-text="qwenpaw-consensus-rank"><span class="grad">qwenpaw-consensus-rank</span></span></h1>
+    <p class="hero-tag">跨家族多评审<span class="hl">匿名排序</span>，位次均值出共识。</p>
+    <p class="hero-sub">MEAN-RANK CONSENSUS + SPEARMAN REPORT</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v1.4.9</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>CONSENSUS</span><span>ANONYMIZED</span><span>SPEARMAN</span><span>MEAN-RANK</span><span>MULTI-JUDGE</span><span>LLM</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>SPEARMAN</span><span>MEAN-RANK</span><span>MULTI-JUDGE</span><span>LLM</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">单个模型当裁判，偏见照单全收。consensus-rank 让多个跨家族 LLM 评委各自独立地为匿名化后的候选排序——每位评委拿到自己那套独立播种的 A/B/C 映射，连位置偏见都不共享。最终按位次均值合成共识，并输出 Spearman 一致性报告与逐评委位置稳定性。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🎭</div><h3>逐评委匿名化</h3><p>每位评委拿到独立播种的 A/B/C 映射——偏见无法跨评委共享。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🌐</div><h3>跨家族评委</h3><p>不同厂商、不同架构的 LLM 并发排序，失败评委跳过并告警。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📊</div><h3>位次均值共识</h3><p>完整排序按 rank 均值合成最终位次。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">📈</div><h3>Spearman 报告</h3><p>评委间一致性量化输出，一眼看出共识质量。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧷</div><h3>位置稳定性</h3><p>逐评委的 position-stability 指标，揪出摇摆裁判。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🔒</div><h3>密钥隔离</h3><p>provider key 不进插件进程。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>排序管线</h2></div>
+  <div class="flow reveal"><pre>candidates ──► normalize / dedupe ──► anonymize <span class='dim'>(每位评委独立 A/B/C)</span>
+        │
+        ▼
+N × cross-family judges ──► 各自返回完整排序 <span class='dim'>(并发 · 失败跳过)</span>
+        │
+        ▼
+<span class='acc'>mean-rank consensus</span> + <span class='acc2'>Spearman report</span></pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install listwise-rank-qwenpaw-plugin.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ tool registered: rank_candidates_listwise&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ 把候选列表交给评审团，收回一份共识&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="119" data-suffix="">119</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num">1.4.9</div><div class="lbl">当前版本</div></div>
+      <div class="stat reveal"><div class="num">N</div><div class="lbl">并发评委</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">共享偏见</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../site-kg/"><span class="dir">← PREV · 04</span><div class="name">site-kg</div></a>
+    <a class="next" href="../agent-task-callback/"><span class="dir">NEXT · 06 →</span><div class="name">agent-task-callback</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>
