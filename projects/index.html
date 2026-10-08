@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="CallMeHFK 开源项目展厅 — agent 基础设施与工具链">
+<title>PROJECT LAB · CallMeHFK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/projects.css">
+</head>
+<body style="--p:#e06a2d;--p-rgb:224,106,45;--p2:#79c0ff;--p2-rgb:121,192,255">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">OPEN SOURCE · 2026</span>
+    <h1 class="hero-title"><span class="glitch" data-text="PROJECT LAB"><span class="grad">PROJECT LAB</span></span></h1>
+    <p class="hero-tag">给 <span class="hl">agent 的过程与输出</span>加约束的开源工具链。</p>
+    <p class="hero-sub">08 PROJECTS · PROCESS SUPERVISION · OUTPUT ROUTING · MEMORY · NETWORK ISOLATION</p>
+    <div class="chips">
+      <span class="chip">projects <b>8</b></span>
+      <span class="chip">tests <b>440+</b></span>
+      <span class="chip">CI <b>all green</b></span>
+      <span class="chip">license <b>MIT</b></span>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#grid"><span class="shine"></span>进入展厅 ↓</a>
+      <a class="btn btn-ghost" href="../index.html">返回首页</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>dispatch-guard</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>agent-shepherd</span><span>SUPERVISION</span><span>MID-LOOP</span><span>qwenpaw-openviking</span><span>MEMORY</span><span>OPENVIKING</span><span>site-kg</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>qwenpaw-consensus-rank</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>agent-task-callback</span><span>PUSH</span><span>CALLBACK</span><span>niclane</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>sovereign-echo</span><span>SOVEREIGNTY</span><span>DATA RIGHTS</span><span>dispatch-guard</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>agent-shepherd</span><span>SUPERVISION</span><span>MID-LOOP</span><span>qwenpaw-openviking</span><span>MEMORY</span><span>OPENVIKING</span><span>site-kg</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>qwenpaw-consensus-rank</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>agent-task-callback</span><span>PUSH</span><span>CALLBACK</span><span>niclane</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>sovereign-echo</span><span>SOVEREIGNTY</span><span>DATA RIGHTS</span></div></div>
+
+<section class="wrap" id="grid">
+  <div class="sec-head reveal"><span class="sec-num">INDEX</span><h2 class="sec-title"><span class="prompt">$</span>全部项目</h2></div>
+  <div class="hub-grid">
+    <a class="proj tilt reveal" href="dispatch-guard/" style="--c-rgb:224,106,45">
+      <div class="pnum">PROJECT 01</div>
+      <div class="pname">dispatch-guard</div>
+      <p class="pdesc">编排 Agent 输出路由的 tool-seam 中间件：交付物写入拦截 + spawn 兜底</p>
+      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.1.7</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="agent-shepherd/" style="--c-rgb:210,168,255">
+      <div class="pnum">PROJECT 02</div>
+      <div class="pname">agent-shepherd</div>
+      <p class="pdesc">看着 AI 编码 agent 干活的监督者：漂移的循环中段注入一句纠偏</p>
+      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.2.1</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="qwenpaw-openviking/" style="--c-rgb:88,230,217">
+      <div class="pnum">PROJECT 03</div>
+      <div class="pname">qwenpaw-openviking</div>
+      <p class="pdesc">OpenViking 长期语义记忆服务的 QwenPaw 原生插件（上游 Node.js 代理的 Python 移植）</p>
+      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.1.0</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="site-kg/" style="--c-rgb:255,126,219">
+      <div class="pnum">PROJECT 04</div>
+      <div class="pname">site-kg</div>
+      <p class="pdesc">站点 URL → 知识图谱 → 给 AI agent 用的 MCP 服务</p>
+      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">—</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="qwenpaw-consensus-rank/" style="--c-rgb:121,192,255">
+      <div class="pnum">PROJECT 05</div>
+      <div class="pname">qwenpaw-consensus-rank</div>
+      <p class="pdesc">多评审 LLM 位次平均共识排序：跨家族评委各自独立匿名排序</p>
+      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v1.4.9</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="agent-task-callback/" style="--c-rgb:63,185,80">
+      <div class="pnum">PROJECT 06</div>
+      <div class="pname">agent-task-callback</div>
+      <p class="pdesc">跨 Agent 后台任务的 push 侧回调：终态自动回投注册会话</p>
+      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.1.3</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="niclane/" style="--c-rgb:0,173,216">
+      <div class="pnum">PROJECT 07</div>
+      <div class="pname">niclane</div>
+      <p class="pdesc">本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed）</p>
+      <div class="pmeta"><span class="tagx">Go</span><span class="tagx">MIT</span><span class="tagx">v0.2.0</span></div>
+      <span class="go">→</span>
+    </a>
+    <a class="proj tilt reveal" href="sovereign-echo/" style="--c-rgb:240,180,41">
+      <div class="pnum">PROJECT 08</div>
+      <div class="pname">sovereign-echo</div>
+      <p class="pdesc">给编码 agent 的插件：把个人数据主权声明注入每一场对话</p>
+      <div class="pmeta"><span class="tagx">Shell</span><span class="tagx">MIT</span><span class="tagx">—</span></div>
+      <span class="go">→</span>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../index.html">返回首页</a> · <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="assets/projects.js"></script>
+</body>
+</html>

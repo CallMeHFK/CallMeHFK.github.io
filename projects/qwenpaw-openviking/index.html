@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="OpenViking 长期语义记忆服务的 QwenPaw 原生插件（上游 Node.js 代理的 Python 移植） — CallMeHFK PROJECT LAB">
+<title>qwenpaw-openviking · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#58e6d9;--p-rgb:88,230,217;--p2:#79c0ff;--p2-rgb:121,192,255">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">LONG-TERM MEMORY · 03/08</span>
+    <h1 class="hero-title"><span class="glitch" data-text="qwenpaw-openviking"><span class="grad">qwenpaw-openviking</span></span></h1>
+    <p class="hero-tag">给 agent 接上<span class="hl">长期语义记忆</span>，原生 Python，免 Node。</p>
+    <p class="hero-sub">OPENVIKING MEMORY, NATIVE IN QWENPAW</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.0</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>MEMORY</span><span>OPENVIKING</span><span>SEMANTIC SEARCH</span><span>NATIVE PYTHON</span><span>NO NODE</span><span>MCP</span><span>MEMORY</span><span>OPENVIKING</span><span>SEMANTIC SEARCH</span><span>NATIVE PYTHON</span><span>NO NODE</span><span>MCP</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">OpenViking 是火山引擎开源的 agent 长期语义记忆引擎。本插件把上游的 Node.js MCP 代理移植为 QwenPaw 原生 Python 插件：7 个工具、5 个技能，没有 Node 运行时，没有任何第三方依赖——记忆检索、写入、技能发现全部走本地进程。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧰</div><h3>7 个记忆工具</h3><p>搜索记忆、写入记忆、找技能、读资源……一套 API 覆盖 OpenViking 全功能。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🎓</div><h3>5 个内置技能</h3><p>随插件即装的 agent 技能，让记忆读写成为默认动作。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐍</div><h3>纯 Python 移植</h3><p>上游 Node.js MCP 代理 → 原生 Python，进程内直连。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚫</div><h3>零三方依赖</h3><p>没有 Node 运行时、没有 pip 依赖，装了就能用。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🔑</div><h3>密钥不落盘</h3><p>OPENVIKING_API_KEY 等凭据全部走环境变量，不写进插件文件。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧠</div><h3>语义记忆</h3><p>长期语义索引：agent 的经验跨会话沉淀、按语义召回。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>记忆通路</h2></div>
+  <div class="flow reveal"><pre>QwenPaw agent ──► plugin (native python)
+        │
+        ▼
+OpenViking server ──► <span class='acc'>长期语义记忆</span> · 向量索引
+        │
+        ▼
+<span class='acc2'>7 tools</span> · <span class='acc2'>5 skills</span> · 0 node · 0 deps</pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ curl -LO https://github.com/CallMeHFK/qwenpaw-openviking/releases/latest/download/openviking-memory-0.1.0.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install openviking-memory-0.1.0.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 7 tools · 5 skills registered&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ agent 现在拥有跨会话记忆&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="40" data-suffix="">40</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="7" data-suffix="">7</div><div class="lbl">MCP 工具</div></div>
+      <div class="stat reveal"><div class="num" data-count="5" data-suffix="">5</div><div class="lbl">内置技能</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">运行时依赖</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../agent-shepherd/"><span class="dir">← PREV · 02</span><div class="name">agent-shepherd</div></a>
+    <a class="next" href="../site-kg/"><span class="dir">NEXT · 04 →</span><div class="name">site-kg</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>

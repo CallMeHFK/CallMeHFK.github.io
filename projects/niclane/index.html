@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） — CallMeHFK PROJECT LAB">
+<title>niclane · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#00add8;--p-rgb:0,173,216;--p2:#3fb950;--p2-rgb:63,185,80">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">NETWORK ISOLATION · GO · 07/08</span>
+    <h1 class="hero-title"><span class="glitch" data-text="niclane"><span class="grad">niclane</span></span></h1>
+    <p class="hero-tag">One NIC, one lane.<br>每张网卡一条车道，<span class="hl">fail-closed</span>。</p>
+    <p class="hero-sub">PER-INTERFACE EGRESS ISOLATION FOR LOCAL PROXIES</p>
+    <div class="chips"><span class="chip">lang <b>Go</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>SOCKS5</span><span>DOH</span><span>PROMETHEUS</span><span>GO</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>SOCKS5</span><span>DOH</span><span>PROMETHEUS</span><span>GO</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">现代笔记本很少只有「一个网络」：WiFi 在办公网，USB 坞是第二条上行，VPN 的 TUN 设备、Tailscale、Docker 网桥共存于同一张路由表，还常被全局 TUN 代理劫持。niclane 把每张网卡变成独立车道：一个出口硬绑定到指定网卡的本地代理监听器。车道之间互不可见、不共享路由、绝不串线。接口掉线时立即拒绝新连接——绝不静默改道。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">📌</div><h3>出口硬绑定</h3><p>Linux 用 SO_BINDTODEVICE，macOS 用 IP_BOUND_IF，把 socket 钉死在一张网卡上。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🚧</div><h3>Fail-closed</h3><p>监视器每 2 秒复查接口；不健康且 strict 时，拨号直接拒——没有兜底，没有泄漏。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔎</div><h3>车道内 DNS</h3><p>域名解析经本车道拨出，支持 DoH（AliDNS / Cloudflare），DNS 不外泄。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">⛓️</div><h3>上游代理链</h3><p>可链 socks5:// 或 http:// 上游——上游连接本身也走本车道。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">📊</div><h3>全量计数</h3><p>连接数、拒绝数、双向字节、DNS 查询、UDP 报文，Prometheus 格式导出。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📦</div><h3>UDP ASSOCIATE</h3><p>RFC 1928 UDP 中继经车道绑定的 UDP socket 转发。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>车道拓扑</h2></div>
+  <div class="flow reveal"><pre>app A ──► 127.0.0.1:7891 <span class='dim'>(lane "wifi")</span> ──[SO_BINDTODEVICE]──► WiFi NIC
+app B ──► 127.0.0.1:7892 <span class='dim'>(lane "dock")</span> ──[SO_BINDTODEVICE]──► USB NIC
+app C ──► 127.0.0.1:7893 <span class='dim'>(lane "tun")</span>  ──[SO_BINDTODEVICE]──► TUN 代理出口
+        │
+        ▼  接口掉线？
+<span class='acc'>SOCKS5 0x01 / HTTP 502 · 拒绝，绝不改道</span></pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ go install github.com/CallMeHFK/niclane/cmd/niclane@latest&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ niclane run -c lanes.yaml&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 lanes up · fail-closed · metrics @ /metrics&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ niclane status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 每条车道的健康与流量，一目了然&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="19" data-suffix="">19</div><div class="lbl">测试函数</div></div>
+      <div class="stat reveal"><div class="num" data-count="2" data-suffix="s">2<span class="suffix">s</span></div><div class="lbl">健康巡检</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">车道间泄漏</div></div>
+      <div class="stat reveal"><div class="num">1.25<span class="suffix">+</span></div><div class="lbl">Go 版本</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../agent-task-callback/"><span class="dir">← PREV · 06</span><div class="name">agent-task-callback</div></a>
+    <a class="next" href="../sovereign-echo/"><span class="dir">NEXT · 08 →</span><div class="name">sovereign-echo</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>

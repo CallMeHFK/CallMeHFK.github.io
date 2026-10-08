@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="站点 URL → 知识图谱 → 给 AI agent 用的 MCP 服务 — CallMeHFK PROJECT LAB">
+<title>site-kg · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#ff7edb;--p-rgb:255,126,219;--p2:#d2a8ff;--p2-rgb:210,168,255">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">KNOWLEDGE GRAPH · 04/08</span>
+    <h1 class="hero-title"><span class="glitch" data-text="site-kg"><span class="grad">site-kg</span></span></h1>
+    <p class="hero-tag">一个 URL 进去，<span class="hl">一座知识图谱</span>出来，MCP 直连。</p>
+    <p class="hero-sub">WEBSITE → KNOWLEDGE GRAPH → MCP</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>—</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>CRAWL</span><span>ROBOTS.TXT</span><span>COGNEE</span><span>KEYLESS</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>CRAWL</span><span>ROBOTS.TXT</span><span>COGNEE</span><span>KEYLESS</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">给它一个网站 URL，它爬取整站、构建知识图谱，并通过 MCP 提供给 AI agent。结构层完全不需要 LLM：搜索、正文、图遍历全部免密钥工作。边只来自语料本身——没有交叉引用的站点会诚实返回 NOT-READY，而不是画一个装饰性的毛线团。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧭</div><h3>Manifest 探测</h3><p>Sphinx 站走 objects.inv 权威清单，Doxygen 走 navtree，再退 sitemap.xml 与同站 BFS。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🕸️</div><h3>边只来自语料</h3><p>从不臆造链接；无交叉引用就明说 NOT-READY。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔓</div><h3>结构层零 LLM</h3><p>search / get_page / neighbors / site_stats 全部免密钥。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🧩</div><h3>可选语义层</h3><p>设了 LLM_API_KEY 就插接 cognee 做实体关系抽取。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🤝</div><h3>车轮而非重造</h3><p>MCP 用官方 SDK，JS 重站可选 Crawl4AI，只有胶水是自己的。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🐢</div><h3>礼貌爬取</h3><p>遵守 robots.txt，限速抓取，httpx + bs4 + html2text。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>流水线</h2></div>
+  <div class="flow reveal"><pre>URL ──► manifest probe ──► crawl ──► markdown corpus
+           (<span class='dim'>objects.inv → sitemap → BFS</span>)
+        │
+        ▼
+graph.json + search.json  <span class='dim'>(link-derived edges, inverted index, verdict)</span>
+        │
+        ▼
+<span class='acc'>MCP server</span> ──► search / get_page / neighbors / site_stats</pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ uv pip install -e \&quot;.[crawl]\&quot;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest https://example.org/docs --max-pages 200&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 200 pages · graph ready · verdict: READY&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli serve --transport http --port 8766&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ MCP @ http://127.0.0.1:8766/mcp&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="12" data-suffix="">12</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="4" data-suffix="">4</div><div class="lbl">MCP 工具</div></div>
+      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">结构层 LLM</div></div>
+      <div class="stat reveal"><div class="num" data-count="200" data-suffix="+">200<span class="suffix">+</span></div><div class="lbl">单站页数上限</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../qwenpaw-openviking/"><span class="dir">← PREV · 03</span><div class="name">qwenpaw-openviking</div></a>
+    <a class="next" href="../qwenpaw-consensus-rank/"><span class="dir">NEXT · 05 →</span><div class="name">qwenpaw-consensus-rank</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>
