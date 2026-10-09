@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="工具缝上的 mu 式判断内核：每个决策点回答一个有校准概率的有界问题 — CallMeHFK PROJECT LAB">
+<title>jev-kernel · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#ff6b5e;--p-rgb:255,107,94;--p2:#ffbd2e;--p2-rgb:255,189,46">
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../../projects/">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">JUDGMENT KERNEL · 09/10</span>
+    <h1 class="hero-title"><span class="glitch" data-text="jev-kernel"><span class="grad">jev-kernel</span></span></h1>
+    <p class="hero-tag">在工具缝上装一个<span class="hl">判断内核</span>：先问一个带概率的小问题，再决定动不动手。</p>
+    <p class="hero-sub">ONE BOUNDED TYPED QUESTION, WITH A CALIBRATED PROBABILITY</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>—</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/jev-kernel" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>JUDGMENT</span><span>TOOL SEAM</span><span>CASCADE</span><span>LEDGER</span><span>SHADOW MODE</span><span>CALIBRATED</span><span>JUDGMENT</span><span>TOOL SEAM</span><span>CASCADE</span><span>LEDGER</span><span>SHADOW MODE</span><span>CALIBRATED</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">「三思而后行」写在提示词里，而提示词会衰减——规则堆得越多，模型越学会略读。mu 的答案是把判断从提示词搬到工具缝，并且做得小而可测量：每个决策点只问一个有界问题，答案带着概率。jev-kernel 把它移植进 QwenPaw：tool.risk 问「这个调用会不可逆地破坏数据吗」，tool.approval 问「该等人类拍板吗」。不确定的问题级联给下一层裁判，一切落进账本。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⚖️</div><h3>有界类型化问题</h3><p>每个决策点只问一题：noul（是/否带 P(yes)）、choice（选项带概率）、score（按标准打分）。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🌊</div><h3>裁判级联</h3><p>拿不准的问题逐级上抛——后面的裁判只看到前面留下的不确定性。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📒</div><h3>判断账本</h3><p>每个判决都进 ledger，事后可读、可审计、可复盘。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🌫️</div><h3>shadow 先行</h3><p>shadow 模式只记录不干预——先读账本，确认靠谱再切 active。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🔌</div><h3>四种裁判传输</h3><p>typesafe / http / llm / systemone，外加内置 jev / session 层。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📦</div><h3>零依赖</h3><p>纯 stdlib，无 pip 依赖、无遥测；默认全惰性，不配裁判就不发任何请求。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>判决通路</h2></div>
+  <div class="flow reveal"><pre>tool call ──► <span class='acc'>tool.risk</span> · 会破坏数据吗?
+        │  noul: P(yes) = 0.87
+        ▼
+阈值判定 ──► confident? ──► <span class='acc'>DENIED</span> / escalate human
+        │  uncertain ↓
+        ▼
+<span class='acc2'>cascade</span> ──► 下一层裁判 ──► 全部落进 <span class='acc2'>ledger</span></pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/jev-kernel&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · tool.risk=shadow · tool.approval=off&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 读账本，确认 shadow 判决靠谱&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ 切 active —— 判决开始真正拦截&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="numbers">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
+  <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="14" data-suffix="">14</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="2" data-suffix="">2</div><div class="lbl">决策点</div></div>
+      <div class="stat reveal"><div class="num" data-count="3" data-suffix="">3</div><div class="lbl">问题类型</div></div>
+      <div class="stat reveal"><div class="num" data-count="4" data-suffix="">4</div><div class="lbl">裁判传输</div></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../sovereign-echo/"><span class="dir">← PREV · 08</span><div class="name">sovereign-echo</div></a>
+    <a class="next" href="../skillsgate/"><span class="dir">NEXT · 10 →</span><div class="name">skillsgate</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/jev-kernel" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>

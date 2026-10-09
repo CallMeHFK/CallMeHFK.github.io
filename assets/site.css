@@ -167,6 +167,24 @@ code {
   flex-shrink: 0;
 }
 
+.appbar-link {
+  color: var(--bright);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.18rem 0.6rem;
+  flex-shrink: 0;
+  background: var(--accent-dim);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.appbar-link:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
 .screen {
   padding: clamp(1.15rem, 3.6vw, 2.6rem);
   padding-bottom: 1.6rem;
