@@ -8,10 +8,10 @@
 
 过程监督 / 输出路由 / 技能质量
 
-![CI](https://img.shields.io/badge/CI-7%2F7%20repos%20green-3fb950?style=flat-square)
-![upstream](https://img.shields.io/badge/upstream%20PR-2%20merged%20%C2%B7%203%20open-e06a2d?style=flat-square)
-![skills](https://img.shields.io/badge/skills%20installed-200-79c0ff?style=flat-square)
-![plugins](https://img.shields.io/badge/qwenpaw%20plugins-5-8b949e?style=flat-square)
+![CI](https://img.shields.io/badge/CI-8%2F8%20repos%20green-3fb950?style=flat-square)
+![upstream](https://img.shields.io/badge/upstream%20PR-2%20merged%20%C2%B7%205%20open-e06a2d?style=flat-square)
+![skills](https://img.shields.io/badge/skills%20installed-199-79c0ff?style=flat-square)
+![plugins](https://img.shields.io/badge/qwenpaw%20plugins-6-8b949e?style=flat-square)
 
 <code><img height="20" alt="python" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
 <code><img height="20" alt="typescript" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/typescript/typescript.png"></code>
@@ -32,15 +32,16 @@
 
 | 仓库 | 是什么 | 测试 | 版本 |
 |---|---|---|---|
-| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | 169 | v0.2.1 |
-| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | 65 | v0.1.7 |
+| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | 186 | v0.2.1 |
+| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | 92 | v0.1.9 |
+| [jev-kernel](https://github.com/CallMeHFK/jev-kernel) | mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配） | 43 | v0.2.0 |
 | [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | 40 | v0.1.0 |
-| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL → 知识图谱 → MCP 服务 | 12 | — |
-| [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 119 | v1.4.9 |
-| [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 16 | v0.1.3 |
-| [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | 19 | v0.2.0 |
+| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL → 知识图谱 → MCP 服务 | 26 | — |
+| [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 120 | v1.4.10 |
+| [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 30 | v0.1.4 |
+| [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | 26 | v0.3.2 |
 
-测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），七仓库 HEAD 的 CI 全绿。
+测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），八仓库 HEAD 的 CI 全绿。
 
 ## 系统设计
 
@@ -70,6 +71,8 @@
 | [ResearchStudio](https://github.com/microsoft/ResearchStudio) | [#60](https://github.com/microsoft/ResearchStudio/pull/60) | open | 安装器并列加 QwenPaw 与 Qoder 两个宿主 |
 | [SemaPLC](https://github.com/midea-ai/SemaPLC) | [#6](https://github.com/midea-ai/SemaPLC/pull/6) | open | QwenPaw / Claude Code / Cursor 三平台接入 |
 | [text-to-cad](https://github.com/earthtojake/text-to-cad) | [#429](https://github.com/earthtojake/text-to-cad/pull/429) | open | Skill 库投递 QwenPaw / ZCode / Cursor |
+| [sepia](https://github.com/Nanako0129/sepia) | [#289](https://github.com/Nanako0129/sepia/pull/289) | open | 零 Skill 安装改为显式失败，撤掉 `/sepia` 命令，+199/−171 |
+| [skillsgate](https://github.com/skillsgate/skillsgate) | [#31](https://github.com/skillsgate/skillsgate/pull/31) | open | 投递 Qoder / Qoder CN / QwenPaw / ZCode 四个宿主，+47/−5 |
 
 同一套 Skill 内容不动，只改 manifest 与路由。
 
@@ -93,7 +96,7 @@
 
 <img src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760">
 
-技能侧 200 个已安装 Skill，配 9 维评分与门控优化，评分口径参照 SkillLens 的实证基线。
+技能侧 199 个已安装 Skill（按带 `SKILL.md` 的目录计），配 9 维评分与门控优化，评分口径参照 SkillLens 的实证基线。
 
 </details>
 
