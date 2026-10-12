@@ -805,7 +805,19 @@ table.rtbl th { text-align: left; padding: 0.5rem 0.7rem; color: var(--muted); f
 table.rtbl td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line-soft);
                 color: var(--quote); line-height: 1.6; vertical-align: top; }
 table.rtbl tr:last-child td { border-bottom: none; }
+table.rtbl tbody tr { transition: background 160ms ease; }
+table.rtbl tbody tr:hover { background: var(--accent-dim); }
 table.rtbl td:first-child { white-space: nowrap; }
+table.rtbl td:nth-child(3), table.rtbl td:nth-child(4), table.rtbl td.when {
+  font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.rtbl td.when { color: var(--muted); text-align: right; }
+table.rtbl td.when.live { color: var(--green); }
+table.rtbl td.when.live::before { content: "● "; font-size: 0.6rem; }
+table.rtbl td.ok-cell { color: var(--green); white-space: nowrap; }
+.skip-link { position: fixed; left: -9999px; top: 0; }
+.skip-link:focus { left: 0.6rem; top: 0.6rem; z-index: 20;
+                   padding: 0.4rem 0.7rem; background: var(--accent); color: #0a0e13;
+                   border-radius: 4px; font-weight: 600; }
 details.fold { margin: 0 0 1.1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel-2); }
 details.fold > summary { cursor: pointer; padding: 0.55rem 0.8rem; color: var(--text);
                          font-size: 0.82rem; font-weight: 600; list-style: none; }
@@ -815,6 +827,63 @@ details.fold[open] > summary::before { content: "▾ "; }
 details.fold .fold-body { padding: 0.15rem 0.8rem 0.85rem; }
 details.fold .plist { margin-bottom: 0; }
 
+/* ── 404 ── */
+.nf-code {
+  margin: 0.2rem 0 0;
+  color: var(--bright);
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-align: center;
+}
+.nf-code .nf-status { color: var(--accent); text-shadow: 0 0 16px var(--accent-glow); }
+.nf-sub {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  text-align: center;
+}
+.nf-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 1.3rem 0 0;
+}
+.nf-link {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--bright);
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.nf-link:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-glow);
+  transform: translateY(-1px);
+}
+.nf-link:active { transform: translateY(1px); }
+.nf-link.primary { background: var(--accent-dim); border-color: var(--accent); }
+.nf-exit { margin: 1.5rem 0 0; color: var(--green); font-size: 0.8rem; text-align: center; }
+
 @media (max-width: 700px) {
-  table.rtbl { min-width: 560px; }
+  table.rtbl { min-width: 640px; }
+
+  /* the table now overflows its wrapper — same fade + keyboard scroll as the diagrams */
+  .rtbl-wrap {
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent 99%);
+            mask-image: linear-gradient(to right, #000 88%, transparent 99%);
+  }
+
+  .rtbl-wrap:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 2px;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
 }

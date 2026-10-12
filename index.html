@@ -6,14 +6,26 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0e13">
 <meta name="description" content="CallMeHFK：Agent 系统工程师。两层过程监督策略引擎、tool seam 输出路由、Agent Skill 质量门控，另一边是 Windows APO 驱动与 Renode 周期精确在环。">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://callmehfk.github.io/">
+<meta property="og:site_name" content="CallMeHFK">
+<meta property="og:title" content="CallMeHFK — 给 agent 的过程和输出加约束">
+<meta property="og:description" content="Agent 系统工程师：过程监督 / 输出路由 / 技能质量。9 个开源项目，567 项收例测试，8 仓库 CI 全绿。">
+<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CallMeHFK — 给 agent 的过程和输出加约束">
+<meta name="twitter:description" content="Agent 系统工程师：过程监督 / 输出路由 / 技能质量。">
+<meta name="twitter:image" content="https://callmehfk.github.io/assets/og-cover.png">
 <title>CallMeHFK</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<main class="shell">
+<a class="skip-link" href="#main">跳到正文</a>
+<main class="shell" id="main">
   <div class="appbar">
     <span class="traffic" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></span>
     <span class="appbar-title">CallMeHFK — ~/index.html</span>
@@ -45,7 +57,7 @@
     <p class="tagline"><strong>Agent 系统工程师 · 过程监督 / 输出路由 / 技能质量</strong></p>
     <div class="chips">
       <span class="chip">CI <b>8/8 repos green</b></span>
-      <span class="chip warn">upstream PR <b>2 merged · 5 open</b></span>
+      <span class="chip">upstream PR <b>4 merged · 3 open</b></span>
       <span class="chip">skills installed <b>199</b></span>
       <span class="chip">qwenpaw plugins <b>6</b></span>
     </div>
@@ -72,22 +84,22 @@
       <h2>仓库速览</h2>
       <span class="tag"><a href="projects/">项目展厅 →</a> · 8 repos · CI green</span>
     </div>
-    <div class="rtbl-wrap">
+    <div class="rtbl-wrap" tabindex="0" role="region" aria-label="仓库速览表格，可横向滚动">
       <table class="rtbl">
-        <thead><tr><th>仓库</th><th>是什么</th><th>测试</th><th>版本</th></tr></thead>
+        <thead><tr><th>仓库</th><th>是什么</th><th>测试</th><th>版本</th><th>推送</th></tr></thead>
         <tbody>
-          <tr><td><a href="projects/agent-shepherd/">agent-shepherd</a> <a href="https://github.com/CallMeHFK/agent-shepherd" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>智能体过程监督：两层检测器 + 离线反事实基准</td><td>186</td><td>v0.2.1</td></tr>
-          <tr><td><a href="projects/dispatch-guard/">dispatch-guard</a> <a href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>编排 Agent 输出路由的 tool-seam 中间件</td><td>92</td><td>v0.1.9</td></tr>
-          <tr><td><a href="projects/jev-kernel/">jev-kernel</a> <a href="https://github.com/CallMeHFK/jev-kernel" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配）</td><td>43</td><td>v0.2.0</td></tr>
-          <tr><td><a href="projects/qwenpaw-openviking/">qwenpaw-openviking</a> <a href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配）</td><td>40</td><td>v0.1.0</td></tr>
-          <tr><td><a href="projects/site-kg/">site-kg</a> <a href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>站点 URL → 知识图谱 → MCP 服务</td><td>26</td><td>—</td></tr>
-          <tr><td><a href="projects/qwenpaw-consensus-rank/">qwenpaw-consensus-rank</a> <a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>多评审 LLM 位次平均共识排序</td><td>120</td><td>v1.4.10</td></tr>
-          <tr><td><a href="projects/agent-task-callback/">agent-task-callback</a> <a href="https://github.com/CallMeHFK/agent-task-callback" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>跨 Agent 后台任务的 push 侧回调</td><td>30</td><td>v0.1.4</td></tr>
-          <tr><td><a href="projects/niclane/">niclane</a> <a href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed）</td><td>26</td><td>v0.3.2</td></tr>
+          <tr><td><a href="projects/agent-shepherd/">agent-shepherd</a> <a href="https://github.com/CallMeHFK/agent-shepherd" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>智能体过程监督：两层检测器 + 离线反事实基准</td><td>186</td><td>v0.2.1</td><td class="when">10-09</td></tr>
+          <tr><td><a href="projects/dispatch-guard/">dispatch-guard</a> <a href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>编排 Agent 输出路由的 tool-seam 中间件</td><td>92</td><td>v0.1.9</td><td class="when">10-07</td></tr>
+          <tr><td><a href="projects/jev-kernel/">jev-kernel</a> <a href="https://github.com/CallMeHFK/jev-kernel" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配）</td><td>43</td><td>v0.2.0</td><td class="when">10-09</td></tr>
+          <tr><td><a href="projects/qwenpaw-openviking/">qwenpaw-openviking</a> <a href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配）</td><td>40</td><td>v0.1.0</td><td class="when">10-05</td></tr>
+          <tr><td><a href="projects/site-kg/">site-kg</a> <a href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务</td><td>30</td><td>—</td><td class="when live">10-12</td></tr>
+          <tr><td><a href="projects/qwenpaw-consensus-rank/">qwenpaw-consensus-rank</a> <a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>多评审 LLM 位次平均共识排序</td><td>120</td><td>v1.4.10</td><td class="when">10-09</td></tr>
+          <tr><td><a href="projects/agent-task-callback/">agent-task-callback</a> <a href="https://github.com/CallMeHFK/agent-task-callback" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>跨 Agent 后台任务的 push 侧回调</td><td>30</td><td>v0.1.4</td><td class="when live">10-12</td></tr>
+          <tr><td><a href="projects/niclane/">niclane</a> <a href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed）</td><td>26</td><td>v0.3.2</td><td class="when">10-07</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="lede">测试数为收例数（Python 取 <code>pytest --collect-only</code>，Go 取 <code>func Test</code>），八仓库 HEAD 的 CI 全绿。</p>
+    <p class="lede">测试数为收例数（Python 取 <code>pytest --collect-only</code>，Go 取 <code>func Test</code>），八仓库 HEAD 的 CI 全绿；推送列为各仓库默认分支最近一次推送（2026）。展厅另有 <a href="projects/sovereign-echo/">sovereign-echo</a>，Shell 实现、自带 <code>tests/run-tests.sh</code>，不进此表。</p>
   </section>
 
   <!-- ══ 系统设计 ══ -->
@@ -126,23 +138,23 @@
     <div class="sec-head">
       <span class="prompt" aria-hidden="true">$</span>
       <h2>上游 PR</h2>
-      <span class="tag">2 merged · 5 open</span>
+      <span class="tag">4 merged · 3 open</span>
     </div>
-    <div class="rtbl-wrap">
+    <div class="rtbl-wrap" tabindex="0" role="region" aria-label="上游 PR 表格，可横向滚动">
       <table class="rtbl">
         <thead><tr><th>仓库</th><th>PR</th><th>状态</th><th>内容</th></tr></thead>
         <tbody>
-          <tr><td><a href="https://github.com/Nanako0129/sepia">sepia</a></td><td><a href="https://github.com/Nanako0129/sepia/pull/250">#250</a></td><td>merged 2026-09-17</td><td><code>.qwenpaw-plugin/</code> 插件包 + <code>/sepia</code> 斜杠命令，+318/−25</td></tr>
-          <tr><td><a href="https://github.com/alibaba/nacos">nacos</a></td><td><a href="https://github.com/alibaba/nacos/pull/12127">#12127</a></td><td>merged 2024-06-03</td><td>Python services sample，+198/−2</td></tr>
-          <tr><td><a href="https://github.com/microsoft/ResearchStudio">ResearchStudio</a></td><td><a href="https://github.com/microsoft/ResearchStudio/pull/60">#60</a></td><td>open</td><td>安装器并列加 QwenPaw 与 Qoder 两个宿主</td></tr>
-          <tr><td><a href="https://github.com/midea-ai/SemaPLC">SemaPLC</a></td><td><a href="https://github.com/midea-ai/SemaPLC/pull/6">#6</a></td><td>open</td><td>QwenPaw / Claude Code / Cursor 三平台接入</td></tr>
-          <tr><td><a href="https://github.com/earthtojake/text-to-cad">text-to-cad</a></td><td><a href="https://github.com/earthtojake/text-to-cad/pull/429">#429</a></td><td>open</td><td>Skill 库投递 QwenPaw / ZCode / Cursor</td></tr>
-          <tr><td><a href="https://github.com/Nanako0129/sepia">sepia</a></td><td><a href="https://github.com/Nanako0129/sepia/pull/289">#289</a></td><td>open</td><td>零 Skill 安装改为显式失败，撤掉 <code>/sepia</code> 命令，+199/−171</td></tr>
-          <tr><td><a href="https://github.com/skillsgate/skillsgate">skillsgate</a></td><td><a href="https://github.com/skillsgate/skillsgate/pull/31">#31</a></td><td>open</td><td>投递 Qoder / Qoder CN / QwenPaw / ZCode 四个宿主，+47/−5</td></tr>
+          <tr><td><a href="https://github.com/skillsgate/skillsgate">skillsgate</a></td><td><a href="https://github.com/skillsgate/skillsgate/pull/31">#31</a></td><td class="ok-cell">merged 2026-10-12</td><td>投递 Qoder / Qoder CN / QwenPaw / ZCode 四个宿主，+47/−5</td></tr>
+          <tr><td><a href="https://github.com/Nanako0129/sepia">sepia</a></td><td><a href="https://github.com/Nanako0129/sepia/pull/289">#289</a></td><td class="ok-cell">merged 2026-10-09</td><td>零 Skill 安装改为显式失败，撤掉 <code>/sepia</code> 命令，+199/−171</td></tr>
+          <tr><td><a href="https://github.com/Nanako0129/sepia">sepia</a></td><td><a href="https://github.com/Nanako0129/sepia/pull/250">#250</a></td><td class="ok-cell">merged 2026-09-17</td><td><code>.qwenpaw-plugin/</code> 插件包 + <code>/sepia</code> 斜杠命令，+318/−25</td></tr>
+          <tr><td><a href="https://github.com/alibaba/nacos">nacos</a></td><td><a href="https://github.com/alibaba/nacos/pull/12127">#12127</a></td><td class="ok-cell">merged 2024-06-03</td><td>Python services sample，+198/−2</td></tr>
+          <tr><td><a href="https://github.com/midea-ai/SemaPLC">SemaPLC</a></td><td><a href="https://github.com/midea-ai/SemaPLC/pull/6">#6</a></td><td>open</td><td>QwenPaw / Claude Code / Cursor 三平台接入，+2907/−2465</td></tr>
+          <tr><td><a href="https://github.com/microsoft/ResearchStudio">ResearchStudio</a></td><td><a href="https://github.com/microsoft/ResearchStudio/pull/60">#60</a></td><td>open</td><td>安装器并列加 QwenPaw 与 Qoder 两个宿主，+289/−71</td></tr>
+          <tr><td><a href="https://github.com/earthtojake/text-to-cad">text-to-cad</a></td><td><a href="https://github.com/earthtojake/text-to-cad/pull/429">#429</a></td><td>open</td><td>README 与首页补 ZCode / QwenPaw 安装路径，+108/−2</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="lede">同一套 Skill 内容不动，只改 manifest 与路由。</p>
+    <p class="lede">同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-12 的 GitHub 复核。</p>
   </section>
 
   <!-- ══ 闭源与内部 ══ -->
