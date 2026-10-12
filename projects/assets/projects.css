@@ -40,6 +40,14 @@ body {
 
 ::selection { background: rgba(var(--p-rgb), 0.45); color: #fff; }
 
+.skip-link { position: fixed; left: -9999px; top: 0; }
+.skip-link:focus {
+  left: 0.6rem; top: 0.6rem; z-index: 200;
+  padding: 0.4rem 0.7rem;
+  background: var(--p); color: var(--bg);
+  border-radius: 6px; font-weight: 600;
+}
+
 /* ── 背景层：粒子 canvas + 极光 + 网格 + 暗角 ─────────────── */
 #bg-canvas {
   position: fixed; inset: 0; z-index: 0;
@@ -222,6 +230,8 @@ body {
 }
 .chip:hover { border-color: rgba(var(--p-rgb), 0.6); color: var(--text); transform: translateY(-2px); }
 .chip b { color: var(--p); font-weight: 600; }
+.chip.ok { border-color: rgba(63, 185, 80, 0.35); }
+.chip.ok b { color: #3fb950; }
 
 .cta-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
 .btn {
@@ -485,6 +495,19 @@ body {
   font-size: 11px; color: var(--muted);
   border: 1px solid var(--line); border-radius: 100px; padding: 3px 11px;
 }
+.proj .tagx.when {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border-style: dashed;
+}
+.proj .tagx.when.live {
+  color: #3fb950;
+  border-color: rgba(63, 185, 80, 0.45);
+  border-style: solid;
+}
+.proj .tagx.when.live::before { content: "● "; font-size: 8px; vertical-align: 1px; }
 .proj .go {
   position: absolute; right: 26px; bottom: 24px;
   color: rgba(var(--c-rgb, 224, 106, 45), 0.9);

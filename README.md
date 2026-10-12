@@ -9,7 +9,7 @@
 过程监督 / 输出路由 / 技能质量
 
 ![CI](https://img.shields.io/badge/CI-8%2F8%20repos%20green-3fb950?style=flat-square)
-![upstream](https://img.shields.io/badge/upstream%20PR-2%20merged%20%C2%B7%205%20open-e06a2d?style=flat-square)
+![upstream](https://img.shields.io/badge/upstream%20PR-4%20merged%20%C2%B7%203%20open-e06a2d?style=flat-square)
 ![skills](https://img.shields.io/badge/skills%20installed-199-79c0ff?style=flat-square)
 ![plugins](https://img.shields.io/badge/qwenpaw%20plugins-6-8b949e?style=flat-square)
 
@@ -36,7 +36,7 @@
 | [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | 92 | v0.1.9 |
 | [jev-kernel](https://github.com/CallMeHFK/jev-kernel) | mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配） | 43 | v0.2.0 |
 | [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | 40 | v0.1.0 |
-| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL → 知识图谱 → MCP 服务 | 26 | — |
+| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务 | 30 | — |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 120 | v1.4.10 |
 | [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 30 | v0.1.4 |
 | [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | 26 | v0.3.2 |
@@ -66,13 +66,13 @@
 
 | 仓库 | PR | 状态 | 内容 |
 |---|---|---|---|
+| [skillsgate](https://github.com/skillsgate/skillsgate) | [#31](https://github.com/skillsgate/skillsgate/pull/31) | merged 2026-10-12 | 投递 Qoder / Qoder CN / QwenPaw / ZCode 四个宿主，+47/−5 |
+| [sepia](https://github.com/Nanako0129/sepia) | [#289](https://github.com/Nanako0129/sepia/pull/289) | merged 2026-10-09 | 零 Skill 安装改为显式失败，撤掉 `/sepia` 命令，+199/−171 |
 | [sepia](https://github.com/Nanako0129/sepia) | [#250](https://github.com/Nanako0129/sepia/pull/250) | merged 2026-09-17 | `.qwenpaw-plugin/` 插件包 + `/sepia` 斜杠命令，+318/−25 |
 | [nacos](https://github.com/alibaba/nacos) | [#12127](https://github.com/alibaba/nacos/pull/12127) | merged 2024-06-03 | Python services sample，+198/−2 |
 | [ResearchStudio](https://github.com/microsoft/ResearchStudio) | [#60](https://github.com/microsoft/ResearchStudio/pull/60) | open | 安装器并列加 QwenPaw 与 Qoder 两个宿主 |
 | [SemaPLC](https://github.com/midea-ai/SemaPLC) | [#6](https://github.com/midea-ai/SemaPLC/pull/6) | open | QwenPaw / Claude Code / Cursor 三平台接入 |
 | [text-to-cad](https://github.com/earthtojake/text-to-cad) | [#429](https://github.com/earthtojake/text-to-cad/pull/429) | open | Skill 库投递 QwenPaw / ZCode / Cursor |
-| [sepia](https://github.com/Nanako0129/sepia) | [#289](https://github.com/Nanako0129/sepia/pull/289) | open | 零 Skill 安装改为显式失败，撤掉 `/sepia` 命令，+199/−171 |
-| [skillsgate](https://github.com/skillsgate/skillsgate) | [#31](https://github.com/skillsgate/skillsgate/pull/31) | open | 投递 Qoder / Qoder CN / QwenPaw / ZCode 四个宿主，+47/−5 |
 
 同一套 Skill 内容不动，只改 manifest 与路由。
 
