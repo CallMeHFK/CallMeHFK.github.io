@@ -41,7 +41,7 @@
     <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-openviking"><span class="grad">qwenpaw-openviking</span></span></h1>
     <p class="hero-tag">给 agent 接上<span class="hl">长期语义记忆</span>，原生 Python，免 Node。</p>
     <p class="hero-sub">OPENVIKING MEMORY, NATIVE IN QWENPAW</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.0</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">license <b>AGPL-3.0</b></span><span class="chip">CI <b>green</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -54,7 +54,7 @@
 
 <section class="wrap" id="why">
   <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">OpenViking 是火山引擎开源的 agent 长期语义记忆引擎。本插件把上游的 Node.js MCP 代理移植为 QwenPaw 原生 Python 插件：7 个工具、5 个技能，没有 Node 运行时，没有任何第三方依赖——记忆检索、写入、技能发现全部走本地进程。</p>
+  <p class="lede reveal">OpenViking 是火山引擎开源的 agent 长期语义记忆引擎。本插件把上游的 Node.js MCP 代理移植为 QwenPaw 原生 Python 插件：7 个工具、5 个技能，没有 Node 运行时，没有任何第三方依赖——7 个工具都是 OpenViking 服务端 MCP 端点上的薄封装，走 streamable HTTP，会话过期自动重init。工具与钩子一律 fail-open：服务端不可达只降级成告警，不会拖垮宿主。</p>
 </section>
 
 <section class="wrap" id="features">
@@ -62,10 +62,10 @@
   <div class="cards">
       <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧰</div><h3>7 个记忆工具</h3><p>搜索记忆、写入记忆、找技能、读资源……一套 API 覆盖 OpenViking 全功能。</p></div>
       <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🎓</div><h3>5 个内置技能</h3><p>随插件即装的 agent 技能，让记忆读写成为默认动作。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐍</div><h3>纯 Python 移植</h3><p>上游 Node.js MCP 代理 → 原生 Python，进程内直连。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚫</div><h3>零三方依赖</h3><p>没有 Node 运行时、没有 pip 依赖，装了就能用。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🔑</div><h3>密钥不落盘</h3><p>OPENVIKING_API_KEY 等凭据全部走环境变量，不写进插件文件。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧠</div><h3>语义记忆</h3><p>长期语义索引：agent 的经验跨会话沉淀、按语义召回。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐍</div><h3>纯 Python 移植 · 零三方依赖</h3><p>上游 Node.js MCP 代理 → 原生 Python，进程内直连；没有 Node 运行时、没有 pip 依赖，装了就能用。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔑</div><h3>密钥不落盘</h3><p>OPENVIKING_API_KEY 等凭据全部走环境变量，不写进插件文件；跨域重定向会剥掉 Authorization 与身份头，凭据不跟着跳。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧠</div><h3>语义记忆</h3><p>长期语义索引：agent 的经验跨会话沉淀、按语义召回。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📡</div><h3>本机代理不再冒充 TLS 故障</h3><p>tailnet / LAN 部署上，宿主的环境代理若没把 OpenViking 服务端列进 no_proxy，请求会被塞进代理隧道，报出一个误导性的 <code>SSL: UNEXPECTED_EOF_WHILE_READING</code>。插件对配置的主机默认绕开环境代理（<code>proxy_bypass</code> 可关），连接类错误串附带代理提示，启动体检还会把策略翻转做一次反向探测，日志直接说哪条路走得通。</p></div>
   </div>
 </section>
 
@@ -84,14 +84,14 @@ OpenViking server ──► <span class='acc'>长期语义记忆</span> · 向�
   <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
   <div class="term reveal">
     <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ curl -LO https://github.com/CallMeHFK/qwenpaw-openviking/releases/latest/download/openviking-memory-0.1.0.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install openviking-memory-0.1.0.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 7 tools · 5 skills registered&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ agent 现在拥有跨会话记忆&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install https://github.com/CallMeHFK/qwenpaw-openviking/releases/latest/download/openviking-memory-0.2.0.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 7 tools · 5 skills registered&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ agent 现在拥有跨会话记忆&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="numbers">
   <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
   <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="40" data-suffix="">40</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="78" data-suffix="">78</div><div class="lbl">收例测试</div></div>
       <div class="stat reveal"><div class="num" data-count="7" data-suffix="">7</div><div class="lbl">MCP 工具</div></div>
       <div class="stat reveal"><div class="num" data-count="5" data-suffix="">5</div><div class="lbl">内置技能</div></div>
       <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">运行时依赖</div></div>

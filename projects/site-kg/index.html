@@ -41,7 +41,7 @@
     <h1 class="hero-title"><span class="glitch" data-text="site-kg"><span class="grad">site-kg</span></span></h1>
     <p class="hero-tag">一个 URL 或一个目录进去，<span class="hl">一座知识图谱</span>出来，MCP 直连。</p>
     <p class="hero-sub">WEBSITE / LOCAL DIR → KNOWLEDGE GRAPH → 9 MCP TOOLS</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">tools <b>9</b></span><span class="chip">tests <b>30</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">tools <b>9</b></span><span class="chip">tests <b>49</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -60,15 +60,15 @@
 <section class="wrap" id="features">
   <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
   <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧭</div><h3>Manifest 探测</h3><p>Sphinx 站走 objects.inv 权威清单，Doxygen 走 navtree，再退 sitemap.xml 与同站 BFS。</p></div>
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧭</div><h3>两条进料</h3><p>网页侧先探清单：Sphinx 站走 objects.inv 权威清单，Doxygen 走 navtree，再退 sitemap.xml 与同站 BFS。本地侧 <code>ingest_local</code> 吃 7 类文档、37 类代码扩展，外加 18 种无扩展名的构建文件（<code>Makefile</code>、<code>Kconfig</code>、<code>COPYING</code>……），边来自 markdown 链接、<code>[[wikilink]]</code> 与 import/include。</p></div>
       <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🕸️</div><h3>边只来自语料</h3><p>从不臆造链接；无交叉引用就明说 NOT-READY。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📁</div><h3>本地目录收例</h3><p><code>ingest_local</code> 吃 7 类文档与 27 类代码扩展，边来自 markdown 链接、<code>[[wikilink]]</code> 与 import/include。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔓</div><h3>结构层零 LLM</h3><p>search / get_page / neighbors / site_stats / list_sites 五个工具免密钥即可跑。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">💬</div><h3>带引用的问答</h3><p><code>ask</code>：关键词召回 + 图邻域扩上下文，embedding 重排后出答案，附来源页。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧩</div><h3>可选语义层</h3><p>配 <code>SITE_KG_LLM_BASE</code> 与 <code>SITE_KG_LLM_KEY</code> 才启用；cognee 做实体关系抽取。</p></div>
-      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">🧊</div><h3>3D 图谱查看器</h3><p><code>render_site</code> 产出内联 Three.js 的单文件 HTML，人眼检查路径；AI 侧仍走 search / ask。</p></div>
-      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🤝</div><h3>车轮而非重造</h3><p>MCP 用官方 SDK，JS 重站可选 Crawl4AI，只有胶水是自己的。</p></div>
-      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">🐢</div><h3>礼貌爬取</h3><p>遵守 robots.txt，限速抓取，httpx + bs4 + html2text。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔓</div><h3>结构层零 LLM</h3><p>search / get_page / neighbors / site_stats / list_sites 五个工具免密钥即可跑。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">💬</div><h3>带引用的问答</h3><p><code>ask</code>：候选是关键词与 embedding 两路的<b>并集</b>，而不是关键词空了才问 embedding——关键词命中可能自信地错，正确页正躺在向量空间中段。图邻域扩上下文，embedding 重排后出答案，附来源页。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>可选语义层</h3><p>配 <code>SITE_KG_LLM_BASE</code> 与 <code>SITE_KG_LLM_KEY</code> 才启用；cognee 做实体关系抽取。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧊</div><h3>3D 图谱查看器</h3><p><code>render_site</code> 产出内联 Three.js 的单文件 HTML，人眼检查路径；AI 侧仍走 search / ask。</p></div>
+      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">🤝</div><h3>车轮而非重造</h3><p>MCP 用官方 SDK，JS 重站可选 Crawl4AI，只有胶水是自己的。</p></div>
+      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🐢</div><h3>礼貌爬取</h3><p>遵守 robots.txt，限速抓取，httpx + bs4 + html2text。</p></div>
+      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">🪨</div><h3>读一页不该扫全站</h3><p>正文按 1–256 个哈希分片落盘，规模随语料长度自适应，<code>get_page</code> 只解一个分片：7.5 万文档的内核站从 8.3 秒降到冷启动约 12 毫秒。写入是临时文件加原子替换，<code>meta.json</code> 最后提交。收例统计把跳过拆成噪声目录 / 未知扩展 / OS 错误三类并附路径样本——覆盖率审计要能归因每一次跳过。</p></div>
   </div>
 </section>
 
@@ -93,14 +93,14 @@ graph.json + search.json  <span class='dim'>(link-derived edges, inverted index,
   <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
   <div class="term reveal">
     <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ uv pip install -e \&quot;.[crawl]\&quot;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest https://example.org/docs --max-pages 200&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 200 pages · graph ready · verdict: READY&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest-local ./my-docs-and-src&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 148 files · 7 doc + 27 code kinds · edges from links + imports&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli serve --transport http --port 8766&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ MCP @ http://127.0.0.1:8766/mcp · 9 tools&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ uv pip install -e \&quot;.[crawl]\&quot;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest https://example.org/docs/index.html --max-pages 200&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 200 pages · graph ready · verdict: READY&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest-local ./my-docs-and-src&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 148 files · 7 doc + 37 code + 18 plain kinds · edges from links + imports&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli serve --transport http --port 8766&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ MCP @ http://127.0.0.1:8766/mcp · 9 tools&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="numbers">
   <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
   <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="30" data-suffix="">30</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="49" data-suffix="">49</div><div class="lbl">收例测试</div></div>
       <div class="stat reveal"><div class="num" data-count="9" data-suffix="">9</div><div class="lbl">MCP 工具</div></div>
       <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">结构层 LLM</div></div>
       <div class="stat reveal"><div class="num" data-count="200" data-suffix="+">200<span class="suffix">+</span></div><div class="lbl">单站页数上限</div></div>
