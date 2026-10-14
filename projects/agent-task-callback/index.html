@@ -41,7 +41,7 @@
     <h1 class="hero-title long"><span class="glitch" data-text="agent-task-callback"><span class="grad">agent-task-callback</span></span></h1>
     <p class="hero-tag">把 agent 间后台任务从 <span class="hl">pull</span> 变成 <span class="hl">push</span>。</p>
     <p class="hero-sub">CALLBACKS FOR INTER-AGENT TASKS</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.4</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.5</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/agent-task-callback" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -60,12 +60,12 @@
 <section class="wrap" id="features">
   <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
   <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">👀</div><h3>watch_agent_task</h3><p>注册即忘：watcher 盯住任务终态。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">📬</div><h3>回投注册会话</h3><p>任务完成时，结果作为新 turn 出现在父会话里。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">💾</div><h3>跨重启持久化</h3><p>状态写在 ~/.qwenpaw/agent-task-callback.json，应用重启任务不丢。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🪶</div><h3>成本透明</h3><p>每个被盯任务一个守护线程，20 秒一次 GET。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🎛️</div><h3>完整控制面</h3><p>watch / callback_task_status / cancel_task_callback 三工具。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧩</div><h3>即插即用</h3><p>release zip 恰好携带运行时加载的三个文件。</p></div>
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">👀</div><h3>watch_agent_task</h3><p>注册即忘：watcher 盯住任务终态，结果作为新 turn 回投注册它的会话。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">💾</div><h3>跨重启持久化</h3><p>状态写在 ~/.qwenpaw/agent-task-callback.json，应用重启任务不丢。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪶</div><h3>成本透明</h3><p>每个被盯任务一个守护线程，20 秒一次 GET。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🎛️</div><h3>完整控制面</h3><p>watch / callback_task_status / cancel_task_callback 三工具。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>即插即用</h3><p>release zip 恰好携带运行时加载的三个文件。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🚧</div><h3>做不到就拒绝</h3><p>ACP 通道（T3 Code 等外部 IDE 客户端）的 workspace 建在 WorkspaceRegistry 之外，回投的 console API 也路由不回去。这种会话里 <code>watch_agent_task</code> 直接拒绝注册并指向 <code>check_agent_task</code> 轮询——而不是安静地盯一个永远敲不开门的任务。</p></div>
   </div>
 </section>
 
@@ -82,14 +82,14 @@ watch_agent_task ──► watcher ──► <span class='acc'>终态 ⇒ 结果
   <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
   <div class="term reveal">
     <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install agent-task-callback-qwenpaw-plugin-0.1.3.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 tools registered · state file ready&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ 派出去的任务，做完自己回来敲门&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install agent-task-callback-qwenpaw-plugin-0.1.5.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 tools registered · state file ready&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ 派出去的任务，做完自己回来敲门&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="numbers">
   <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
   <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="30" data-suffix="">30</div><div class="lbl">收例测试</div></div>
+      <div class="stat reveal"><div class="num" data-count="33" data-suffix="">33</div><div class="lbl">收例测试</div></div>
       <div class="stat reveal"><div class="num" data-count="3" data-suffix="">3</div><div class="lbl">回调工具</div></div>
       <div class="stat reveal"><div class="num" data-count="20" data-suffix="s">20<span class="suffix">s</span></div><div class="lbl">轮询间隔</div></div>
       <div class="stat reveal"><div class="num" data-count="1" data-suffix="">1</div><div class="lbl">线程/任务</div></div>
