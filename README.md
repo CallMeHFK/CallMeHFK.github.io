@@ -31,16 +31,16 @@
 
 | 仓库 | 是什么 | 测试 | 版本 |
 |---|---|---|---|
-| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | 194 | v0.3.0 |
+| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | 230 | v0.4.0 |
 | [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | 210 | v0.1.11 |
 | [jev-kernel](https://github.com/CallMeHFK/jev-kernel) | mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配） | 46 | v0.2.1 |
 | [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | 78 | v0.2.0 |
-| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务 | 49 | — |
+| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务 | 174 | — |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 120 | v1.4.10 |
 | [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 33 | v0.1.5 |
 | [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | 26 | v0.3.2 |
 
-测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），八仓库 HEAD 的 CI 全绿。
+测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），其中 site-kg 的 174 含 2 项标的 `-m slow` 规模门禁；八仓库 HEAD 的 CI 全绿（2026-10-19 复核）。
 
 ## 系统设计
 
@@ -53,6 +53,8 @@
 - Tier 0 确定性检测器：loop、regression、越权编辑、binding drift、context rot，加一路 CUSUM 漂移告警。Tier 1 是 PRM 式 LLM 判定，只在 natural checkpoint 或 CUSUM 逼近告警线时唤醒。
 - 漂移阈值由蒙特卡洛仿真标定到会话级 FP 预算，判定阈值由 conformal risk control 按实测拟合；工具结局先做结构化证据三态分类（failed / ok / unknown），错误串文法只当 fallback。规则本条目按 Wilson 下界排序，不用 rate × log n。
 - `shepherd eval` 单点注故障，按检测器报 precision / recall / detection latency / supervision cost，CI 以 `--fail-under-f1 0.8` 当门。
+- 0.4.0 把判定层接回规则本：每条真正注入的纠偏留待下次 judge review，按当时的准入线标 agreed / disagreed；条目排序按 adherence 与该贴否率的收缩 Wilson 下界混合（w = n/(n+4)，单次意见最多动两成），累计 ≥4 次且贴否过半的条目直接从 header 剔除——缺 scorer 或缺 review 不算投票，标签只等真实的 review。`policy.rulebook_judge_feedback` 关这条通道。
+- `shepherd uninstall <claude|codex|qwenpaw|all>` 只删安装写进去的条目，改前备份，`--dry-run` 出计划；`shepherd stop` 按 `/health` 报的 pid 与归属分拣手动进程与 systemd unit，不再让用户自己找进程。
 
 ### [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) — 输出路由
 

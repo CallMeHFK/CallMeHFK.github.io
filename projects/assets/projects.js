@@ -53,6 +53,11 @@
 
     function tick() {
       ctx.clearRect(0, 0, W, H);
+      // 3D 星座视图接管背景时，2D 粒子层不必再画
+      if (document.body.classList.contains("lab3d-on")) {
+        requestAnimationFrame(tick);
+        return;
+      }
       var dpr = DPR;
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
