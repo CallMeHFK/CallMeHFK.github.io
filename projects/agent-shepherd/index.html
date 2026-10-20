@@ -88,14 +88,14 @@ risk gate (fitted from outcomes) ──► <span class='acc'>一句纠偏，注�
   </div>
 </section>
 
-<section class="wrap" id="numbers">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
-  <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="230" data-suffix="">230</div><div class="lbl">收例测试</div></div>
-      <div class="stat reveal"><div class="num" data-count="2" data-suffix="">2</div><div class="lbl">监督层级</div></div>
-      <div class="stat reveal"><div class="num" data-count="3" data-suffix="">3</div><div class="lbl">宿主适配</div></div>
-      <div class="stat reveal"><div class="num" data-count="0" data-suffix="">0</div><div class="lbl">Tier-0 成本</div></div>
-  </div>
+<section class="wrap" id="road">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <ul class="road reveal">
+      <li><span class="rk done">已落地 v0.4.0</span><p>判定层接回规则本：judge review 的贴否率以收缩 Wilson 混入条目排序，累计 ≥4 次且贴否过半即从 header 剔除；<code>shepherd uninstall</code> / <code>stop</code> 工具化，按 <code>/health</code> 报的 pid 与归属分拣 systemd unit</p></li>
+      <li><span class="rk done">已落地 v0.3.0</span><p>两层检测器（确定性 Tier 0 + PRM 式 Tier 1）与离线反事实基准 <code>shepherd eval</code> 成形，CI 以 <code>--fail-under-f1 0.8</code> 当门</p></li>
+      <li><span class="rk edge">边界</span><p>不发 PyPI：从 git 或 release wheel 安装，daemon 与 QwenPaw 插件包分开装</p></li>
+  </ul>
+  <p class="lede reveal">条目取自 release notes 与提交史；「边界」为文档明示的形态。</p>
 </section>
 
 <section class="wrap">

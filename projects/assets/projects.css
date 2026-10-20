@@ -564,6 +564,30 @@ body {
 }
 .lab3d-noscript { padding: 22px; color: var(--muted); font-size: 13px; }
 body.lab3d-on #bg-canvas { opacity: 0; transition: opacity 0.4s ease; }
+#grid.lab3d-active .hub-grid { display: none; }
+
+/* ── 路线（详情页数字区的接替者）───────────────────────── */
+.road { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-width: 860px; }
+.road li {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 13px 16px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: rgba(13, 17, 23, 0.45);
+}
+.road li p { margin: 0; font-size: 13.5px; line-height: 1.7; color: var(--text); }
+.road code {
+  color: var(--p); background: rgba(var(--p-rgb), 0.1);
+  padding: 2px 7px; border-radius: 5px; font-size: 0.92em;
+}
+.road .rk {
+  flex: 0 0 auto; margin-top: 2px;
+  font-size: 10.5px; letter-spacing: 0.06em;
+  padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
+}
+.road .rk.done { color: #3fb950; border-color: rgba(63, 185, 80, 0.35); }
+.road .rk.plan { color: var(--p2); border-color: rgba(var(--p2-rgb), 0.35); }
+.road .rk.edge { color: var(--p); border-color: rgba(var(--p-rgb), 0.4); }
 
 /* 响应式 */
 @media (max-width: 640px) {
@@ -576,6 +600,7 @@ body.lab3d-on #bg-canvas { opacity: 0; transition: opacity 0.4s ease; }
   #grid.lab3d-active .lab3d-stage { height: 58vh; border-radius: 12px; }
   .lab3d-label { font-size: 10.5px; padding: 3px 7px; max-width: 180px; }
   .lab3d-hint { font-size: 10px; }
+  .road li { flex-direction: column; gap: 6px; padding: 12px 13px; }
 }
 
 /* 减少动效偏好 */

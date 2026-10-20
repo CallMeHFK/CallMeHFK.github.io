@@ -86,14 +86,13 @@ watch_agent_task ──► watcher ──► <span class='acc'>终态 ⇒ 结果
   </div>
 </section>
 
-<section class="wrap" id="numbers">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>数字</h2></div>
-  <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="33" data-suffix="">33</div><div class="lbl">收例测试</div></div>
-      <div class="stat reveal"><div class="num" data-count="3" data-suffix="">3</div><div class="lbl">回调工具</div></div>
-      <div class="stat reveal"><div class="num" data-count="20" data-suffix="s">20<span class="suffix">s</span></div><div class="lbl">轮询间隔</div></div>
-      <div class="stat reveal"><div class="num" data-count="1" data-suffix="">1</div><div class="lbl">线程/任务</div></div>
-  </div>
+<section class="wrap" id="road">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <ul class="road reveal">
+      <li><span class="rk done">已落地 v0.1.5</span><p>安装路径理顺：插件 zip 上传 / URL 均可，运行中的 app 热加载并跑启动钩子，免重启</p></li>
+      <li><span class="rk edge">边界</span><p>ACP 会话（T3 Code 等外部 IDE 客户端）不可用——ACP 服务端直接构建工作区、绕过 WorkspaceRegistry，工具不注入，属通道属性而非缺陷</p></li>
+  </ul>
+  <p class="lede reveal">条目取自 release notes 与 README 的 Limitations。</p>
 </section>
 
 <section class="wrap">

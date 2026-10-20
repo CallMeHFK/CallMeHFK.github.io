@@ -29,18 +29,18 @@
 
 ## 仓库速览
 
-| 仓库 | 是什么 | 测试 | 版本 |
-|---|---|---|---|
-| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | 230 | v0.4.0 |
-| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | 210 | v0.1.11 |
-| [jev-kernel](https://github.com/CallMeHFK/jev-kernel) | mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配） | 46 | v0.2.1 |
-| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | 78 | v0.2.0 |
-| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务 | 174 | — |
-| [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | 120 | v1.4.10 |
-| [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | 33 | v0.1.5 |
-| [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | 26 | v0.3.2 |
+| 仓库 | 是什么 | 版本 |
+|---|---|---|
+| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | v0.4.0 |
+| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | v0.1.11 |
+| [jev-kernel](https://github.com/CallMeHFK/jev-kernel) | mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配） | v0.2.1 |
+| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | v0.2.0 |
+| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务 | — |
+| [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | v1.4.10 |
+| [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | v0.1.5 |
+| [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） | v0.3.2 |
 
-测试数为收例数（Python 取 `pytest --collect-only`，Go 取 `func Test`），其中 site-kg 的 174 含 2 项标的 `-m slow` 规模门禁；八仓库 HEAD 的 CI 全绿（2026-10-19 复核）。
+收例总数 917（Python 取 `pytest --collect-only`，Go 取 `func Test`；site-kg 含 2 项 `-m slow` 规模门禁），八仓库 HEAD 的 CI 全绿（2026-10-19 复核）。
 
 ## 系统设计
 
