@@ -39,7 +39,6 @@
 | [qwenpaw-secret-input](https://github.com/CallMeHFK/qwenpaw-secret-input) | 运行中途向人要密钥：明文不进模型上下文，只回一次性 ref | v0.2.0 |
 | [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | v0.2.0 |
 | [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 10 工具 MCP 服务 | — |
-| [driveos-atlas](https://github.com/CallMeHFK/driveos-atlas) | DRIVE OS 7.0.3 文档镜像 → 可旋转的 3D 引用网络（纯静态） | — |
 | [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | v1.4.10 |
 | [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，候选车道自动故障转移，fail-closed） | v0.4.0 |
 | [sovereign-echo](https://github.com/CallMeHFK/sovereign-echo) | 把个人数据主权声明注入每一场对话（Shell） | — |
@@ -48,9 +47,9 @@
 
 行序与展厅卡片序一致，即 3D 星座的四个簇。
 
-收例总数 **1,640**：Python 取 `pytest --collect-only -q`，Go 取 `func Test`，TypeScript 取 `node:test` 实跑。逐仓库为 dispatch-guard 210 + agent-shepherd 230 + jev-kernel 46 + agent-task-callback 33 + qwenpaw-secret-input 335 + qwenpaw-openviking 78 + site-kg 243 + qwenpaw-consensus-rank 120 + niclane 46 + agent-chatroom 299。site-kg 另有 2 项 `-m slow` 规模门禁被默认 deselect，故记 243 而非 245；**driveos-atlas 与 raspberry-pi 计 0**（前者没有测试，后者只有两个手工 e2e 脚本）；sovereign-echo 自带 `tests/run-tests.sh`，不进这个总数。
+收例总数 **1,640**：Python 用 `pytest --collect-only -q`，Go 用 `func Test`，TypeScript 用 `node:test` 实跑。逐仓库为 dispatch-guard 210 + agent-shepherd 230 + jev-kernel 46 + agent-task-callback 33 + qwenpaw-secret-input 335 + qwenpaw-openviking 78 + site-kg 243 + qwenpaw-consensus-rank 120 + niclane 46 + agent-chatroom 299。raspberry-pi 没有自动化测试，计 0；sovereign-echo 自带 `tests/run-tests.sh`，不进总数。site-kg 另有 2 项 `-m slow` 规模门禁默认不跑，故记 243 而非 245。
 
-9 个仓库有 CI 且 HEAD 全绿，另 4 个（driveos-atlas、sovereign-echo、agent-chatroom、raspberry-pi）没有工作流。qwenpaw-secret-input 的 CI 只跑静态门（`ruff` + `compileall` + `node --check`），335 条 unittest 要 import 宿主包，只在本地跑。全部数字对 **2026-10-22** 复核。
+9 个仓库有 CI 且 HEAD 全绿；sovereign-echo、agent-chatroom、raspberry-pi 没有工作流。qwenpaw-secret-input 的 CI 只跑静态门（`ruff` + `compileall` + `node --check`），335 条 unittest 要 import 宿主包，只在本地跑。全部数字对 **2026-10-22** 复核。
 
 ## 系统设计
 
@@ -60,19 +59,19 @@
 
 观测 QwenPaw / Claude Code / Codex 的 reasoning 与 tool call 流，偏航时注入纠正。
 
-- Tier 0 确定性检测器：loop、regression、越权编辑、binding drift、context rot，加一路 CUSUM 漂移告警。Tier 1 是 PRM 式 LLM 判定，只在 natural checkpoint 或 CUSUM 逼近告警线时唤醒。
-- 漂移阈值由蒙特卡洛仿真标定到会话级 FP 预算，判定阈值由 conformal risk control 按实测拟合；工具结局先做结构化证据三态分类（failed / ok / unknown），错误串文法只当 fallback。规则本条目按 Wilson 下界排序，不用 rate × log n。
-- `shepherd eval` 单点注故障，按检测器报 precision / recall / detection latency / supervision cost，CI 以 `--fail-under-f1 0.8` 当门。
-- 0.4.0 把判定层接回规则本：每条真正注入的纠偏留待下次 judge review，按当时的准入线标 agreed / disagreed；条目排序按 adherence 与该贴否率的收缩 Wilson 下界混合（w = n/(n+4)，单次意见最多动两成），累计 ≥4 次且贴否过半的条目直接从 header 剔除——缺 scorer 或缺 review 不算投票，标签只等真实的 review。`policy.rulebook_judge_feedback` 关这条通道。
-- `shepherd uninstall <claude|codex|qwenpaw|all>` 只删安装写进去的条目，改前备份，`--dry-run` 出计划；`shepherd stop` 按 `/health` 报的 pid 与归属分拣手动进程与 systemd unit，不再让用户自己找进程。
+- 两层检测。Tier 0 是确定性检测器，覆盖 loop、regression、越权编辑、binding drift、context rot，另有一路 CUSUM 漂移告警。Tier 1 是 PRM 式 LLM 判定，只在 natural checkpoint 或 CUSUM 接近告警线时唤醒。
+- 阈值来自测量。漂移阈值用蒙特卡洛仿真标定到会话级误报预算，判定阈值用 conformal risk control 按实测拟合。工具结局先做 failed / ok / unknown 三态分类，错误串文法只作兜底。规则本条目按 Wilson 下界排序。
+- `shepherd eval` 注入单点故障，按检测器报 precision、recall、detection latency、supervision cost，CI 以 `--fail-under-f1 0.8` 为门。
+- 0.4.0 把判定层接回规则本：每条真正注入的纠偏留待下次 judge review，按准入线标 agreed 或 disagreed；条目排序混合 adherence 与贴否率的收缩 Wilson 下界，累计 4 次以上且贴否过半的条目从 header 剔除。
+- `shepherd uninstall` 只删安装写进去的条目，改前备份，`--dry-run` 出计划。`shepherd stop` 按 `/health` 报的 pid 分拣手动进程与 systemd unit。
 
 ### [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) — 输出路由
 
 把派发约束从 system prompt 移到 tool seam：`on_acting` 拦截交付物形状的写入并 deny，回填该派给谁。
 
-- 写入按交付物目录 / 扩展名 + 白名单判定；shell 侧默认 warn，`shell_enforce` 才堵重定向旁路；`spawn_subagent` 是 config 层关停之外的兜底 deny。读与基础文件 IO 不拦。
-- `routes.json` 按 mtime 热加载并自审矛盾规则、死规则、未知 mode；无配置时从各 agent 声明的派发策略草拟 warn 模式的 `routes.draft.json`，改名才生效。
-- `jev` 是 opt-in 的第二层，默认关：只补确定性规则判不出的两处——草拟路由时的 P0，和关键词路由指不到在册 owner 的 P1 盲区（原先静默 pass）。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn，其余走原路径；L1 命中和清单读取失败分支零判定调用。判定端点与模型取自内核插件自己的 `jev.json`（`inherit:jev-kernel`），并以它的总开关为准——kernel 停了这层也停；客户端是纯标准库的协议镜像。
+- 写入按交付物目录与扩展名加白名单判定，命中且存在归属专家 agent 时拒绝，并回填该派给谁。shell 侧默认 warn，开 `shell_enforce` 才拦重定向旁路。`spawn_subagent` 是配置层之外的兜底 deny。读与基础文件 IO 不拦。
+- `routes.json` 按 mtime 热加载，并自审矛盾规则、死规则、未知 mode。无配置时从各 agent 声明的派发策略草拟 warn 模式的 `routes.draft.json`，改名后才生效。
+- `jev` 是 opt-in 第二层，默认关，只补确定性规则判不出的两处：草拟路由的 P0，和关键词路由指不到在册 owner 的 P1。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn。判定端点与模型取自 jev-kernel 的 `jev.json`，kernel 停这层也停。
 
 ### [agent-chatroom](https://github.com/CallMeHFK/agent-chatroom) — 多 Agent 运行时
 
@@ -81,10 +80,10 @@
 - 和 dispatch-guard 同一条主张：**回复路由是策略层，不写在 prompt 里**。@ 精确点名、无 @ 全员接力、`replyTo` 链深 ≤ 3 防无限对轰、发言冷却防抢话；并行应答默认开，同一轮被点名的多个 agent 同时发言，流式事件天然交错。
 - 三种 driver 并存（ACP 常驻会话 / 本地一次性 CLI / 远程 SSH），所以「本机已装的各家 agent」不必先被改造成同一个协议才能进屋。abort 是一等公民：`Driver.send` 第三个参数就是 `AbortSignal`，acp 发 `session/cancel`，cli / ssh 杀进程组。
 - SSE 事件对齐 AG-UI 分类法（`TEXT_MESSAGE_*` / `THINKING_*` / `CUSTOM` / `STATE_*`），**字段名本身就是前后端契约**——PLAN.md 的 T8–T12 标题直接写着「前端契约已定，字段不得更改」。
-- 探针结论落进实现而不是留在脑子里：ACP SDK ^1.8.0 驱动 qodercli 时**默认不能调 `authenticate`**（会挂起），要直接 `session/new`，只在失败且 `authMethods` 非空时回退一次；2026-10-16 实测国际版端点 `*.qoder.sh` 被 TLS 拦截，改用国内版 qoderclicn。
-- `docs/ISSUES.md` 是一份编号到 #43 的外部评审台账，37 行里 **25 fixed · 3 deferred · 9 open**；open 的 9 条连「本轮不修」的理由与剩余 scope 都写在表里，其中 `#39` 是 P1（会话 cookie 等价管理员权限，已做响应脱敏的最小止血，管理面加锁明确留待后续）。`#42` 记的是自己的门禁盲区，批注写着「两条都要配真破坏的负对照，否则是空门」。
+- 探针结论落进实现：ACP SDK ^1.8.0 驱动 qodercli 时默认不能调 `authenticate`（会挂起），要直接 `session/new`，只在失败且 `authMethods` 非空时回退一次。2026-10-16 实测国际版端点 `*.qoder.sh` 被 TLS 拦截，改用国内版 qoderclicn。
+- `docs/ISSUES.md` 是编号到 #43 的评审台账，37 行中 25 fixed、3 deferred、9 open。open 的 9 条都写了不修的理由与剩余范围，其中 #39 是 P1：会话 cookie 等价管理员权限，已做响应脱敏的最小止血，管理面收紧留待后续。
 
-299 项测试实跑全绿（`node:test`，2.25s）· 16,153 行 TS/JS（不含 vendor）· `package.json` 写 0.1.0 但未打 tag · 仓库无 LICENSE、无 CI——两条都记在展厅详情页的边界里。
+299 项测试实跑全绿（`node:test`，2.25s）· 16,153 行 TS/JS（不含 vendor）· `package.json` 写 0.1.0 但未打 tag · 仓库无 LICENSE、无 CI。
 
 ## 上游 PR
 

@@ -37,7 +37,7 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">JUDGMENT KERNEL · 03/13</span>
+    <span class="kicker">JUDGMENT KERNEL · 03/12</span>
     <h1 class="hero-title"><span class="glitch" data-text="jev-kernel"><span class="grad">jev-kernel</span></span></h1>
     <p class="hero-tag">在工具缝上装一个<span class="hl">判断内核</span>：先问一个带概率的小问题，再决定动不动手。</p>
     <p class="hero-sub">ONE BOUNDED TYPED QUESTION, WITH A CALIBRATED PROBABILITY</p>
@@ -50,27 +50,21 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>JUDGMENT</span><span>TOOL SEAM</span><span>CASCADE</span><span>LEDGER</span><span>SHADOW MODE</span><span>CALIBRATED</span><span>JUDGMENT</span><span>TOOL SEAM</span><span>CASCADE</span><span>LEDGER</span><span>SHADOW MODE</span><span>CALIBRATED</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>JUDGMENT</span><span>TOOL SEAM</span><span>CASCADE</span><span>SHADOW MODE</span><span>JUDGMENT</span><span>TOOL SEAM</span><span>CASCADE</span><span>SHADOW MODE</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">「三思而后行」写在提示词里，而提示词会衰减——规则堆得越多，模型越学会略读。mu 的答案是把判断从提示词搬到工具缝，并且做得小而可测量：每个决策点只问一个有界问题，答案带着概率。jev-kernel 把它移植进 QwenPaw：tool.risk 问「这个调用会不可逆地破坏数据吗」，tool.approval 问「该等人类拍板吗」。不确定的问题级联给下一层裁判，一切落进账本。同一套内核也跑在 ZCode · Qoder · Claude Code · Codex 的 <code>PreToolUse</code> 钩子上——四个宿主共用一份判决方言，安装脚本只往宿主的钩子配置里合并一条，保留既有钩子并先备份。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">mu 式判断内核的 QwenPaw 移植。每个决策点只问一个有界问题，答案带概率：<code>tool.risk</code> 问这个调用是否会不可逆地破坏数据，<code>tool.approval</code> 问是否该等人类确认。不确定的问题级联给下一层裁判，所有判决落进账本。同一套内核也以 <code>PreToolUse</code> 钩子跑在 ZCode、Qoder、Claude Code、Codex 上，四个宿主共用一份判决方言。</p>
 </section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⚖️</div><h3>有界类型化问题</h3><p>每个决策点只问一题：noul（是/否带 P(yes)）、choice（选项带概率）、score（按标准打分）。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🌊</div><h3>裁判级联</h3><p>拿不准的问题逐级上抛——后面的裁判只看到前面留下的不确定性。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📒</div><h3>判断账本与 shadow 先行</h3><p>每个判决都进 ledger，事后可读、可审计、可复盘；shadow 模式只记录不干预——先读账本，确认靠谱再切 active。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔌</div><h3>四种裁判传输</h3><p>typesafe / http / llm / systemone，外加内置 jev / session 层。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">📦</div><h3>零依赖</h3><p>纯 stdlib，无 pip 依赖、无遥测；默认全惰性，不配裁判就不发任何请求。隐私边界说清楚：被判断的调用内容本来就要发给配置的裁判，<code>recordState</code> 只管要不要往账本里再存一份。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🫱</div><h3>内核不许掐断 agent</h3><p>裁判挂了、配置写坏了、账本写不进去——一律 fail open，绝不因为判断层死了就把工具调用永久挡住。坏配置读不进就退回默认值，<code>enabled</code> 是一个总开关：关掉之后判定层与依赖它的上层插件一起停，逐字节回到没有内核的行为。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/jev-kernel&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · tool.risk=shadow · tool.approval=off&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 读账本，确认 shadow 判决靠谱&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ 切 active 后判决开始真正拦截&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
-
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>判决通路</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>tool call ──► <span class='acc'>tool.risk</span> · 会破坏数据吗?
         │  noul: P(yes) = 0.87
         ▼
@@ -79,23 +73,24 @@
         ▼
 <span class='acc2'>cascade</span> ──► 下一层裁判 ──► 全部落进 <span class='acc2'>ledger</span></pre></div>
 </section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/jev-kernel&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · tool.risk=shadow · tool.approval=off&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 读账本，确认 shadow 判决靠谱&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ 切 active —— 判决开始真正拦截&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⚖️</div><h3>有界类型化问题</h3><p>每个决策点只问一题：noul（是/否带 P(yes)）、choice（选项带概率）、score（按标准打分）。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🌊</div><h3>裁判级联</h3><p>拿不准的问题逐级上抛，后面的裁判只看到前面留下的不确定性。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📒</div><h3>判断账本与 shadow 先行</h3><p>每个判决都进 ledger，事后可读可审计。shadow 模式只记录不干预，确认判决可靠后再切 active。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔌</div><h3>四种裁判传输</h3><p>typesafe / http / llm / systemone，外加内置 jev / session 层。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">📦</div><h3>零依赖</h3><p>纯标准库，无 pip 依赖、无遥测。默认全惰性，不配置裁判就不发请求。被判断的调用内容会发给配置的裁判，<code>recordState</code> 只决定是否另存一份到账本。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🫱</div><h3>fail open</h3><p>裁判不可用、配置损坏、账本写入失败时一律 fail open，判断层不会永久挡住工具调用。坏配置读不进就退回默认值。<code>enabled</code> 是总开关，关闭后判定层与依赖它的上层插件一起停。</p></div>
   </div>
 </section>
-
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地 v0.2.1</span><p>加固：畸形请求体回 400 不再挂连接、<code>ledgerTail</code> 成一等旋钮、hook 双宿主信封兼容</p></li>
-      <li><span class="rk done">已落地 v0.2.0</span><p>走出 QwenPaw：同一对决策点以 <code>PreToolUse</code> hook 跑进 ZCode / Qoder / Claude Code / Codex</p></li>
-      <li><span class="rk edge">边界</span><p>hooks.json 打包携带绝对路径——本地安装无碍，marketplace 分发受限（README 明示）</p></li>
+      <li><span class="rk done">v0.2.1</span><p>加固：畸形请求体回 400 不再挂连接、<code>ledgerTail</code> 成一等旋钮、hook 双宿主信封兼容</p></li>
+      <li><span class="rk done">v0.2.0</span><p>走出 QwenPaw：同一对决策点以 <code>PreToolUse</code> hook 跑进 ZCode / Qoder / Claude Code / Codex</p></li>
+      <li><span class="rk edge">限制</span><p>hooks.json 打包携带绝对路径，本地安装不受影响，marketplace 分发受限。README 已注明。</p></li>
   </ul>
-  <p class="lede reveal">条目取自 release notes；「边界」为 README 的已知限制。</p>
 </section>
 
 <section class="wrap">

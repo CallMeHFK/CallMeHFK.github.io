@@ -37,7 +37,7 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">PUSH, NOT PULL · 04/13</span>
+    <span class="kicker">PUSH, NOT PULL · 04/12</span>
     <h1 class="hero-title long"><span class="glitch" data-text="agent-task-callback"><span class="grad">agent-task-callback</span></span></h1>
     <p class="hero-tag">把 agent 间后台任务从 <span class="hl">pull</span> 变成 <span class="hl">push</span>。</p>
     <p class="hero-sub">CALLBACKS FOR INTER-AGENT TASKS</p>
@@ -50,49 +50,44 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>PUSH</span><span>CALLBACK</span><span>WATCHER</span><span>DAEMON</span><span>PERSISTENT</span><span>QWENPAW</span><span>PUSH</span><span>CALLBACK</span><span>WATCHER</span><span>DAEMON</span><span>PERSISTENT</span><span>QWENPAW</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>PUSH</span><span>CALLBACK</span><span>WATCHER</span><span>PERSISTENT</span><span>PUSH</span><span>CALLBACK</span><span>WATCHER</span><span>PERSISTENT</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">submit_to_agent 返回 task_id 之后就没有然后了：结果躺在子任务记录里，直到某个 agent 想起来去 check_agent_task。这个插件为每个任务注册一个 watcher，当任务到达终态时，把结果作为新的一轮回投到注册它的会话——父 agent 不用轮询也能把线索捡回来。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">QwenPaw 插件。<code>submit_to_agent</code> 返回 task_id 之后，结果躺在子任务记录里，等某个 agent 主动去 <code>check_agent_task</code>。这个插件为每个任务注册一个 watcher，任务到达终态时把结果作为新的一轮回投到注册它的会话，父 agent 不需要轮询。</p>
 </section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">👀</div><h3>watch_agent_task</h3><p>注册即忘：watcher 盯住任务终态，结果作为新 turn 回投注册它的会话。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">💾</div><h3>跨重启持久化</h3><p>状态写在 ~/.qwenpaw/agent-task-callback.json，应用重启任务不丢。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪶</div><h3>成本透明</h3><p>每个被盯任务一个守护线程，20 秒一次 GET。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🎛️</div><h3>完整控制面</h3><p>watch / callback_task_status / cancel_task_callback 三工具。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>即插即用</h3><p>release zip 恰好携带运行时加载的三个文件。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🚧</div><h3>做不到就拒绝</h3><p>ACP 通道（T3 Code 等外部 IDE 客户端）的 workspace 建在 WorkspaceRegistry 之外，回投的 console API 也路由不回去。这种会话里 <code>watch_agent_task</code> 直接拒绝注册并指向 <code>check_agent_task</code> 轮询——而不是安静地盯一个永远敲不开门的任务。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 从 release 取插件包；source zip 只用于读源码，不要装&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install https://github.com/CallMeHFK/agent-task-callback/releases/latest/download/agent-task-callback-qwenpaw-plugin-0.1.5.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 tools registered · state file ready&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 派出后台任务后让模型调用 watch_agent_task(task_id)&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;→ 任务到终态时结果作为新的一轮回投注册它的会话，不需要轮询&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 状态与取消：callback_task_status / cancel_task_callback&quot;, &quot;cls&quot;: &quot;c&quot;}]"></div>
   </div>
 </section>
-
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>从轮询到推送</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>parent ──► submit_to_agent ──► task_id
    │                              │
    │  <span class='dim'>以前：反复 check_agent_task ……忘了就永远不知道</span>
    ▼                              ▼
 watch_agent_task ──► watcher ──► <span class='acc'>终态 ⇒ 结果回投父会话</span></pre></div>
 </section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install agent-task-callback-qwenpaw-plugin-0.1.5.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 tools registered · state file ready&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ 派出去的任务，做完自己回来敲门&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">👀</div><h3>watch_agent_task</h3><p>注册即忘：watcher 盯住任务终态，结果作为新 turn 回投注册它的会话。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">💾</div><h3>跨重启持久化</h3><p>状态写在 ~/.qwenpaw/agent-task-callback.json，应用重启任务不丢。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪶</div><h3>成本透明</h3><p>每个被盯任务一个守护线程，20 秒一次 GET。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🎛️</div><h3>完整控制面</h3><p>watch / callback_task_status / cancel_task_callback 三工具。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>即插即用</h3><p>release zip 恰好携带运行时加载的三个文件。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🚧</div><h3>做不到就拒绝</h3><p>ACP 通道（T3 Code 等外部 IDE 客户端）的 workspace 建在 WorkspaceRegistry 之外，回投的 console API 路由不回去。这类会话中 <code>watch_agent_task</code> 拒绝注册，并提示改用 <code>check_agent_task</code> 轮询。</p></div>
   </div>
 </section>
-
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
       <li><span class="rk done">已落地 v0.1.5</span><p>安装路径理顺：插件 zip 上传 / URL 均可，运行中的 app 热加载并跑启动钩子，免重启</p></li>
-      <li><span class="rk edge">边界</span><p>ACP 会话（T3 Code 等外部 IDE 客户端）不可用——ACP 服务端直接构建工作区、绕过 WorkspaceRegistry，工具不注入，属通道属性而非缺陷</p></li>
+      <li><span class="rk edge">限制</span><p>ACP 会话（T3 Code 等外部 IDE 客户端）不可用：服务端直接构建工作区、绕过 WorkspaceRegistry，工具不注入。这是通道属性，不是缺陷。</p></li>
   </ul>
-  <p class="lede reveal">条目取自 release notes 与 README 的 Limitations。</p>
 </section>
 
 <section class="wrap">

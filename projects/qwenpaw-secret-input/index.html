@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#05070b">
-<meta name="description" content="QwenPaw 插件：运行中途向人要一个密钥，明文只留在插件内存，模型自始至终只拿到一次性 ref — CallMeHFK PROJECT LAB">
+<meta name="description" content="QwenPaw 插件：agent 需要凭据时向人要一次，明文不进模型上下文，模型只拿到一次性 ref — CallMeHFK PROJECT LAB">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://callmehfk.github.io/projects/qwenpaw-secret-input/">
 <meta property="og:title" content="qwenpaw-secret-input · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="三个工具、四个端点、一道出站擦洗中间件：密钥不进模型上下文，只有一句话 ref 进。">
+<meta property="og:description" content="三个工具、四个端点、一道出站擦洗中间件。密钥不进模型上下文，只有一句话 ref 进。">
 <meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>qwenpaw-secret-input · CallMeHFK PROJECT LAB</title>
@@ -37,11 +37,11 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">SECRET CHANNEL · 05/13</span>
+    <span class="kicker">SECRET CHANNEL · 05/12</span>
     <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-secret-input"><span class="grad">qwenpaw-secret-input</span></span></h1>
-    <p class="hero-tag">运行中途向人要一个密钥：<span class="hl">明文永不进模型上下文</span>，模型只拿到一次性 ref。</p>
-    <p class="hero-sub">REQUEST_SECRET → ONE-TIME REF → SECRET_EXEC · VALUE NEVER IN CONTEXT</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">tests <b>335</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>静态门 green</b></span></div>
+    <p class="hero-tag">agent 需要凭据时向人要一次，<span class="hl">明文不进模型上下文</span>。</p>
+    <p class="hero-sub">QWENPAW PLUGIN · ONE-TIME REF · EGRESS SCRUB</p>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">tests <b>335</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>静态门</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-secret-input" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -50,75 +50,60 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>ONE-TIME REF</span><span>NEVER IN CONTEXT</span><span>EGRESS SCRUB</span><span>CONSENT CARD</span><span>MEMORY ONLY</span><span>NEGATIVE CONTROL</span><span>ONE-TIME REF</span><span>NEVER IN CONTEXT</span><span>EGRESS SCRUB</span><span>CONSENT CARD</span><span>MEMORY ONLY</span><span>NEGATIVE CONTROL</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>ONE-TIME REF</span><span>MEMORY ONLY</span><span>EGRESS SCRUB</span><span>CONSENT CARD</span><span>ONE-TIME REF</span><span>MEMORY ONLY</span><span>EGRESS SCRUB</span><span>CONSENT CARD</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">Agent 干到一半需要一个凭据才能收尾——推一个 fix、调一个 API、签一个请求。你不希望这个凭据出现在聊天记录、模型上下文或宿主日志里。这个插件就是那条通道：人在私有卡片里输入，模型自始至终只收到一个一次性 <code>ref</code>。明文只留在插件内存（绝不落盘），<code>secret_exec</code> 在进程内完成替换，任何出现在工具输出里的原值都被擦成 <code>***</code>。</p>
-  <p class="lede reveal">但它不假装自己是沙箱。README 的威胁模型列了 10 条，第 1 条就是「同机进程隔离不存在」——宿主 agent 能以同一个 uid 跑 <code>execute_shell_command</code>、读宿主 env 存储、<code>printenv</code>；擦洗是 best-effort，编码过、拆开的、改写过的值（<code>echo ${TOKEN:0:4}</code>）抓不到。把边界写在最前面，是这个项目的一部分。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">QwenPaw 后端插件。agent 执行到一半需要凭据（推代码、调 API、签请求）时调用 <code>request_secret</code>，人在私有卡片里输入，模型只收到一个一次性 <code>ref</code>。明文保存在插件内存中，<code>secret_exec</code> 在进程内完成替换，工具输出里出现的原值被替换成 <code>***</code>。</p>
 </section>
 
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🔑</div><h3>三个工具</h3><p><code>request_secret</code> 阻塞等人、发一次性 ref；<code>secret_exec</code> 在进程内替换 <code>{{secret}}</code> 并把输出擦成 <code>***</code>；<code>secret_export</code> 是<b>唯一一处刻意的例外</b>——把值写进宿主的加密 env 存储，好让后续 shell 工具用 <code>$ENV_KEY</code>。只用一次就别导出。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🧠</div><h3>明文只在内存</h3><p>从不落盘。Python 字符串无法置零，所以内存取证明确不在范围内——TTL 只能把窗口缩小，不能消除。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🧽</div><h3>出站擦洗中间件</h3><p>一个中间件在工具结果抵达 transcript、记忆或磁盘卸载路径<b>之前</b>改写它。它是全局的：改的是每个工具的结果，不只是本插件的。所以「重定向到文件再用另一个工具读回来」这条路是被覆盖的。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🛃</div><h3>消费 ref 前要人点头</h3><p>两个消费型工具不会自己烧掉 ref。开卡显示<b>完整</b>命令文本加 <code>cwd</code> 与 <code>env_name</code>（导出则显示 <code>env_key</code>），批准后才执行，且只执行一次。<code>{{secret}}</code> 在卡上仍是占位符，只在真正执行那一刻替换。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🚫</div><h3>看不见的尾部不许批准</h3><p>控制字符与 bidi 字符转义成 <code>\uXXXX</code> 显示，卡片因此藏不住终端转义、也没法重排文本。超过 4000 字符的命令在开卡<b>之前</b>就被拒（<code>status: "error"</code>，ref 不消费）——不让人去批准一段自己看不完的尾巴。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">↩️</div><h3>拒绝不等于烧掉</h3><p><code>declined</code> / <code>timed_out</code> / <code>cancelled</code> 都返回 <code>{"ref": "not_consumed"}</code>：ref 仍然可用，但只能用于<b>另一个</b>动作。人刚拒掉的那条命令，不要原样重试。</p></div>
-      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">🔌</div><h3>宿主不拦插件工具（实测）</h3><p>QwenPaw 2.2.2 上实测（2026-10-21）：模型调 <code>secret_exec</code> 直接执行，全程没有任何宿主审批弹窗，<code>/api/approval/list</code> 始终为空。所以消费前的确认闸是插件自己承担的那道，不是借来的。</p></div>
-      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🪟</div><h3>四个端点，两种卡片</h3><p><code>/api/secret-input</code> 下四个 HTTP 端点，只认 loopback 或已认证调用方。渲染面是一块阻塞时的 overlay 卡加一个自包含答页，两者都能渲染密钥卡与确认卡。</p></div>
-      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">🔒</div><h3>配置拼错按最严的算</h3><p><code>require_consume_approval</code> 默认 <code>true</code>，配置项名字打错时也按 <code>true</code> 处理——fail closed。要恢复直接执行的旧路径得显式写 <code>false</code>，而且只该在每条命令都已在别处审查过的环境里这么做。</p></div>
-      <div class="card tilt reveal"><span class="idx">F10</span><div class="card-icon">🧊</div><h3>冻结证据，不是产品代码</h3><p><code>packaging/verify_qp_plugin.py</code> 离线跑<b>真实</b>的 <code>PluginLoader</code>。<code>tests/test_verifier_gate.py</code> 钉住它的 sha256（<code>2182bc4d…f18a</code>），并跑 8 个负对照加 1 个正对照——改这个校验器、或发布一个它本该拒的包，都会让套件变红。</p></div>
-      <div class="card tilt reveal"><span class="idx">F11</span><div class="card-icon">🔴</div><h3>不会失败的门不是门</h3><p>每条 gate 都要求配一个负对照：删掉那道防御，看着测试变红。测试只用显式假值（<code>DUMMY-SK-abcdef123456</code>），从不碰真密钥。335 条用例全部离线可跑。</p></div>
-      <div class="card tilt reveal"><span class="idx">F12</span><div class="card-icon">👤</div><h3>谁答的卡，记下来</h3><p>你自己的本地 agent 可以抢在你前面答卡：它能从 loopback 调 <code>GET /card/{id}/meta</code> 拿到 nonce，提交一个它编的值。它读不到自己不知道的明文，但能让插件存进一个假的。所以插件记录并显示应答方与时间（<code>answered by &lt;peer&gt; at &lt;time&gt;</code>），让你能察觉——要高价值凭据时，人在场，提交后回看卡片。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 宿主在跑时热装，不需要重启&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install /path/to/secret_input --force&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ secret-input: swept ...&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 在 agent 的工具设置里打开三个工具（首装默认关闭）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;request_secret / secret_exec / secret_export&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 之后直接对模型说：用 request_secret 向我要一个 GitHub token&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;# 本地跑全量用例（需要宿主解释器）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ python3.12 -m unittest discover -s tests -t . -v&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ Ran 335 tests ... OK&quot;, &quot;cls&quot;: &quot;ok&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>一次 ref 的一生</h2></div>
-  <div class="flow reveal"><pre>模型 ──request_secret(label, reason)──► 私有卡片 <span class='dim'>(overlay / 自包含答页)</span>
-                                          │ 人输入明文
-                                          ▼
-                            <span class='acc2'>明文只进插件内存 · 绝不落盘</span>
-                                          │
-模型 ◄──{"status":"saved","ref":"sr_…"}───┘  <span class='dim'>模型永远看不到明文</span>
-   │
-   ├─secret_exec(ref, cmd)──► 确认卡：<span class='acc'>完整命令 + cwd</span>
-   │                            │批准
-   │                            ▼  进程内替换 {{secret}} → 执行
-   │                            ▼  <span class='acc'>出站擦洗中间件：原值 → ***</span>
-   │
-   └─secret_export(ref, env_key)──► 确认卡：<span class='acc'>env 名</span>
-                                      │批准
-                                      ▼  宿主加密 env 存储 → 后续 shell 用 $ENV_KEY
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
+  <div class="flow reveal"><pre>模型 ──request_secret(label, reason)──► 私有卡片 <span class='dim'>(overlay / 独立答页)</span>
+                                            │ 人输入明文
+                                            ▼
+                                  <span class='acc'>插件内存 · 不落盘 · 有 TTL</span>
+                                            │
+模型 ◄── {"status":"saved","ref":"sr_…"} ───┘
 
-拒绝 / 超时 / 取消 ──► {"ref":"not_consumed"} <span class='dim'>ref 仍可用于别的动作</span>
-命令 &gt; 4000 字符 ────► 开卡前就拒 <span class='dim'>不让人批准看不见的尾部</span></pre></div>
+模型 ──secret_exec(ref, cmd)──► 确认卡：<span class='acc'>完整命令 + cwd</span> ──批准──► 进程内替换 {{secret}} 执行
+                                                                       │
+                                                                       ▼
+                                                              <span class='acc2'>出站中间件：原值 → ***</span>
+模型 ──secret_export(ref, env_key)──► 确认卡：<span class='acc'>env 名</span> ──批准──► 宿主加密 env 存储
+                                                                     <span class='dim'>后续 shell 用 $ENV_KEY</span>
+拒绝 / 超时 / 取消 ──► ref 不消费，仍可用于其他动作</pre></div>
+  <p class="lede reveal">四个 HTTP 端点挂在 <code>/api/secret-input</code> 下，只接受 loopback 或已认证调用方。卡片有两种渲染：阻塞时的 overlay，和一个自包含答页。</p>
 </section>
 
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 宿主在跑：热装，不重启&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install /path/to/secret_input --force&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ secret-input: swept ...   启动钩子立即执行，宿主日志可见&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;# 或在 agent 的工具设置里显式打开三个工具（首装默认 disabled）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ 对模型说：用 request_secret 向我要一个 GitHub token&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 卡片弹出，人输入；模型只收到 {\&quot;status\&quot;:\&quot;saved\&quot;,\&quot;ref\&quot;:\&quot;sr_…\&quot;}&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ 模型调 secret_exec → 第二张卡显示确切命令 → 批准 → 执行&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 输出里每一处原值都回来成 ***&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;# 本地跑全量套件（需要宿主解释器）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ python3.12 -m unittest discover -s tests -t . -v&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ Ran 335 tests ... OK&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🔑</div><h3>三个工具</h3><p><code>request_secret</code> 阻塞等人并返回一次性 ref。<code>secret_exec</code> 在进程内替换占位符后执行命令。<code>secret_export</code> 把值写入宿主加密 env 存储。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🧽</div><h3>出站擦洗</h3><p>一道中间件在工具结果进入 transcript、记忆和磁盘卸载路径之前改写它，作用于所有工具的结果。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🛃</div><h3>消费前确认</h3><p>花掉 ref 之前弹确认卡，显示完整命令、工作目录或 env 名。控制字符转义显示，超过 4000 字符的命令在开卡前拒绝。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚫</div><h3>确认由插件自带</h3><p>QwenPaw 2.2.2 上实测 <code>secret_exec</code> 执行时宿主审批列表为空，宿主不拦插件工具，所以这道闸在插件里。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧊</div><h3>校验器是冻结证据</h3><p><code>packaging/verify_qp_plugin.py</code> 离线运行真实 PluginLoader，测试钉住它的 sha256 并跑 8 个负对照、1 个正对照。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🔴</div><h3>每条门配负对照</h3><p>仓库约定每个 gate 都有负对照：删掉防御，测试必须变红。用例只使用显式假值。</p></div>
   </div>
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地 v0.1.0</span><p>三个工具（<code>request_secret</code> 阻塞等人 + 一次性 ref、<code>secret_exec</code> 进程内替换 <code>{{secret}}</code> 且输出擦洗为 <code>***</code>、<code>secret_export</code> 落宿主加密 env 存储）、出站擦洗中间件默认开、loopback / 认证门、自包含 HTML 答页、Console overlay 卡片；296 条离线测试全绿，真机热装验收记录在 <code>docs/verification/2026-10-19-acceptance.md</code></p></li>
-      <li><span class="rk done">已落地 v0.1.1</span><p>发布包随带双语 README 与 LICENSE；仅打包变化，插件行为与 v0.1.0 完全一致</p></li>
-      <li><span class="rk done">已落地 v0.2.0</span><p>消费 ref 前的人工确认卡（完整命令 / <code>cwd</code> / <code>env_name</code>，导出则 <code>env_key</code>）；拒绝超时取消返回 <code>not_consumed</code>；控制字符与 bidi 显示为 <code>\uXXXX</code>、超 4000 字符的命令开卡前拒；默认开启且配置项拼错按 <code>true</code> 处理</p></li>
-      <li><span class="rk edge">边界</span><p>确认卡是<b>知情与可见性</b>机制，不是安全边界：同机 loopback 进程（含 agent 自己的 shell）可以读 <code>/pending</code>、从 <code>/card/{id}/meta</code> 取 nonce、再 <code>POST /answer {"approve": true}</code> 自我批准；同 uid 进程仍可读宿主环境存储。擦洗是 best-effort（威胁模型第 1、10 条）</p></li>
-      <li><span class="rk edge">边界</span><p><code>secret_exec</code> 本身就是一个外泄原语——命令是模型写的。中间件清的是模型<b>看到</b>的东西，不是它<b>发出去</b>的东西：一次网络发送在任何擦洗发生之前就已经离开机器。所以别让 agent 花掉一个 ref 之前，先看清那条命令（威胁模型第 9 条）</p></li>
-      <li><span class="rk edge">边界</span><p><code>{{secret}}</code> 写在命令行里就等于把值放进 <code>argv</code>：<code>/proc/&lt;pid&gt;/cmdline</code> 在子进程整个生命周期内是全局可读（<code>0444</code>），同样的文本还会出现在 <code>ps</code>、auditd 的 <code>EXECVE</code> 记录和进程记账里——比「同 uid」宽得多。优先用 <code>$&lt;env_name&gt;</code>。另外短于 8 字符的值<b>完全不做出站擦洗</b>（否则普通输出会被 <code>***</code> 溅满），所以 6 位密码会原样到达 stdout（威胁模型第 7、8 条）</p></li>
-      <li><span class="rk edge">边界</span><p>三个工具首装默认 disabled，要在 agent 设置里显式打开；只给某一个 agent 打开时，其他 agent 的模型会如实报告工具不存在。宿主版本窗口 <b>QwenPaw ≥ 2.1.0, &lt; 2.99.0</b>，用宿主自带的 Python 3.12。宿主停着时装，本地 zip 会被以 <code>plugin.json not found</code> 拒掉——用目录，或把 zip 挂到 URL 上</p></li>
-      <li><span class="rk edge">边界</span><p>CI 只跑静态门（<code>ruff check</code> + <code>compileall</code> + <code>node --check ui/index.js</code>）。335 条 unittest 会 import 宿主包，因此<b>不在 CI 里</b>，要用宿主解释器在本地跑。工作流里写着：不要为了让 CI 变绿而删断言，要补宿主依赖</p></li>
+      <li><span class="rk done">v0.2.0</span><p>消费 ref 前的人工确认卡；拒绝、超时、取消不消耗 ref；命令中的控制字符与 bidi 字符转义显示。</p></li>
+      <li><span class="rk done">v0.1.0</span><p>三个工具、出站擦洗中间件、loopback 门、答页与 overlay 卡片，296 条离线测试。</p></li>
+      <li><span class="rk edge">限制</span><p>确认卡提供知情与可见性，不构成沙箱：同机 loopback 进程可以读取待确认项并自行批准。短于 8 字符的值不做出站擦洗。</p></li>
+      <li><span class="rk edge">限制</span><p>CI 只跑 ruff、compileall、node --check 三个静态门，335 条用例依赖宿主包、在本地运行。宿主版本窗口为 QwenPaw 2.1.0 到 2.99.0 之前。</p></li>
   </ul>
-  <p class="lede reveal">仓库没有公开的 Roadmap 一节，issue 区也是空的——所以「已落地」三行取自 v0.1.0 / v0.1.1 / v0.2.0 三份 release notes 的原文，「边界」五行取自 README 的 Threat model（10 条）与 Install / Development 两节。没有编造任何计划项。</p>
 </section>
 
 <section class="wrap">

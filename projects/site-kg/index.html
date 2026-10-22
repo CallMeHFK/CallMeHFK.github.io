@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#05070b">
-<meta name="description" content="站点 URL 或本地目录 → 知识图谱 → 10 工具 MCP 服务，结构层零 LLM — CallMeHFK PROJECT LAB">
-<title>site-kg · CallMeHFK PROJECT LAB</title>
+<meta name="description" content="站点 URL 或本地目录 → 知识图谱 → 10 工具 MCP 服务，结构层不需要 LLM — CallMeHFK PROJECT LAB">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://callmehfk.github.io/projects/site-kg/">
-<meta property="og:title" content="site-kg — 一个 URL 进去，一座知识图谱出来">
-<meta property="og:description" content="爬站或收本地目录 → Markdown 语料 + 链接驱动的图谱 → 10 工具 MCP。结构层零 LLM，免密钥。">
+<meta property="og:title" content="site-kg · CallMeHFK PROJECT LAB">
+<meta property="og:description" content="爬站或收本地目录，按语料里的链接建图，经 10 个 MCP 工具提供给 agent。结构层免密钥。">
 <meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
+<title>site-kg · CallMeHFK PROJECT LAB</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
@@ -37,10 +37,10 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">KNOWLEDGE GRAPH · 07/13</span>
+    <span class="kicker">KNOWLEDGE GRAPH · 07/12</span>
     <h1 class="hero-title"><span class="glitch" data-text="site-kg"><span class="grad">site-kg</span></span></h1>
-    <p class="hero-tag">一个 URL 或一个目录进去，<span class="hl">一座知识图谱</span>出来，MCP 直连。</p>
-    <p class="hero-sub">WEBSITE / LOCAL DIR → KNOWLEDGE GRAPH → 10 MCP TOOLS</p>
+    <p class="hero-tag">一个 URL 或一个目录进去，<span class="hl">一座知识图谱</span>出来。</p>
+    <p class="hero-sub">URL OR DIR → GRAPH → 10 MCP TOOLS</p>
     <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">tools <b>10</b></span><span class="chip">tests <b>243</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
@@ -50,74 +50,67 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>CRAWL</span><span>ROBOTS.TXT</span><span>COGNEE</span><span>KEYLESS</span><span>LOCAL DOCS</span><span>3D VIEWER</span><span>CITED QA</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>CRAWL</span><span>ROBOTS.TXT</span><span>COGNEE</span><span>KEYLESS</span><span>LOCAL DOCS</span><span>3D VIEWER</span><span>CITED QA</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>KEYLESS</span><span>CITED QA</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>KEYLESS</span><span>CITED QA</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">给它一个网站 URL，或者一个本地文档/代码目录，它抓取语料、构建知识图谱，并通过 MCP 的 9 个工具提供给 AI agent。结构层完全不需要 LLM：搜索、正文、图遍历全部免密钥工作。边只来自语料本身——没有交叉引用的站点会诚实返回 NOT-READY，而不是画一个装饰性的毛线团。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">给它一个网站 URL 或一个本地文档/代码目录，site-kg 抓取语料、按语料里的链接建图，再通过 MCP 的 10 个工具提供给 agent。结构层不需要 LLM：进料、检索、正文、图遍历都免密钥。语料没有交叉引用时返回 NOT-READY，不生成推测出来的边。</p>
 </section>
 
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧭</div><h3>两条进料</h3><p>网页侧先探清单：Sphinx 站走 objects.inv 权威清单，Doxygen 走 navtree，再退 sitemap.xml 与同站 BFS。本地侧 <code>ingest_local</code> 吃 7 类文档、37 类代码扩展，外加 18 种无扩展名的构建文件（<code>Makefile</code>、<code>Kconfig</code>、<code>COPYING</code>……），边来自 markdown 链接、<code>[[wikilink]]</code> 与 import/include。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🕸️</div><h3>边只来自语料</h3><p>从不臆造链接；无交叉引用就明说 NOT-READY。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔓</div><h3>结构层零 LLM</h3><p>10 个工具里只有 <code>ask</code> 需要 LLM 配置，其余 9 个免密钥即可跑：两条进料、<code>list_sites</code> / <code>site_stats</code>、<code>search</code> / <code>get_page</code> / <code>neighbors</code>，以及两个查看器。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">💬</div><h3>带引用的问答</h3><p><code>ask</code>：候选是关键词与 embedding 两路的<b>并集</b>，而不是关键词空了才问 embedding——关键词命中可能自信地错，正确页正躺在向量空间中段。图邻域扩上下文，embedding 重排后出答案，附来源页。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>可选语义层</h3><p>配 <code>SITE_KG_LLM_BASE</code> 与 <code>SITE_KG_LLM_KEY</code> 才启用；cognee 做实体关系抽取。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧊</div><h3>两个查看器，各管一件事</h3><p><code>render_site</code> 产出内联 Three.js 的单文件离线 HTML——按度数发光的节点、悬停提示、点击聚焦邻域、章节聚合视图（点球隔离）、即时检索、实时状态条（节点 / 边 / view% / FPS）。<code>render_build</code> 是 <b>WebGPU</b> 构建回放：图谱当场长出来，节点按语料顺序落到 3D 章节壳上，先证据边（ref / imports / contains），再每个派生关系维度一波飞行边，HUD 实时计数。0.25×–16× 变速，可重放 / 暂停 / 跳过。人眼检查走这两个，AI 侧仍走 search / ask。</p></div>
-      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">📡</div><h3>边爬边长的实时会话</h3><p><code>site-kg live</code> 是地址优先的实时会话：先给地址，浏览器再问要建哪个场景。服务端爬取与增量布局的同时用 SSE 推给前端——节点按语料顺序抵达，边随页面解析绑定，派生关系维度默认隐藏且<b>从不参与布局弹簧</b>，因此不会扭构图。三个场景：<b>Planets</b>（章节即绕轨行星）、<b>Neural</b>（密集突触场）、<b>City</b>（一页一楼，楼层随该页 rank，亮着的窗是它发出的链接）。派生维度不参与布局这条，是「好看」不许压过「读得对」的写法。</p></div>
-      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🎚️</div><h3>预算与回退链</h3><p>标签最多 40 个章节 / 12 个刻度，场景是合并后的 point/line 批次——没有逐节点对象，也没有 DOM 标签。实时场景优先 <b>WebGPU</b>（手写 WGSL；同一套布局、诞生、拖拽与终态状态同时喂两个后端，所以两者不会漂移），无 <code>navigator.gpu</code> 或拿不到 adapter 就在同一 canvas 上退 WebGL2，再没有就退到上限 5,000 节点的 canvas-2D 视图并指向离线归档取全图；WebGL 上下文丢失就地恢复。归档查看器是单个离线 HTML（默认内嵌二进制载荷，<code>--external-data</code> 才写 <code>sk-*.bin</code>），重放同样的场景。</p></div>
-      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">🤝</div><h3>车轮而非重造</h3><p>MCP 用官方 SDK，JS 重站可选 Crawl4AI，只有胶水是自己的。</p></div>
-      <div class="card tilt reveal"><span class="idx">F10</span><div class="card-icon">🐢</div><h3>礼貌爬取</h3><p>遵守 robots.txt，限速抓取，httpx + bs4 + html2text。</p></div>
-      <div class="card tilt reveal"><span class="idx">F11</span><div class="card-icon">🪨</div><h3>读一页不该扫全站</h3><p>正文按 1–256 个哈希分片落盘，规模随语料长度自适应，<code>get_page</code> 只解一个分片：7.5 万文档的内核站从 8.3 秒降到冷启动约 12 毫秒。写入是临时文件加原子替换，<code>meta.json</code> 最后提交。收例统计把跳过拆成噪声目录 / 未知扩展 / OS 错误三类并附路径样本——覆盖率审计要能归因每一次跳过。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ uv pip install -e \&quot;.[crawl]\&quot;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest https://example.org/docs/index.html --max-pages 200&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 200 pages · graph ready · verdict: READY&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest-local ./my-docs-and-src&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 148 files · 7 doc + 37 code + 18 plain files&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python -m site_kg.cli serve --transport http --port 8766&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ MCP @ http://127.0.0.1:8766/mcp · 10 tools&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python -m site_kg.cli live https://example.org/docs/index.html --scene neural&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ SSE 边爬边渲染；WebGPU 不可用时回落 WebGL2 与 canvas-2D&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>流水线</h2></div>
-  <div class="flow reveal"><pre>URL ──► manifest probe ──► crawl ──┐
-           (<span class='dim'>objects.inv → sitemap → BFS</span>)  │
-                                    ├──► markdown corpus
-本地目录 ──► 文档 + 代码扫描 ───────┘
-           (<span class='dim'>links · [[wikilink]] · import/include</span>)
-        │
-        ▼
-graph.json + search.json  <span class='dim'>(link-derived edges, inverted index, verdict)</span>
-        │
-        ▼
-<span class='acc'>MCP server · 10 tools</span>
-  ingest_url / ingest_local / list_sites / site_stats
-  search / get_page / neighbors / ask
-  render_site <span class='dim'>(Three.js 离线单文件)</span> / render_build <span class='dim'>(WebGPU 构建回放)</span>
-        │
-        ▼  人眼检查走查看器
-<span class='acc2'>site-kg live · SSE 边爬边长 · Planets / Neural / City</span></pre></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
+  <div class="flow reveal"><pre>URL ──► manifest 探测 ──► 有界爬取 ──┐
+      <span class='dim'>objects.inv → navtree → sitemap → 同站 BFS</span>
+本地目录 ──► 文档 + 代码扫描 ─────────┘
+      <span class='dim'>边来自 markdown 链接、[[wikilink]]、import/include</span>
+                  │
+                  ▼
+      markdown 语料 + graph.json + search.json
+      <span class='dim'>正文按 1–256 个哈希分片落盘，get_page 只解一个分片</span>
+                  │
+      ┌───────────┼───────────────┐
+      ▼           ▼               ▼
+  <span class='acc'>MCP 10 tools</span>  render_site    site-kg live
+  <span class='dim'>9 个免密钥</span>    离线单文件查看器  SSE 实时渲染
+      │
+      ▼
+  ask：关键词与 embedding 候选取并集 → 图邻域扩展 → 重排 → 带来源页的答案</pre></div>
 </section>
 
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ uv pip install -e \&quot;.[crawl]\&quot;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest https://example.org/docs/index.html --max-pages 200&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 200 pages · graph ready · verdict: READY&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli ingest-local ./my-docs-and-src&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 148 files · 7 doc + 37 code + 18 plain files · edges from links + imports&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli live https://example.org/docs/index.html --scene neural&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 地址优先的实时会话：SSE 边爬边长，WebGPU → WebGL2 → canvas-2D 自动回退&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ python -m site_kg.cli serve --transport http --port 8766&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ MCP @ http://127.0.0.1:8766/mcp · 10 tools&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧭</div><h3>两条进料</h3><p><code>ingest_url</code> 爬站，<code>ingest_local</code> 收本地目录。网页侧先探清单：Sphinx 走 objects.inv，Doxygen 走 navtree，再退 sitemap 与同站 BFS。本地侧识别 7 类文档、37 类代码扩展和 18 种无扩展名构建文件。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🕸️</div><h3>边只来自语料</h3><p>边由 markdown 链接、<code>[[wikilink]]</code> 与 import/include 产生，不做推测。没有交叉引用的站点返回 NOT-READY。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔓</div><h3>结构层免密钥</h3><p>10 个工具中只有 <code>ask</code> 需要 LLM 配置，其余 9 个直接可用。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">💬</div><h3>带引用的问答</h3><p><code>ask</code> 的候选取关键词检索与 embedding 检索的并集，用图邻域扩展上下文，重排后返回带来源页的答案。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🪨</div><h3>正文分片</h3><p>正文按 1 到 256 个哈希分片落盘，<code>get_page</code> 只解一个分片。7.5 万文档的站点从 8.3 秒降到冷启动约 12 毫秒。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧊</div><h3>三个查看面</h3><p><code>render_site</code> 产出离线单文件 Three.js 查看器；<code>render_build</code> 用 WebGPU 回放建图过程；live 模式经 SSE 边爬边渲染，含 Planets、Neural、City 三个场景。</p></div>
   </div>
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk plan">计划</span><p>语义富化（可选层）：有 <code>SITE_KG_LLM_KEY</code> 时以 cognee <code>cognify</code> 在结构边旁并出实体/关系边</p></li>
-      <li><span class="rk plan">计划</span><p>Crawl4AI 深爬：接管 Playwright 壳兜底也拿不下的 JS 站点（无限滚动、强反爬）</p></li>
-      <li><span class="rk plan">可选</span><p>tree-sitter 符号/引用边（aider 式 tags）作精度增强项，不做硬依赖</p></li>
-      <li><span class="rk done">已落地</span><p><code>mentions_symbol</code> 正则层跨文件符号边；<code>render_site</code> 每站点内嵌 3D 查看器，<code>render_build</code> WebGPU 构建回放</p></li>
+      <li><span class="rk done">已落地</span><p><code>mentions_symbol</code> 提供跨文件符号边；<code>render_site</code> 与 <code>render_build</code> 覆盖离线查看与构建回放。</p></li>
+      <li><span class="rk plan">计划</span><p>可选语义层：配置 <code>SITE_KG_LLM_KEY</code> 后用 cognee <code>cognify</code> 在结构边旁生成实体/关系边。</p></li>
+      <li><span class="rk plan">计划</span><p>Crawl4AI 深爬，覆盖 Playwright 兜底也拿不下的 JS 站点。</p></li>
+      <li><span class="rk edge">限制</span><p><code>ask</code> 与语义层依赖外部 LLM 配置，未配置时只有结构层可用。爬取遵守 robots.txt 与限速。</p></li>
   </ul>
-  <p class="lede reveal">取自仓库 README 的 Roadmap 一节，已完成项随文更新。</p>
 </section>
 
 <section class="wrap">
   <div class="pager reveal">
     <a href="../qwenpaw-openviking/"><span class="dir">← PREV · 06</span><div class="name">qwenpaw-openviking</div></a>
-    <a class="next" href="../driveos-atlas/"><span class="dir">NEXT · 08 →</span><div class="name">driveos-atlas</div></a>
+    <a class="next" href="../qwenpaw-consensus-rank/"><span class="dir">NEXT · 08 →</span><div class="name">qwenpaw-consensus-rank</div></a>
   </div>
 </section>
 

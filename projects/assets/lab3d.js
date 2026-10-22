@@ -76,8 +76,7 @@ import * as THREE from "./vendor/three/186/three.module.min.js";
     ["agent-task-callback", "agent-chatroom"],
     // 回复路由由策略层决定，不在 prompt 里
     ["agent-chatroom", "dispatch-guard"],
-    // 文档语料 → 可旋转的 3D 引用网络，两代实现
-    ["driveos-atlas", "site-kg"],
+    ["site-kg"],
     // agent-chatroom 作为子项目住在 raspberry-pi 仓库里（其 README 子项目表明示）
     ["agent-chatroom", "raspberry-pi"],
     // 让包按预期的那条路出去：一个管网卡，一个管到家庭 LAN 的转发
@@ -88,7 +87,7 @@ import * as THREE from "./vendor/three/186/three.module.min.js";
   // 簇心在 x 上拉开、在 y 上压扁：舞台约 1.95:1，竖着摆会把两侧留白
   var CLUSTERS = [
     { name: "tool seam 治理", center: [-6.2, 1.15, 0.35], members: ["dispatch-guard", "jev-kernel", "agent-shepherd", "agent-task-callback", "qwenpaw-secret-input"], r: 2.25, squash: 0.62, phase: 0.4 },
-    { name: "记忆与知识", center: [6.2, 0.95, -0.55], members: ["qwenpaw-openviking", "site-kg", "driveos-atlas", "qwenpaw-consensus-rank"], r: 2.0, squash: 0.6, phase: 1.9 },
+    { name: "记忆与知识", center: [6.2, 0.95, -0.55], members: ["qwenpaw-openviking", "site-kg", "qwenpaw-consensus-rank"], r: 2.0, squash: 0.6, phase: 1.9 },
     { name: "边界与主权", center: [-3.4, -2.7, 1.0], members: ["niclane", "sovereign-echo"], r: 1.45, squash: 0.5, phase: 0.9 },
     { name: "运行时与端侧", center: [3.4, -2.7, -0.85], members: ["agent-chatroom", "raspberry-pi"], r: 1.45, squash: 0.5, phase: 2.6 }
   ];

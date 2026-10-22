@@ -37,7 +37,7 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">LONG-TERM MEMORY · 06/13</span>
+    <span class="kicker">LONG-TERM MEMORY · 06/12</span>
     <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-openviking"><span class="grad">qwenpaw-openviking</span></span></h1>
     <p class="hero-tag">给 agent 接上<span class="hl">长期语义记忆</span>，原生 Python，免 Node。</p>
     <p class="hero-sub">OPENVIKING MEMORY, NATIVE IN QWENPAW</p>
@@ -50,27 +50,21 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>MEMORY</span><span>OPENVIKING</span><span>SEMANTIC SEARCH</span><span>NATIVE PYTHON</span><span>NO NODE</span><span>MCP</span><span>MEMORY</span><span>OPENVIKING</span><span>SEMANTIC SEARCH</span><span>NATIVE PYTHON</span><span>NO NODE</span><span>MCP</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>MEMORY</span><span>OPENVIKING</span><span>NATIVE PYTHON</span><span>NO NODE</span><span>MEMORY</span><span>OPENVIKING</span><span>NATIVE PYTHON</span><span>NO NODE</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">OpenViking 是火山引擎开源的 agent 长期语义记忆引擎。本插件把上游的 Node.js MCP 代理移植为 QwenPaw 原生 Python 插件：7 个工具、5 个技能，没有 Node 运行时，没有任何第三方依赖——7 个工具都是 OpenViking 服务端 MCP 端点上的薄封装，走 streamable HTTP，会话过期自动重init。工具与钩子一律 fail-open：服务端不可达只降级成告警，不会拖垮宿主。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">OpenViking 是火山引擎开源的 agent 长期语义记忆引擎。本插件把上游的 Node.js MCP 代理移植为 QwenPaw 原生 Python 插件，7 个工具、5 个技能，不需要 Node 运行时，也没有第三方依赖。7 个工具都是 OpenViking 服务端 MCP 端点上的薄封装，走 streamable HTTP，会话过期自动重新初始化。工具与钩子一律 fail-open：服务端不可达时只降级成告警。</p>
 </section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧰</div><h3>7 个记忆工具</h3><p>搜索记忆、写入记忆、找技能、读资源……一套 API 覆盖 OpenViking 全功能。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🎓</div><h3>5 个内置技能</h3><p>随插件即装的 agent 技能，让记忆读写成为默认动作。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐍</div><h3>纯 Python 移植 · 零三方依赖</h3><p>上游 Node.js MCP 代理 → 原生 Python，进程内直连；没有 Node 运行时、没有 pip 依赖，装了就能用。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔑</div><h3>密钥不落盘</h3><p>OPENVIKING_API_KEY 等凭据全部走环境变量，不写进插件文件；跨域重定向会剥掉 Authorization 与身份头，凭据不跟着跳。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧠</div><h3>语义记忆</h3><p>长期语义索引：agent 的经验跨会话沉淀、按语义召回。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📡</div><h3>本机代理不再冒充 TLS 故障</h3><p>tailnet / LAN 部署上，宿主的环境代理若没把 OpenViking 服务端列进 no_proxy，请求会被塞进代理隧道，报出一个误导性的 <code>SSL: UNEXPECTED_EOF_WHILE_READING</code>。插件对配置的主机默认绕开环境代理（<code>proxy_bypass</code> 可关），连接类错误串附带代理提示，启动体检还会把策略翻转做一次反向探测，日志直接说哪条路走得通。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 需要 Python ≥ 3.12 与可达的 OpenViking 服务端（默认 http://127.0.0.1:1933）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ curl -X POST http://127.0.0.1:19999/api/plugins/install -H &#x27;Content-Type: application/json&#x27; -d &#x27;{\&quot;source\&quot;: \&quot;https://github.com/CallMeHFK/qwenpaw-openviking/releases/latest/download/openviking-memory-0.2.0.zip\&quot;}&#x27;&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 7 tools · 5 skills registered · 热装不重启&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 或把仓库拷进插件目录后从路径安装&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/openviking-memory&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;# 七个工具默认 disabled，在工具设置里启用需要的&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;→ 凭据走环境变量 OPENVIKING_API_KEY，不写进插件文件&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
-
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>记忆通路</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>QwenPaw agent ──► plugin (native python)
         │
         ▼
@@ -79,22 +73,23 @@ OpenViking server ──► <span class='acc'>长期语义记忆</span> · 向�
         ▼
 <span class='acc2'>7 tools</span> · <span class='acc2'>5 skills</span> · 0 node · 0 deps</pre></div>
 </section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install https://github.com/CallMeHFK/qwenpaw-openviking/releases/latest/download/openviking-memory-0.2.0.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 7 tools · 5 skills registered&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ agent 现在拥有跨会话记忆&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧰</div><h3>7 个记忆工具</h3><p>搜索记忆、写入记忆、找技能、读资源……一套 API 覆盖 OpenViking 全功能。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🎓</div><h3>5 个内置技能</h3><p>随插件即装的 agent 技能，让记忆读写成为默认动作。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐍</div><h3>纯 Python 移植 · 零三方依赖</h3><p>上游 Node.js MCP 代理 → 原生 Python，进程内直连；没有 Node 运行时、没有 pip 依赖，装了就能用。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔑</div><h3>密钥不落盘</h3><p>OPENVIKING_API_KEY 等凭据全部走环境变量，不写进插件文件；跨域重定向会剥掉 Authorization 与身份头，凭据不跟着跳。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧠</div><h3>语义记忆</h3><p>长期语义索引：agent 的经验跨会话沉淀、按语义召回。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📡</div><h3>环境代理旁路</h3><p>tailnet 或 LAN 部署时，环境代理若没把服务端列进 no_proxy，请求会进代理隧道并报出误导性 TLS 错误。插件对配置的主机默认绕开环境代理（<code>proxy_bypass</code> 可关），启动体检会做反向探测并在日志说明哪条路可用。</p></div>
   </div>
 </section>
-
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
       <li><span class="rk done">已落地 v0.2.0</span><p>环境代理默认旁路（Tailnet/LAN 部署免手调 <code>no_proxy</code>）+ 代理故障双向探测诊断</p></li>
       <li><span class="rk done">已落地 v0.1.0</span><p>首发：7 个 <code>openviking_*</code> 工具 + 5 个技能，凭据链与 MCP 客户端纯标准库移植</p></li>
   </ul>
-  <p class="lede reveal">条目取自 release notes；仓库暂无公开 roadmap，方向性需求走 issue。</p>
 </section>
 
 <section class="wrap">

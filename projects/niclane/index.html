@@ -37,9 +37,9 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">NETWORK ISOLATION · GO · 10/13</span>
+    <span class="kicker">NETWORK ISOLATION · GO · 09/12</span>
     <h1 class="hero-title"><span class="glitch" data-text="niclane"><span class="grad">niclane</span></span></h1>
-    <p class="hero-tag">One NIC, one lane.<br>每张网卡一条车道，<span class="hl">fail-closed</span>。</p>
+    <p class="hero-tag">每张网卡一条车道，出口硬绑定，接口不健康时<span class="hl">拒绝新连接</span>。</p>
     <p class="hero-sub">PER-INTERFACE EGRESS ISOLATION FOR LOCAL PROXIES</p>
     <div class="chips"><span class="chip">lang <b>Go</b></span><span class="chip">ver <b>v0.4.0</b></span><span class="chip">tests <b>46</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
     <div class="cta-row">
@@ -50,69 +50,66 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>CANDIDATE LANES</span><span>AUTO-DISCOVERY</span><span>SOCKS5</span><span>DOH</span><span>PROMETHEUS</span><span>GO</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>CANDIDATE LANES</span><span>AUTO-DISCOVERY</span><span>SOCKS5</span><span>DOH</span><span>PROMETHEUS</span><span>GO</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>CANDIDATE LANES</span><span>SOCKS5</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>CANDIDATE LANES</span><span>SOCKS5</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">现代笔记本很少只有「一个网络」：WiFi 在办公网，USB 坞是第二条上行，VPN 的 TUN 设备、Tailscale、Docker 网桥共存于同一张路由表，还常被全局 TUN 代理劫持。niclane 把每张网卡变成独立车道：一个出口硬绑定到指定网卡的本地代理监听器。车道之间互不可见、不共享路由、绝不串线。v0.4.0 起一条车道可以持有<b>有序候选</b>——切换只发生在该车道自己声明过的候选之间；候选全灭且 <code>strict</code> 时立即拒绝新连接，仍然绝不静默改道到车道之外。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">niclane 是本地的 SOCKS5 / HTTP 代理，每个监听端口的出口硬绑定到一张指定网卡：Linux 用 <code>SO_BINDTODEVICE</code>，macOS 用 <code>IP_BOUND_IF</code>。车道之间不共享路由，接口不健康且 <code>strict</code> 为真时立即拒绝新连接。v0.4.0 起一条车道可以持有一组有序候选，切换只发生在该车道自己声明过的候选之间。</p>
 </section>
 
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">📌</div><h3>出口硬绑定</h3><p>Linux 用 SO_BINDTODEVICE，macOS 用 IP_BOUND_IF，把 socket 钉死在一张网卡上。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🚧</div><h3>Fail-closed</h3><p>监视器每 2 秒复查接口；不健康且 strict 时，拨号直接拒——没有兜底，没有泄漏。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔎</div><h3>车道内 DNS</h3><p>域名解析经本车道拨出，支持 DoH（AliDNS / Cloudflare），DNS 不外泄。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">⛓️</div><h3>上游代理链</h3><p>可链 socks5:// 或 http:// 上游——上游连接本身也走本车道。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">📊</div><h3>全量计数</h3><p>连接数、拒绝数、双向字节、DNS 查询、UDP 报文，Prometheus 格式导出。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📦</div><h3>UDP ASSOCIATE</h3><p>RFC 1928 UDP 中继经车道绑定的 UDP socket 转发。</p></div>
-      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">🔀</div><h3>候选车道与自动故障转移</h3><p>一条车道持有有序的 <code>(interface, upstream)</code> 候选，不再只能是钉死的一张网卡。每条客户端连接在 resolve + dial + UDP 全程锁定同一个候选；排序按优先级 → 探测延迟 → 配置顺序。每个候选都经<b>自己的</b>网卡做健康探测，连续 2 次失败判死、1 次成功即复活；<code>strict: true</code> 时无一健康就 fail-closed。</p></div>
-      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🧭</div><h3>Linux 自动发现</h3><p><code>discover:</code> 枚举选中网卡，解析每张网卡<b>自己的</b>网关（<code>via</code> 覆盖 → <code>/proc/net/route</code> → systemd-networkd 租约 → <code>nmcli</code>），只对那个网关做 TCP 端口探测——不扫子网、不碰全局默认路由、不猜厂商或 MAC。发现的候选排在静态候选之后（权重 100 对 1000），端口不再应答就自动消失。端口清单可维护：全局 <code>discovery.ports</code>（默认 <code>[10808, 10809, 7890, 7891]</code>）加每车道 <code>discover.ports</code> 覆盖并去重；SIGHUP 改了全局清单只重启带 <code>discover:</code> 块的车道。</p></div>
-      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">⚖️</div><h3>失败分类学</h3><p>只有传输层失败（拨号错误、超时、握手 IO、fail-closed 拒绝）才触发转移。上游的应用层拒绝（SOCKS5 reply ≠ 0、HTTP CONNECT 非 2xx）原样回给客户端，<b>永不</b>扣候选的健康分——上游说「不许」和链路说「不通」是两件事，混为一谈会让好候选被冤枉判死。</p></div>
-      <div class="card tilt reveal"><span class="idx">F10</span><div class="card-icon">🔬</div><h3>候选可见</h3><p><code>niclane discover</code> 打出当前扫描结果（网卡、上游、来源、健康、延迟）；<code>test</code> 与 <code>status</code> 输出候选感知，<code>/status</code> 在 <code>candidates</code> 下暴露每候选状态。旧的单网卡车道语义不变，而 <code>interface</code>/<code>upstream</code> 与 <code>candidates</code>/<code>discover</code> 混写会被校验直接拒。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 构建；也可以 go install 或从 Releases 取二进制&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ make build&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ make test&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 即 go test -race ./...；收例口径为 func Test，共 46 项&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 300}, {&quot;text&quot;: &quot;# 起服务：一条车道绑定一张网卡&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ niclane serve -c niclane.yaml&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 lanes up · fail-closed · metrics @ /metrics&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ niclane status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ niclane test 核对每条车道的出口 IP，niclane discover 看当前扫描结果&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>车道拓扑</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>app A ──► 127.0.0.1:7891 <span class='dim'>(lane "wifi")</span> ──[SO_BINDTODEVICE]──► WiFi NIC
 app B ──► 127.0.0.1:7892 <span class='dim'>(lane "dock")</span> ──[SO_BINDTODEVICE]──► USB NIC
-app C ──► 127.0.0.1:7893 <span class='dim'>(lane "roam")</span> ──candidates──┬─[1] dock · socks5://  <span class='dim'>静态 1000</span>
-                                                    ├─[2] discover:wifi     <span class='dim'>发现 100</span>
-                                                    └─[3] tun · http://     <span class='dim'>静态 1000</span>
-        <span class='dim'>排序 = 优先级 → 探测延迟 → 配置顺序；一条连接全程锁定一个候选</span>
+app C ──► 127.0.0.1:7893 <span class='dim'>(lane "roam")</span> ──candidates──┬─[1] dock · socks5://   <span class='dim'>静态 1000</span>
+                                                     ├─[2] discover:wifi      <span class='dim'>发现 100</span>
+                                                     └─[3] tun · http://      <span class='dim'>静态 1000</span>
+   <span class='dim'>排序 = 优先级 → 探测延迟 → 配置顺序；一条连接在 resolve / dial / UDP 全程锁定同一候选</span>
         │
-        ▼  传输层失败（拨号 / 超时 / 握手 IO / fail-closed 拒绝）？
-<span class='acc2'>健康探测：连续 2 次失败判死 · 1 次成功复活 → 转下一个候选</span>
+        ▼  传输层失败：拨号错误 / 超时 / 握手 IO / fail-closed 拒绝
+   <span class='acc'>健康探测经候选自己的网卡：连续 2 次失败判死，1 次成功复活 → 转下一个候选</span>
         │
-        ▼  候选全灭且 strict？
-<span class='acc'>SOCKS5 0x01 / HTTP 502 · 拒绝，绝不改道到车道之外</span>
-        <span class='dim'>上游应用层拒绝（reply ≠ 0 / CONNECT 非 2xx）原样回客户端，不扣健康分</span></pre></div>
+        ▼  候选全灭且 strict
+   <span class='acc2'>SOCKS5 0x01 / HTTP 502，拒绝新连接，不改道到车道之外</span>
+   <span class='dim'>上游应用层拒绝（SOCKS5 reply ≠ 0 / CONNECT 非 2xx）原样回客户端，不扣健康分</span>
+   <span class='dim'>监视器每 2 秒复查接口；DNS 经本车道解析，支持 DoH（AliDNS / Cloudflare）</span></pre></div>
+  <p class="lede reveal">单网卡车道没有回退路径，候选车道只在自己的候选集合内切换。配置里 <code>interface</code>/<code>upstream</code> 与 <code>candidates</code>/<code>discover</code> 混写会被校验拒绝。</p>
 </section>
 
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ go install github.com/CallMeHFK/niclane/cmd/niclane@latest&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ niclane serve -c niclane.yaml&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 lanes up · fail-closed · metrics @ /metrics&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ niclane status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 每条车道的健康与流量，一目了然&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">📌</div><h3>出口硬绑定</h3><p>Linux 用 <code>SO_BINDTODEVICE</code>，macOS 用 <code>IP_BOUND_IF</code>，把 socket 钉在一张网卡上。<code>bind_mode: ip</code> 只绑源地址，隔离性更弱。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🚧</div><h3>失败即拒</h3><p>监视器每 2 秒复查接口是否在线、是否有地址。不健康且 <code>strict</code> 时拨号直接拒绝，返回 SOCKS5 0x01 或 HTTP 502。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔎</div><h3>车道内 DNS</h3><p>域名解析经本车道拨出，回环 nameserver 会被替换成 <code>dns_servers</code>。<code>dns: doh</code> 走 DNS-over-HTTPS，默认端点是 AliDNS 与 Cloudflare。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔀</div><h3>候选与转移</h3><p>一条车道可持有有序的 <code>(interface, upstream)</code> 候选，排序按优先级、探测延迟、配置顺序。只有传输层失败触发转移，上游的应用层拒绝原样回给客户端。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧭</div><h3>自动发现</h3><p>Linux 下 <code>discover:</code> 枚举网卡并解析每张网卡自己的网关，只对该网关做 TCP 端口探测。发现的候选优先级 100，排在静态候选的 1000 之后。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📊</div><h3>上游与计量</h3><p>可链 <code>socks5://</code> 或 <code>http://</code> 上游，上游连接本身也走本车道；UDP ASSOCIATE 经车道绑定的 socket 中继。连接数、拒绝数、双向字节、DNS 查询按 Prometheus 格式导出。</p></div>
   </div>
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk plan">计划</span><p>TTL 感知的 DNS 应答缓存</p></li>
-      <li><span class="rk plan">计划</span><p>SOCKS5 BIND 命令（少用）</p></li>
-      <li><span class="rk done">已落地 v0.3.1</span><p>全库评审：泄漏、半关、空闲与热重载四类修复</p></li>
-      <li><span class="rk done">已落地 v0.3.2</span><p>agent skill 进包，curl 一行安装</p></li>
+      <li><span class="rk done">v0.4.0</span><p>候选车道与自动故障转移：有序 <code>(interface, upstream)</code> 候选、每连接锁定一个候选、Linux 网关自动发现与可维护的端口清单。</p></li>
+      <li><span class="rk done">v0.3.2</span><p>agent skill 进包，curl 一行安装。v0.3.1 修了泄漏、半关、空闲与热重载四类问题。</p></li>
+      <li><span class="rk edge">限制</span><p>设备级绑定只在 Linux 与 macOS 上是硬隔离，其他平台回退到绑定源 IP。自动发现仅在 Linux 可用，其他平台的 <code>discover:</code> 车道只保留静态候选。</p></li>
+      <li><span class="rk edge">限制</span><p>TTL 感知的 DNS 应答缓存与 SOCKS5 BIND 命令尚未实现，两项列在 README 的 Roadmap。</p></li>
   </ul>
-  <p class="lede reveal">计划项取自仓库 README 的 Roadmap 一节。</p>
 </section>
 
 <section class="wrap">
   <div class="pager reveal">
-    <a href="../qwenpaw-consensus-rank/"><span class="dir">← PREV · 09</span><div class="name">qwenpaw-consensus-rank</div></a>
-    <a class="next" href="../sovereign-echo/"><span class="dir">NEXT · 11 →</span><div class="name">sovereign-echo</div></a>
+    <a href="../qwenpaw-consensus-rank/"><span class="dir">← PREV · 08</span><div class="name">qwenpaw-consensus-rank</div></a>
+    <a class="next" href="../sovereign-echo/"><span class="dir">NEXT · 10 →</span><div class="name">sovereign-echo</div></a>
   </div>
 </section>
 

@@ -37,10 +37,10 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">AGENT HOOK · 11/13</span>
+    <span class="kicker">AGENT HOOK · 10/12</span>
     <h1 class="hero-title"><span class="glitch" data-text="sovereign-echo"><span class="grad">sovereign-echo</span></span></h1>
     <p class="hero-tag">一条声明文本，<span class="hl">挂到四个宿主的注入点</span>。</p>
-    <p class="hero-sub">ONE TEXT, WIRED INTO EVERY HOST INJECTION POINT</p>
+    <p class="hero-sub">PER-TURN DATA RIGHTS NOTICE</p>
     <div class="chips"><span class="chip">lang <b>Shell</b></span><span class="chip">ver <b>—</b></span><span class="chip">license <b>MIT · CC0</b></span><span class="chip">install <b>1 cmd</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/sovereign-echo" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
@@ -50,57 +50,65 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>USERPROMPTSUBMIT</span><span>AGENTS.MD</span><span>DECLARATION TEXT</span><span>HOOK</span><span>CLAUDE CODE</span><span>QWENPAW</span><span>USERPROMPTSUBMIT</span><span>AGENTS.MD</span><span>DECLARATION TEXT</span><span>HOOK</span><span>CLAUDE CODE</span><span>QWENPAW</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>USERPROMPTSUBMIT</span><span>AGENTS.MD</span><span>SEALED NOTICE</span><span>DECLARATION TEXT</span><span>USERPROMPTSUBMIT</span><span>AGENTS.MD</span><span>SEALED NOTICE</span><span>DECLARATION TEXT</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>它做什么</h2></div>
-  <p class="lede reveal">四张注入路径指向同一份文本：Claude Code 走 <code>UserPromptSubmit</code> 钩子每轮注入，Codex 与 QwenPaw 各写自己的 <code>AGENTS.md</code> 块，其余读 AGENTS.md 的宿主由 install.sh 指到指定文件。纯 shell + 静态文本，运行时零依赖，卸载即删掉那几处块。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">sovereign-echo 是给编码 agent 用的插件，把一份数据权利声明写进每场对话的上下文。Claude Code 走 <code>UserPromptSubmit</code> 钩子逐轮注入，Codex 与 QwenPaw 读各自 <code>AGENTS.md</code> 里的块，其余读 AGENTS.md 的宿主由 install.sh 指向 <code>GENERIC_FILE</code>。默认注入的是国密信封，服务方拿到密文，只有持有 <code>sm2-private.pem</code> 的人能读回原文。</p>
 </section>
 
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">📜</div><h3>每场对话注入</h3><p>Claude Code 走 UserPromptSubmit 钩子，每一轮都注入紧凑声明。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🤖</div><h3>三宿主原生</h3><p>Claude Code · OpenAI Codex · QwenPaw 各入其门。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🌍</div><h3>通用 AGENTS.md</h3><p>ZCode、opencode、Gemini CLI、Cursor——任何读 AGENTS.md 的 agent 都行。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🧩</div><h3>即装即用</h3><p>一条 install.sh 同时装好 claude + codex + qwenpaw。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">⚖️</div><h3>双语声明</h3><p>中英两份文本加一份 compact 版，走同一注入路径。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🏪</div><h3>自带插件市场</h3><p>本仓库即 Claude Code 插件 marketplace，一条命令安装。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 克隆仓库，一条命令挂上检测到的所有宿主&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ git clone https://github.com/CallMeHFK/sovereign-echo &amp;&amp; cd sovereign-echo&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --target all&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ claude + codex + qwenpaw hooked&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 只读报告：运行时位置、KeyId、每个宿主是否已挂&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;# 看每轮实际注入的内容&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --print-sealed&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 卸载用 ./install.sh --uninstall，钩子与块被移除，密钥保留&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>注入路径</h2></div>
-  <div class="flow reveal"><pre>Claude Code ──► UserPromptSubmit hook ──► <span class='acc'>每轮注入</span>
-Codex ──► ~/.codex/AGENTS.md ──► <span class='acc'>每会话加载</span>
-QwenPaw ──► workspace AGENTS.md ──► <span class='acc'>每会话加载</span>
-        │
-        ▼
-<span class='acc2'>「我的数据权利始终归属我个人。」</span></pre></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
+  <div class="flow reveal"><pre>install.sh ──► ~/.sovereign-echo/                <span class='dim'>运行时脚本 + keys/</span>
+     │
+     ├─► ~/.claude/settings.json                 <span class='dim'>UserPromptSubmit 钩子一条，改写前留备份</span>
+     ├─► ~/.codex/AGENTS.md                      <span class='dim'>声明块，每会话加载</span>
+     ├─► ~/.qwenpaw/workspaces/default/AGENTS.md <span class='dim'>声明块，每会话加载</span>
+     └─► $GENERIC_FILE                           <span class='dim'>ZCode / opencode / Gemini CLI / Cursor</span>
+
+每轮对话 ──► scripts/emit-notice.sh ──► <span class='acc'>SM2 密钥协商 + SM4-GCM + SM3</span> ──► 信封进上下文
+                                                 │
+                                                 ▼
+                                 <span class='acc2'>只有 sm2-private.pem 能打开</span>  <span class='dim'>丢失即不可读，无托管</span>
+密封失败（缺 python3 / 缺密钥）──► 不注入任何内容 <span class='dim'>fail-closed</span>
+SOVEREIGN_ECHO_SEAL=plain ──► 改为明文注入</pre></div>
+  <p class="lede reveal">install.sh 可重复运行，只挂它检测到的宿主。声明文本在 <code>declarations/</code> 下，中英两份加一份 compact 版，改成自己的措辞后仍走同一条注入路径。</p>
 </section>
 
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ git clone https://github.com/CallMeHFK/sovereign-echo &amp;&amp; cd sovereign-echo&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --target all&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ claude + codex + qwenpaw hooked&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ 三个注入点已挂上&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🔁</div><h3>逐轮注入</h3><p>Claude Code 走 <code>UserPromptSubmit</code> 钩子，每一轮都把声明送进上下文。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🤖</div><h3>三宿主原生</h3><p>Claude Code、OpenAI Codex、QwenPaw 各用自己的挂载点，一次装好。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🌍</div><h3>通用挂载</h3><p>ZCode、opencode、Gemini CLI、Cursor 等读 AGENTS.md 的宿主，用 <code>GENERIC_FILE</code> 指向目标文件。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔏</div><h3>国密信封</h3><p>SM2 密钥协商包一个 SM4-GCM 会话密钥，SM3 做摘要与签名。<code>SOVEREIGN_ECHO_SEAL=plain</code> 可切回明文。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>幂等安装</h3><p>一条 install.sh 挂好检测到的所有宿主，可以反复运行。改写 <code>settings.json</code> 前留时间戳备份。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🏪</div><h3>自带插件市场</h3><p>本仓库即 Claude Code 插件 marketplace，<code>/plugin marketplace add CallMeHFK/sovereign-echo</code> 一行安装。</p></div>
   </div>
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk edge">边界</span><p>声明性工具——是每次对话的权利保留与在案记录，不是技术强制、不是 DRM，也不替代官方提供的退出渠道</p></li>
-      <li><span class="rk edge">边界</span><p>密封只防「读」：<code>sm2-private.pem</code> 丢失后信封无法开启，无恢复机制、刻意无托管</p></li>
-      <li><span class="rk done">已落地</span><p>自建 marketplace：<code>/plugin marketplace add CallMeHFK/sovereign-echo</code> 一行装；声明文本 CC0 放开改写</p></li>
+      <li><span class="rk done">已落地</span><p><code>--status</code> 给出只读报告：运行时位置、KeyId、每个宿主是否已挂，不改动任何文件。<code>--print-notice</code> 与 <code>--print-sealed</code> 预览实际注入的内容。</p></li>
+      <li><span class="rk done">已落地</span><p>卸载一条命令，移除钩子与各 AGENTS.md 块并保留密钥；<code>--purge</code> 才连私钥一起删除。声明文本按 CC0 放开改写。</p></li>
+      <li><span class="rk edge">限制</span><p>这是声明性工具，作用是把立场写进对话上下文并留档。它不做技术强制，也不替代官方提供的退出渠道。</p></li>
+      <li><span class="rk edge">限制</span><p>密封只挡住读取。<code>sm2-private.pem</code> 丢失后已密封的信封无法开启，没有恢复机制，也没有托管。</p></li>
   </ul>
-  <p class="lede reveal">条目取自 README 的 Honest scope 与 Install。</p>
 </section>
 
 <section class="wrap">
   <div class="pager reveal">
-    <a href="../niclane/"><span class="dir">← PREV · 10</span><div class="name">niclane</div></a>
-    <a class="next" href="../agent-chatroom/"><span class="dir">NEXT · 12 →</span><div class="name">agent-chatroom</div></a>
+    <a href="../niclane/"><span class="dir">← PREV · 09</span><div class="name">niclane</div></a>
+    <a class="next" href="../agent-chatroom/"><span class="dir">NEXT · 11 →</span><div class="name">agent-chatroom</div></a>
   </div>
 </section>
 

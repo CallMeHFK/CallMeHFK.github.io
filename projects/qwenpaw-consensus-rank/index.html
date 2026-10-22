@@ -37,7 +37,7 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">MULTI-JUDGE RANKING · 09/13</span>
+    <span class="kicker">MULTI-JUDGE RANKING · 08/12</span>
     <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-consensus-rank"><span class="grad">qwenpaw-consensus-rank</span></span></h1>
     <p class="hero-tag">跨家族多评审<span class="hl">匿名排序</span>，位次均值出共识。</p>
     <p class="hero-sub">MEAN-RANK CONSENSUS + SPEARMAN REPORT</p>
@@ -50,27 +50,21 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>CONSENSUS</span><span>ANONYMIZED</span><span>SPEARMAN</span><span>MEAN-RANK</span><span>MULTI-JUDGE</span><span>LLM</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>SPEARMAN</span><span>MEAN-RANK</span><span>MULTI-JUDGE</span><span>LLM</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>CONSENSUS</span><span>ANONYMIZED</span><span>SPEARMAN</span><span>POSITION STABILITY</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>SPEARMAN</span><span>POSITION STABILITY</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">单个模型当裁判，偏见照单全收。consensus-rank 让多个跨家族 LLM 评委各自独立地为匿名化后的候选排序——每位评委拿到自己那套独立播种的 A/B/C 映射，连位置偏见都不共享。最终按位次均值合成共识，并输出 Spearman 一致性报告与逐评委位置稳定性。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">QwenPaw 工具插件。多个跨家族 LLM 评委各自独立地为匿名化后的候选排序，每位评委拿到自己那套独立播种的 A/B/C 映射，位置偏见不跨评委共享。最终按位次均值合成共识，并输出 Spearman 一致性报告与逐评委位置稳定性。</p>
 </section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🎭</div><h3>逐评委匿名化</h3><p>每位评委拿到独立播种的 A/B/C 映射——偏见无法跨评委共享。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🌐</div><h3>跨家族评委</h3><p>不同厂商、不同架构的 LLM 并发排序，失败评委跳过并告警。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📊</div><h3>位次均值共识</h3><p>完整排序按 rank 均值合成最终位次。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">📈</div><h3>Spearman 报告</h3><p>评委间一致性量化输出，一眼看出共识质量。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧷</div><h3>位置稳定性</h3><p>逐评委的 position-stability 指标，揪出摇摆裁判。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🔒</div><h3>密钥隔离</h3><p>provider key 不进插件进程。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 从 release 取插件包；Source code 包只用于读源码&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install https://github.com/CallMeHFK/qwenpaw-consensus-rank/releases/latest/download/listwise-rank-qwenpaw-plugin.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 热装完成，不需要重启（QwenPaw 2.2.1 实测）&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 或克隆进插件目录（开发用，需要重启）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ git clone https://github.com/CallMeHFK/qwenpaw-consensus-rank.git ~/.qwenpaw/plugins/listwise-rank&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ manifest 声明 qwenpaw_version &gt;=1.1.6, &lt;2.3.0，max 为右开区间&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
-
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>排序管线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>candidates ──► normalize / dedupe ──► anonymize <span class='dim'>(每位评委独立 A/B/C)</span>
         │
         ▼
@@ -79,28 +73,29 @@ N × cross-family judges ──► 各自返回完整排序 <span class='dim'>(�
         ▼
 <span class='acc'>mean-rank consensus</span> + <span class='acc2'>Spearman report</span></pre></div>
 </section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install listwise-rank-qwenpaw-plugin.zip&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ tool registered: rank_candidates_listwise&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;→ 把候选列表交给评审团，收回一份共识&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🎭</div><h3>逐评委匿名化</h3><p>每位评委拿到独立播种的 A/B/C 映射，偏见不跨评委共享。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🌐</div><h3>跨家族评委</h3><p>不同厂商、不同架构的 LLM 并发排序，失败评委跳过并告警。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">📊</div><h3>位次均值共识</h3><p>完整排序按 rank 均值合成最终位次。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">📈</div><h3>Spearman 报告</h3><p>评委间一致性量化输出，一眼看出共识质量。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧷</div><h3>位置稳定性</h3><p>逐评委的 position-stability 指标，揪出摇摆裁判。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🔒</div><h3>密钥隔离</h3><p>provider key 不进插件进程。</p></div>
   </div>
 </section>
-
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
       <li><span class="rk done">已落地 v1.4.10</span><p>评审跟进：<code>judges_json</code> 帮助文本如实标注内置三评委为示例网关；版本窗口由 CI 测试钉住（套件 119 → 120）</p></li>
-      <li><span class="rk done">已落地 v1.4.9</span><p><code>qwenpaw_version.max</code> 改左闭右开并放开上限——声明 2.1.0 而实测跑在 2.2.1 的回归不再可能</p></li>
+      <li><span class="rk done">已落地 v1.4.9</span><p><code>qwenpaw_version.max</code> 改左闭右开并放开上限，声明 2.1.0 而实测跑在 2.2.1 的回归不再可能。</p></li>
   </ul>
-  <p class="lede reveal">条目取自 release notes；仓库暂无公开 roadmap。</p>
 </section>
 
 <section class="wrap">
   <div class="pager reveal">
-    <a href="../driveos-atlas/"><span class="dir">← PREV · 08</span><div class="name">driveos-atlas</div></a>
-    <a class="next" href="../niclane/"><span class="dir">NEXT · 10 →</span><div class="name">niclane</div></a>
+    <a href="../site-kg/"><span class="dir">← PREV · 07</span><div class="name">site-kg</div></a>
+    <a class="next" href="../niclane/"><span class="dir">NEXT · 09 →</span><div class="name">niclane</div></a>
   </div>
 </section>
 

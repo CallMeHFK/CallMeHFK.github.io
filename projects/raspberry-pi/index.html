@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#05070b">
-<meta name="description" content="树莓派 / 家庭服务器实验仓：voicekit 用 LiveKit WebRTC 做实时语音通话，LLM 后端是派上真能执行工具的 CLI agent — CallMeHFK PROJECT LAB">
+<meta name="description" content="树莓派实验仓：voicekit 用 LiveKit WebRTC 做实时语音通话，LLM 后端是派上真能执行工具的 CLI agent — CallMeHFK PROJECT LAB">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://callmehfk.github.io/projects/raspberry-pi/">
 <meta property="og:title" content="raspberry-pi · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="对着浏览器说话 → 助手听见 → 交给能执行工具的 agent → 合成语音说回来。工具能力来自派上的 pi-acp，不来自 livekit 的 function calling。">
+<meta property="og:description" content="对着浏览器说话，助手听懂，交给派上能执行工具的 agent，再用语音答回来。">
 <meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>raspberry-pi · CallMeHFK PROJECT LAB</title>
@@ -37,95 +37,87 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">EDGE · REALTIME VOICE · 13/13</span>
+    <span class="kicker">EDGE · REALTIME VOICE · 12/12</span>
     <h1 class="hero-title"><span class="glitch" data-text="raspberry-pi"><span class="grad">raspberry-pi</span></span></h1>
-    <p class="hero-tag">对着浏览器说话，<span class="hl">派上的 agent 真的去跑 <code>ls</code></span>，再用语音答回来。</p>
-    <p class="hero-sub">WEBRTC REALTIME VOICE · LIVEKIT · TOOL-EXECUTING AGENT ON THE PI</p>
-    <div class="chips"><span class="chip">lang <b>Python + TS</b></span><span class="chip">tests <b>0 自动</b></span><span class="chip">ver <b>无</b></span><span class="chip">license <b>未声明</b></span><span class="chip">CI <b>无</b></span></div>
+    <p class="hero-tag">对着浏览器说话，<span class="hl">派上的 agent 去跑工具</span>，再用语音答回来。</p>
+    <p class="hero-sub">WEBRTC VOICE · LIVEKIT · TOOL-EXECUTING AGENT ON THE PI</p>
+    <div class="chips"><span class="chip">lang <b>Python + TS</b></span><span class="chip">tests <b>0</b></span><span class="chip">ver <b>无</b></span><span class="chip">license <b>未声明</b></span><span class="chip">CI <b>无</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/raspberry-pi" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">最短路径 ↓</a>
+      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
     </div>
   </div>
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>WEBRTC</span><span>LIVEKIT</span><span>PI-ACP</span><span>SILERO VAD</span><span>PORT 8445 ONLY</span><span>FAIL-CLOSED KEYS</span><span>SSE TTS</span><span>WEBRTC</span><span>LIVEKIT</span><span>PI-ACP</span><span>SILERO VAD</span><span>PORT 8445 ONLY</span><span>FAIL-CLOSED KEYS</span><span>SSE TTS</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>WEBRTC</span><span>LIVEKIT</span><span>PI-ACP</span><span>PORT 8445 ONLY</span><span>WEBRTC</span><span>LIVEKIT</span><span>PI-ACP</span><span>PORT 8445 ONLY</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">个人树莓派 / 家庭服务器实验仓库。README 自己的定性是：「代码以「能跑起来」为主，各子项目彼此独立，没有统一的构建系统。」当前活跃开发在 <code>voicekit/</code>——浏览器（iPhone / 桌面）和语音助手开一场实时语音通话：你说中文，助手听懂、回答、用语音说回来。</p>
-  <p class="lede reveal">和普通「语音壳 + 大模型」的区别在于：<b>LLM 后端是跑在树莓派上的 <code>pi</code> / sol-pi CLI agent</b>，所以它不只是聊天——它真的能在 Pi 上执行工具（比如你说「列一下当前目录有哪些文件」，它会去跑 <code>ls</code>）。语音链路基于 LiveKit：信令走 HTTPS/WSS，媒体走 WebRTC（UDP）。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">个人树莓派与家庭服务器实验仓，活跃开发在 <code>voicekit/</code>：浏览器和语音助手开一场实时语音通话，你说中文，助手听懂、回答、用语音说回来。LLM 后端是跑在派上的 <code>pi</code> / sol-pi CLI agent，经 ssh 走 ACP 协议，所以助手能真的在派上执行工具。语音链路基于 LiveKit，信令走 HTTPS/WSS，媒体走 WebRTC UDP。</p>
 </section>
 
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🎙️</div><h3>四段语音链路，每段都可换后端</h3><p>VAD 用 livekit 内置的本地 silero（<code>inference.VAD</code>）；STT 走 SiliconFlow ASR，模型 <code>XingChenAGI/XingChenGSR-V1.0</code>，<b>非流式</b>；LLM 是 <code>GatewayLLM</code> 回退链；TTS 是 MiMo <code>mimo-v2.5-tts</code>，SSE 流式返回 pcm16 / 24 kHz 单声道，默认音色「茉莉」。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🔗</div><h3>LLM 回退链</h3><p><code>VOICEKIT_LLM_BACKENDS</code> 逗号分隔，默认 <code>solpi,newapi,siliconflow,platform</code>。其中 <code>solpi</code> 就是 <code>bridge/index.ts</code> 起的 <code>:8790</code>，经 ssh 打到派上的 <code>pi-acp</code>（ACP 协议，流式加工具）；<code>newapi</code> 是局域网 OpenAI 兼容网关，无 key 就跳过该后端。<code>[llm] solpi failed:</code> 是判断「桥有没有真的接上 Pi」的第一现场。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪜</div><h3>桥的降级链是写死的</h3><p><code>pi-acp</code>（ssh ACP 常驻会话，流式 + 工具）→ <code>pi -p</code>（ssh 一次性，桥按句切块）→ error。降到第二档就失去流式与工具，所以「能不能停在第一档」是这套东西好不好用的分水岭。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚪</div><h3>网关是唯一对外入口</h3><p><code>gateway.py</code> 在 8445 上跑 aiohttp + TLS：<code>/login</code> <code>/logout</code> 发 HMAC cookie，<code>/tk</code> 铸 LiveKit token，<code>/livekit/**</code> 做 wss + http 反向代理。防爆破：同一客户端 IP 10 分钟内 ≥5 次失败就 429 锁 10 分钟。token 注册表存 sha256，TTL 2 小时。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧭</div><h3>媒体绕开网关，这是设计不是漏洞</h3><p>livekit-server 用 docker <code>--network host</code> 起：TCP 7880 信令、TCP 7881 媒体兜底、<b>UDP 7882 媒体走 ICE 直连</b>，不经过 8445。所以端口暴露规则是明确的三行——8445 TCP ✅ 唯一对外入口，7882 UDP ✅ 媒体，7880 / 7881 TCP ❌ <b>绝对不要开</b>。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📞</div><h3>桥的 HTTP 面很窄</h3><p><code>POST /utterance</code> 用 SSE 回 <code>{"type":"chunk"}</code> … <code>{"type":"done"}</code> / <code>{"type":"error"}</code>，加一个 <code>GET /health</code>。<code>BRIDGE_PORT</code> 默认 8790 且<b>只绑 127.0.0.1</b>。</p></div>
-      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">⏱️</div><h3>端点静音是调出来的，别再往上调</h3><p><code>agent.py</code> 的 <code>turn_handling</code> 把端点静音压到 <code>min_delay 0.3 / max_delay 2.5</code>。README 在这一条后面直接写了「别再往上调」——因为非流式 STT 要等一段话说完才出整段文本，再放宽延迟就直接变成「说完半天没反应」。</p></div>
-      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🔧</div><h3>工具能力不来自 livekit</h3><p><code>GatewayLLM</code> <b>不支持工具调用</b>——<code>tools</code> 参数会被忽略并打印一行 warning。工具能力来自 <code>pi-acp</code> 那一侧的 agent，不来自 livekit 的 function calling。这条写在 README 的「其它」里，是为了防止下一个人去调 <code>tools=</code>。</p></div>
-      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">📓</div><h3>19 条评审发现，全部有归宿</h3><p><code>docs/issues/</code> 是 0001–0019 的编号台账，每条按 Severity / Component / Evidence（带 <code>file:line</code>）/ How it manifests / Proposed fix / Status 六段写。当前状态：<b>18 条 resolved</b>（分别并到 <code>51f4f72</code> 与 <code>87fae63</code>）<b>+ 1 条 documented-only（残余风险已接受）</b>。三条远端分支 <code>ahead=0</code>，全部已合并，没有未发布的东西。</p></div>
-      <div class="card tilt reveal"><span class="idx">F10</span><div class="card-icon">🧩</div><h3>Python + TypeScript 混血</h3><p>42 个跟踪文件、约 4,291 行手写代码：<code>voicekit/*.py</code> 1,910 行（<code>plugins.py</code> 748、<code>gateway.py</code> 433、<code>common.py</code> 179、<code>login_page.py</code> 85、<code>agent.py</code> 72……）加 <code>voicekit/bridge</code> 的 TypeScript 841 行（<code>index.ts</code> 与 <code>drivers/{abort,acp,cli,ssh,types}.ts</code>）。GitHub 把它标成 Python 是不准的。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/voicekit</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 前提：docker、Python venv、到 Pi 的 ssh 免密已就绪&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ cd voicekit &amp;&amp; ./start.sh start&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ livekit-server(docker) + bridge / worker / gateway 三个 systemd --user unit&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python e2e.py&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 期望结尾打印 E2E_OK：agent 音频 &gt; 32000 字节且有转写文本&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python e2e_tailnet.py&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 期望 E2E_TAILNET_OK (url=..., audio=...B)&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>一句话的走法</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>浏览器 <span class='dim'>(iPhone Safari / 桌面 Chrome)</span>
    │ HTTPS + WSS
    ▼
 <span class='acc'>gateway.py :8445</span> <span class='dim'>aiohttp + TLS · 唯一对外入口</span>
-   /login /logout <span class='dim'>HMAC cookie · 10 分钟内 ≥5 次失败 → 429 锁 10 分钟</span>
-   /tk            <span class='dim'>铸 LiveKit token（注册表存 sha256，TTL 2h）</span>
+   /login /logout <span class='dim'>HMAC cookie · 10 分钟内 5 次失败返回 429 锁 10 分钟</span>
+   /tk            <span class='dim'>铸 LiveKit token · 注册表存 sha256 · TTL 2h</span>
    /livekit/**    <span class='dim'>wss + http 反向代理</span>
    │ ws://127.0.0.1:7880
    ▼
 livekit-server <span class='dim'>docker --network host</span>
-   TCP 7880 信令 · TCP 7881 媒体兜底 · <span class='acc2'>UDP 7882 媒体 ICE 直连，绕开网关</span>
-   <span class='dim'>7880 / 7881 绝对不要对外开：原始信令端口本身没有鉴权，且绑在所有网卡上</span>
+   TCP 7880 信令 · TCP 7881 媒体兜底 · <span class='acc2'>UDP 7882 媒体 ICE 直连</span>
    │
    ▼
-worker agent.py <span class='dim'>agent_name="voicekit"</span>
-   ├─ VAD  livekit 内置本地 silero
-   ├─ STT  SiliconFlow ASR → XingChenAGI/XingChenGSR-V1.0 <span class='dim'>非流式</span>
-   ├─ LLM  GatewayLLM 回退链 <span class='acc'>solpi → newapi → siliconflow → platform</span>
-   │         └─ solpi = bridge/index.ts :8790 <span class='dim'>只绑 127.0.0.1</span>
-   │              └─ ssh → <span class='acc2'>pi-acp on the Pi</span> <span class='dim'>ACP · 流式 + 工具</span>
-   │                   降级链：pi-acp → pi -p（按句切块）→ error
-   └─ TTS  MiMo mimo-v2.5-tts <span class='dim'>SSE 流式 · pcm16 / 24 kHz 单声道</span></pre></div>
+worker agent.py
+   VAD  livekit 内置本地 silero
+   STT  SiliconFlow ASR → XingChenAGI/XingChenGSR-V1.0 <span class='dim'>非流式</span>
+   LLM  GatewayLLM 回退链 <span class='acc'>solpi → newapi → siliconflow → platform</span>
+   TTS  MiMo mimo-v2.5-tts <span class='dim'>SSE 流式 · pcm16 / 24 kHz 单声道</span>
+        │
+        ▼
+   bridge/index.ts :8790 <span class='dim'>只绑 127.0.0.1 · POST /utterance 走 SSE</span>
+        │ ssh
+        ▼
+   <span class='acc2'>pi-acp on the Pi</span> <span class='dim'>ACP · 流式 + 工具 · 降级链 pi-acp → pi -p → error</span></pre></div>
 </section>
 
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>最短路径</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/voicekit/start.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 前提：docker、Python venv、到 Pi 的 ssh 免密都已就绪&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ cd voicekit &amp;&amp; ./start.sh start&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ livekit-server(docker) + bridge/worker/gateway 三个 systemd --user unit，均 Restart=always&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;# 容器必须保留这四项：--keys --node-ip --network host --restart unless-stopped&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ python e2e.py&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 期望中途打印 [asr/llm] agent: ...，结尾打印 E2E_OK&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;# 判定条件：收到的 agent 音频 &gt; 32000 字节 且 有 agent 侧转写文本；否则 E2E_FAIL&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ python e2e_tailnet.py&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 期望 E2E_TAILNET_OK (url=..., audio=...B)&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🎙️</div><h3>四段链路可换后端</h3><p>VAD 用 livekit 内置 silero。STT 走 SiliconFlow ASR。LLM 是 GatewayLLM 回退链，顺序由 <code>VOICEKIT_LLM_BACKENDS</code> 配置。TTS 是 MiMo，SSE 流式返回 pcm16 / 24 kHz。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🔗</div><h3>工具能力来自派上</h3><p>GatewayLLM 本身不支持工具调用，<code>tools</code> 参数会被忽略。工具能力来自 pi-acp 那一侧的 agent。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪜</div><h3>桥有降级链</h3><p>pi-acp（ssh ACP 常驻会话，流式加工具）失败时降到 pi -p（ssh 一次性，按句切块），再失败报错。桥只绑 127.0.0.1:8790。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚪</div><h3>端口规则明确</h3><p>8445 TCP 是唯一对外入口，7882 UDP 走媒体。7880 与 7881 未鉴权且因 <code>--network host</code> 绑在所有网卡上，README 要求不对外开。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">⏱️</div><h3>冷启动超时已覆盖</h3><p><code>ACP_INIT_TIMEOUT_MS</code> 代码默认 12000，pi-acp 冷启动常超过 12 秒，部署值在 service 文件里覆盖为 30000。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📓</div><h3>评审台账有归宿</h3><p><code>docs/issues/</code> 有 19 条编号发现，每条带 Severity、Evidence（file:line）与 Proposed fix。18 条已修并合入 main，1 条记为接受残余风险。</p></div>
   </div>
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地</span><p>voicekit 全链路（网关 + LiveKit + worker + 桥）、流式 TTS / ASR、完整迁移到 Pi。HEAD 提交即 <code>voicekit: streaming TTS/ASR + full Pi migration</code></p></li>
-      <li><span class="rk done">已落地</span><p>两轮评审的 19 条发现里 18 条已修并合入 <code>main</code>：桥的 capture 上限 / 泄漏 / reaper / send-mutex / ssh-env、网关 ws pump、worker backend lock、livekit keys。抽查过工作树确认真在：<code>bridge/drivers/cli.ts:9</code> 是 <code>const CAPTURE_LIMIT = 1024 * 1024;</code>，<code>bridge/drivers/ssh.ts:8</code> 是 <code>export const SSH_HOST = process.env.PI_SSH_HOST ?? 'leo@100.100.231.92';</code></p></li>
-      <li><span class="rk edge">边界</span><p><b>本仓库没有 LICENSE，连散文里也没声明过任何许可</b>——比「README 声明 MIT 但没有 LICENSE 文件」更弱一档，法律上是未授权。也没有版本、没有 tag、没有 release、没有 CI 工作流，<b>0 项自动化测试</b>：<code>voicekit/test_plugins.py</code> 名字像测试，实际是 0 个 <code>def test_</code>、4 个 assert 的手工离线联调脚本（docstring 写的是「TTS 出音 → STT 转回文本 → LLM 接一句」）。真正的验证面是 <code>e2e.py</code>（142 行）与 <code>e2e_tailnet.py</code>（191 行）两个手工 e2e，<b>本页写作时未执行</b>——跑它们需要 docker LiveKit、能 ssh 到的 Pi、三个 systemd user unit 和付费的 <code>MIMO_KEY</code> / <code>SILICONFLOW_KEY</code></p></li>
-      <li><span class="rk edge">边界</span><p><b>根 README 记的比仓库里有的多。</b>README 的子项目表列了 5 个目录加 4 个松散脚本，而 <code>git ls-files</code> 的顶层只有 <code>docs</code>、<code>.gitignore</code>、<code>README.md</code>、<code>voicekit</code> 四项——<code>voice-agent-phone/</code>、<code>voice-agent/</code>、<code>tts-service/</code>、<code>relay_newapi.py</code>、<code>rp.sh</code>、<code>test_phone_e2e.py</code> 与 <code>.pi-*</code> 都不在仓库里。README 还链到 <code>agent-chatroom/README.md</code>，那条链接在仓库内是 404——它已经是<a href="../agent-chatroom/">独立仓库</a>了。所以关于那些子项目的任何说法，都无法从这个仓库验证</p></li>
-      <li><span class="rk edge">边界</span><p><b>本项目最重要的一条安全约束（README 原话）</b>：不传 <code>--keys</code> 时 <code>--dev</code> 会退回占位符 <code>devkey</code> / <code>secret</code>，等于任何人都能自签一个 JWT 直连 7880 进房间，完全绕过 8445 的登录。<code>start.sh</code> 的兜底分支会自动带 <code>--keys</code>，并删除缺 <code>--keys</code> 的旧容器</p></li>
-      <li><span class="rk edge">边界</span><p>已接受的残余风险（台账 0009）：LiveKit 容器的启动参数含 <code>--keys</code> 的值，对<b>本机能 <code>docker inspect</code> 的人</b>可见，所以 7880 的防火墙才是真正的边界，不能只靠「别人不知道 key」。另一条：会话 cookie 走 query string，会进日志 / Referer / 浏览器历史，这是为兼容无法自定义 WS 握手头的 SDK 做的让步，README 明写「不要把这个模式推广到 <code>/tk</code> 之类的敏感接口」</p></li>
-      <li><span class="rk edge">边界</span><p>e2e 自己测不到代理路径：<code>e2e.py</code> 的信令<b>直连</b> <code>ws://127.0.0.1:7880</code>，只有 token 走网关，所以代理路径上的问题它发现不了。systemd unit 文件也不在仓库里（属本机配置）。iPhone 在 CGNAT 后会走 DERP 中继，README 的定性是「能通但慢，不是故障」。自签证书必须是 <code>CA:FALSE</code> 的叶子证书，否则 iOS Safari 的 rustls 会以 <code>CaUsedAsEndEntity</code> 拒掉——而重新生成证书等于 iPhone 上的信任失效</p></li>
-      <li><span class="rk edge">边界</span><p>代码默认值与部署值不一致，README 直说了：<code>ACP_INIT_TIMEOUT_MS</code> 代码里是 <code>12000</code>，但 <code>pi-acp</code> 冷启动常常超过 12 秒会直接超时降级，所以<b>部署时必须设 30000</b>；<code>voicekit-bridge.service</code> 里已用 <code>Environment=ACP_INIT_TIMEOUT_MS=30000</code> 覆盖。其余默认值：<code>ONESHOT_TIMEOUT_MS</code> 90000、<code>SESSION_IDLE_MS</code> 300000、<code>HISTORY_TURNS</code> 4、<code>VOICEKIT_SESSION_HOURS</code> 720</p></li>
+      <li><span class="rk done">已落地</span><p>voicekit 全链路：网关、LiveKit、worker、桥。流式 TTS 与 ASR。完整迁移到 Pi。</p></li>
+      <li><span class="rk done">已落地</span><p>两轮评审的 19 条发现中 18 条已修：桥的 capture 上限与泄漏、reaper、send-mutex、ssh env，网关 ws pump，worker backend lock，livekit keys。</p></li>
+      <li><span class="rk edge">限制</span><p>没有自动化测试。<code>test_plugins.py</code> 是手工离线联调脚本，<code>e2e.py</code> 与 <code>e2e_tailnet.py</code> 需要 docker LiveKit、可 ssh 的 Pi 和付费 key 才能运行。</p></li>
+      <li><span class="rk edge">限制</span><p>仓库没有 LICENSE、CI 和版本。根 README 列出的子项目中只有 voicekit 在仓库里，agent-chatroom 已是独立仓库。不传 <code>--keys</code> 时 <code>--dev</code> 会退回占位符密钥，README 把这列为本项目最重要的一条安全约束。</p></li>
   </ul>
-  <p class="lede reveal">两个 README 都没有 Roadmap / TODO / 路线 一节，仓库也没有 <code>ROADMAP.md</code>，GitHub issue 区 open 与 closed 均为 0 条。所以这里没有「计划」行——「已落地」取自 <code>git log</code> 与工作树抽查，「边界」逐条取自根 README、<code>voicekit/README.md</code> 与 <code>docs/issues/</code> 台账的原文。没有编造计划项。</p>
 </section>
 
 <section class="wrap">
   <div class="pager reveal">
-    <a href="../agent-chatroom/"><span class="dir">← PREV · 12</span><div class="name">agent-chatroom</div></a>
+    <a href="../agent-chatroom/"><span class="dir">← PREV · 11</span><div class="name">agent-chatroom</div></a>
     <a class="next" href="../dispatch-guard/"><span class="dir">NEXT · 01 →</span><div class="name">dispatch-guard</div></a>
   </div>
 </section>

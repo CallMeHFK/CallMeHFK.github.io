@@ -37,11 +37,11 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="kicker">QWENPAW MIDDLEWARE · 01/13</span>
+    <span class="kicker">QWENPAW MIDDLEWARE · 01/12</span>
     <h1 class="hero-title"><span class="glitch" data-text="dispatch-guard"><span class="grad">dispatch-guard</span></span></h1>
-    <p class="hero-tag">把调度纪律从<span class="hl">提示词</span>，写进<span class="hl">工具层</span>。</p>
+    <p class="hero-tag">把派发约束从提示词移到<span class="hl">工具层</span>。</p>
     <p class="hero-sub">ENFORCEMENT AT THE TOOL SEAM, NOT THE PROMPT</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.11</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.11</b></span><span class="chip">tests <b>210</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -50,30 +50,21 @@
   <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>MIDDLEWARE</span><span>DISPATCH TABLE</span><span>ZERO DEP</span><span>FAIL-SAFE</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>MIDDLEWARE</span><span>DISPATCH TABLE</span><span>ZERO DEP</span><span>FAIL-SAFE</span></div></div>
+<div class="marquee"><div class="marquee-track"><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>DISPATCH TABLE</span><span>ZERO DEP</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>DISPATCH TABLE</span><span>ZERO DEP</span></div></div>
 
 <section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
-  <p class="lede reveal">多 agent 宿主里总会长出一个挂着几十个技能、还带着 spawn_subagent 的「全能」默认 agent——自己动手永远看起来最便宜，于是提示词里的派单规则输给工具列表。dispatch-guard 把执行从提示词搬到工具缝：即使模型决定自己写，写入也永远不会落盘，拒绝消息会精确告诉它该派给哪个 agent。</p>
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
+  <p class="lede reveal">QwenPaw 中间件插件。多 agent 宿主里的默认 agent 常常自己动手写交付物，提示词中的派单规则压不住它。dispatch-guard 在工具缝拦截交付物形状的写入并拒绝，拒绝消息里写明该派给哪个 agent。实现为纯标准库，无 pip 依赖。</p>
 </section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⛔</div><h3>工具缝拦截</h3><p>write 调用被中间件拦下：交付物形状 <b>且</b> 环境中存在归属专家 agent → 拒绝写入并返回派单提示。无归属者不拦。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🛡️</div><h3>spawn 兜底</h3><p><code>spawn_subagent</code> 与 <code>spawn_agent</code> 在 enforce / warn / unconfigured 三种模式下都一并拒绝，作为配置层禁用的最后保险——绕路也被堵死。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔍</div><h3>自动发现</h3><p>插件自己扫描环境中的 agent，按声明技能起草派单表，然后才开始执法。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">📦</div><h3>零依赖</h3><p>纯 stdlib 实现，连判定客户端也是标准库协议镜像，无 pip 依赖、无遥测。读操作、笔记、脚本、配置写入一律放行。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🔐</div><h3>路由表归你</h3><p>仓库只发布脱敏的 routes.example.json，打包步骤拒绝把真实 routes.json 打进归档。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🌱</div><h3>unconfigured 模式</h3><p>新装实例以挂载但不阻塞的模式上线，起草结果写到 <code>~/.qwenpaw/plugin-data/dispatch-guard/routes.draft.json</code>——插件重装会重建插件目录，但不会碰 plugin-data 这一层。启用是你手工把它改名成 <code>routes.json</code> 的那一下，插件从不自己开 <code>enforce</code>。</p></div>
-      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">⚖️</div><h3>可选语义仲裁层</h3><p>确定性规则判不出的两处补一层本地 System One 判定：草拟路由的 P0，和关键词路由指不到在册 owner 的 P1 盲区。默认关——关着与上一版逐字节一致，判定端点与总开关都从 jev-kernel 的 <code>jev.json</code> 继承，任何内部错误一律 fail open。</p></div>
-      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">🐚</div><h3>shell 里也算写入</h3><p>重定向 <code>&gt;</code>、<code>tee</code>、<code>dd of=</code>、<code>curl -o</code>、打包、编译器 <code>-o</code>、<code>sed -i</code>、<code>cp</code>/<code>mv</code> 目标、ffmpeg 位参输出——这些都被当成一次写。默认只发警告块，要拦还得显式开 <code>shell_enforce</code>：判不准就宁可放过，不能让 <code>ls</code> 之类的状态查询变贵。唯一不含糊的例外是元完整性：命令点名守卫自己的路由表就警告，要改它则在所有模式一律拒绝，<code>shell_enforce</code> 对它不适用；项目自己碰巧叫 <code>routes.json</code> 的文件永远不被匹配。</p></div>
-      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">🧾</div><h3>审计日志不成为密钥仓库</h3><p>每一次拦截追加进 <code>logs/dispatch_guard.jsonl</code>，超过 1 MB 滚成单个 <code>.jsonl.1</code>。spawn 的入参是常带 API key 的自由文本，所以只记 sha256[:16] + 长度 + 一段脱敏摘要；shell 的记录只存抽出的路径与提示语，原始命令行进不了日志。脱敏是已知形状过滤器（<code>sk-…</code>、AWS key id、<code>Bearer …</code>、<code>key=value</code>），不是密钥扫描器——它降低暴露面而不承诺闭环，所以记录的身份靠哈希不靠文本。</p></div>
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/dispatch-guard&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · mode = unconfigured (non-blocking)&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 与 agent 共建 routes.json 后切到 enforcing&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ guard on · 3 rules · 4 modes · 0 deps&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
-
 <section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>拦截链路</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
   <div class="flow reveal"><pre>orchestrator ──► write_file(<span class='acc'>deliverable.md</span>)
         │
         ▼
@@ -82,28 +73,29 @@ dispatch-guard · 交付物形状? <span class='acc'>YES</span> ── 归属专
         ▼
 <span class='acc'>DENIED</span> · 写入从未落盘 · 回复：<span class='acc2'>「派给 @Specialist-Agent」</span></pre></div>
 </section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/dispatch-guard&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · mode = unconfigured (non-blocking)&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 与 agent 共建 routes.json 后切到 enforcing&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ guard on · 3 rules · 4 modes · 0 deps&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⛔</div><h3>工具缝拦截</h3><p>write 调用被中间件拦下：命中交付物形状且环境中存在归属专家 agent 时拒绝写入，返回派单提示。无归属者不拦。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🛡️</div><h3>spawn 兜底</h3><p><code>spawn_subagent</code> 与 <code>spawn_agent</code> 在 enforce、warn、unconfigured 三种模式下都拒绝，作为配置层禁用之外的兜底。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐚</div><h3>shell 计入写入</h3><p>重定向、<code>tee</code>、<code>dd of=</code>、<code>curl -o</code>、打包与编译器 <code>-o</code>、<code>sed -i</code>、<code>cp</code>/<code>mv</code> 目标都计为一次写。默认只警告，开 <code>shell_enforce</code> 才拦截。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔍</div><h3>路由表热加载</h3><p><code>routes.json</code> 按 mtime 热加载，并自审矛盾规则、死规则、未知 mode。无配置时从各 agent 声明的派发策略草拟 warn 模式的 <code>routes.draft.json</code>，改名后生效。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">⚖️</div><h3>可选语义仲裁</h3><p><code>jev</code> 层默认关，只补确定性规则判不出的两处：草拟路由的 P0 与关键词路由指不到在册 owner 的 P1。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧾</div><h3>审计日志脱敏</h3><p>每次拦截追加进 <code>logs/dispatch_guard.jsonl</code>，超 1 MB 滚动。spawn 入参只记 sha256 前 16 位、长度与脱敏摘要，原始命令不进日志。</p></div>
   </div>
 </section>
-
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地 v0.1.11</span><p>opt-in 的 <code>jev</code> 语义仲裁层：P0 草拟与 P1 无主盲区两处接入判定，p ≥ 0.85 才在 enforce 下 deny 并点名 owner</p></li>
-      <li><span class="rk done">已落地 v0.1.10</span><p>对抗性评审（2026-10-12）的 17 项缺陷与 18 项 fail-open 一致性问题全部修复，12 例证据包 12/12 通过</p></li>
-      <li><span class="rk edge">边界</span><p>判定端点与总开关继承 jev-kernel 插件的 <code>jev.json</code>——kernel 停，这层也停</p></li>
+      <li><span class="rk done">v0.1.11</span><p>opt-in 的 <code>jev</code> 语义仲裁层：P0 草拟与 P1 无主盲区两处接入判定，p ≥ 0.85 才在 enforce 下 deny 并点名 owner</p></li>
+      <li><span class="rk done">v0.1.10</span><p>对抗性评审（2026-10-12）的 17 项缺陷与 18 项 fail-open 一致性问题全部修复，12 例证据包 12/12 通过</p></li>
+      <li><span class="rk edge">限制</span><p>判定端点与总开关继承 jev-kernel 插件的 <code>jev.json</code>。kernel 停止时该层同时停止。</p></li>
   </ul>
-  <p class="lede reveal">条目取自 release notes；「边界」为文档明示的依赖关系。</p>
 </section>
 
 <section class="wrap">
   <div class="pager reveal">
-    <a href="../raspberry-pi/"><span class="dir">← PREV · 13</span><div class="name">raspberry-pi</div></a>
+    <a href="../raspberry-pi/"><span class="dir">← PREV · 12</span><div class="name">raspberry-pi</div></a>
     <a class="next" href="../agent-shepherd/"><span class="dir">NEXT · 02 →</span><div class="name">agent-shepherd</div></a>
   </div>
 </section>
