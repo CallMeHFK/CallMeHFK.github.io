@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05070b">
+<meta name="description" content="把 NVIDIA DRIVE OS Linux SDK 7.0.3 的文档镜像变成一个可旋转的 3D 引用网络：三维/平面双视图、主题簇着色、倒排索引即时检索、hash 深链、抽屉式正文阅读（含 BYOK 中文翻译） — CallMeHFK PROJECT LAB">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://callmehfk.github.io/projects/driveos-atlas/">
+<meta property="og:title" content="driveos-atlas · CallMeHFK PROJECT LAB">
+<meta property="og:description" content="静态知识图谱浏览器：布局在构建期算好，运行时只有 graph.json + search.json + 懒加载正文桶。无 WebGL 自动回落平面视图。">
+<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>driveos-atlas · CallMeHFK PROJECT LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/projects.css">
+</head>
+<body style="--p:#7c4dff;--p-rgb:124,77,255;--p2:#58e6d9;--p2-rgb:88,230,217">
+<a class="skip-link" href="#why">跳到正文</a>
+<div id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div id="cursor-glow"></div>
+<nav class="nav">
+  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
+  <div class="nav-links">
+    <a href="../" class="active">展厅</a>
+    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">DOC ATLAS · 3D · 08/13</span>
+    <h1 class="hero-title"><span class="glitch" data-text="driveos-atlas"><span class="grad">driveos-atlas</span></span></h1>
+    <p class="hero-tag">把 NVIDIA DRIVE OS 7.0.3 的文档镜像，<span class="hl">变成一张可旋转的 3D 引用网络</span>。</p>
+    <p class="hero-sub">STATIC KNOWLEDGE-GRAPH BROWSER · LAYOUT AT BUILD TIME · ZERO BACKEND</p>
+    <div class="chips"><span class="chip">lang <b>JavaScript</b></span><span class="chip">tests <b>0</b></span><span class="chip">ver <b>1.0.0（package.json）</b></span><span class="chip">license <b>代码 MIT · 无 LICENSE 文件</b></span><span class="chip">CI <b>无</b></span></div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/CallMeHFK/driveos-atlas" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
+      <a class="btn btn-ghost" href="#quickstart">复现步骤 ↓</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</header>
+
+<div class="marquee"><div class="marquee-track"><span>THREE.JS R186</span><span>INVERTED INDEX</span><span>HASH DEEP LINK</span><span>CANVAS 2D FALLBACK</span><span>DOC BUCKETS</span><span>BYOK TRANSLATE</span><span>THE THREE.JS R186</span><span>INVERTED INDEX</span><span>HASH DEEP LINK</span><span>CANVAS 2D FALLBACK</span><span>DOC BUCKETS</span><span>BYOK TRANSLATE</span></div></div>
+
+<section class="wrap" id="why">
+  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>为什么存在</h2></div>
+  <p class="lede reveal">车载 SDK 的文档是那种「搜得到但走不动」的东西：一千多篇 Markdown，章节之间互相引用，可你从一篇跳到另一篇只能靠侧边栏一层层点。driveos-atlas 把整份镜像编译成一张图——节点是文档，边是引用——让你在三维里看清哪一片是核心概念、哪一片是平台定制、谁被引用得最多，然后点进去用抽屉读正文。</p>
+  <p class="lede reveal">它是<b>纯静态</b>的：没有后端，没有服务进程。<code>tools/build.mjs</code> 在构建期就把布局算好、把倒排索引建好、把正文切成懒加载的桶，运行时浏览器只拿 <code>graph.json</code> + <code>search.json</code> + 按需的一个正文桶。这也意味着它可以整份挂到任何静态托管上，或者就在 <code>127.0.0.1</code> 上开着看。</p>
+</section>
+
+<section class="wrap" id="features">
+  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>能力清单</h2></div>
+  <div class="cards">
+      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🧊</div><h3>三维 / 平面双视图</h3><p><code>src/solid.js</code> 是 three.js r186 的 WebGL 渲染器，<code>src/flat.js</code> 是 canvas 2D 回落。<code>src/app.js</code> 负责在两者之间切换：拿不到 WebGL 就自动落到平面视图，并明说一句「此浏览器无 WebGL，已回落平面视图」——不静默降级。选择记在 localStorage 里。</p></div>
+      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🏷️</div><h3>主题簇着色</h3><p>按章节目录分簇上色（<code>CHAPTER_LABELS</code>），所以「核心概念」和「生产部署」在图里是两团不同颜色，不是一锅均质毛线。</p></div>
+      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔍</div><h3>倒排索引即时检索</h3><p><code>search.json</code> 是构建期生成的倒排索引，检索在浏览器本地完成，不发请求、不等后端。另有章节级全文检索。</p></div>
+      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔗</div><h3>hash 深链</h3><p>URL 里的 <code>#/doc/&lt;id&gt;</code> 直接落到某一篇并打开抽屉，所以图上任何一个位置都能被复制、被贴进 issue、被bookmark 回来。</p></div>
+      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">📖</div><h3>抽屉式正文阅读</h3><p>正文在右侧抽屉里读，抽屉宽度可拖（记在 <code>atlas.drawerw</code>），开关同步 <code>aria-hidden</code>。中文模式下大纲另有一套处理——翻译后的标题不一定保得住原文的 slug。</p></div>
+      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🌐</div><h3>BYOK 中文翻译</h3><p><code>src/i18n.js</code> 按需机翻正文，走你自己填的 OpenAI 兼容端点。<b>密钥与译文都只活在这个浏览器里，发布产物两样都不带。</b>系统提示要求严格保持 HTML 标签与属性、代码、命令行、文件路径、API / 变量 / 宏等标识符、版本号与单位原样不变，只翻译标签之间的自然语言句子。正文按 6000 字符分块，译文缓存在 localStorage，预算 4,000,000 字符——因为 localStorage 总共约 5 MB，得给应用本体留地方。</p></div>
+      <div class="card tilt reveal"><span class="idx">F07</span><div class="card-icon">🪣</div><h3>正文按桶懒加载</h3><p>构建期把正文切成 <code>web/data/docs/&lt;chapter&gt;__NNN.json</code> 一批桶，<code>graph.json</code> 里每个文档只带一个桶序号 <code>p</code>，另存 <code>buckets</code> 与 <code>bucketBytes</code> 两张表。读一篇只解一个桶，不把整份语料拖进内存。</p></div>
+      <div class="card tilt reveal"><span class="idx">F08</span><div class="card-icon">📐</div><h3>布局在构建期算完</h3><p><code>tools/build.mjs</code> 里用空间网格分桶找邻居（<code>grid.get(gx+dx, gy+dy, gz+dz)</code>）来算布局，运行时不再迭代。所以打开就是最终形态，不会看它在眼前慢慢弹。</p></div>
+      <div class="card tilt reveal"><span class="idx">F09</span><div class="card-icon">🛠️</div><h3>四个构建脚本，没有框架</h3><p><code>build.mjs</code>（图谱 + 索引 + 正文桶）、<code>bundle.mjs</code>（esbuild 打 <code>src/</code> → <code>web/app.js</code> 并拷 <code>index.html</code> / <code>styles.css</code>）、<code>md.mjs</code>（Markdown 处理）、<code>serve.mjs</code>（本地回环预览）。开发依赖只有两个：esbuild 与 three。</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>从镜像到静态站</h2></div>
+  <div class="flow reveal"><pre>DRIVE OS 7.0.3 文档镜像 <span class='dim'>(1627 个 .md · 因版权不在仓库内)</span>
+        │
+        ▼  tools/build.mjs  <span class='dim'>—— 布局、索引、分桶全在这一步算完</span>
+   ┌────┴─────────────────┬──────────────────────┐
+   ▼                      ▼                      ▼
+<span class='acc'>graph.json</span>            <span class='acc'>search.json</span>          <span class='acc'>docs/&lt;chapter&gt;__NNN.json</span>
+ 节点 + 引用边           倒排索引              正文桶（懒加载）
+ 每文档只带桶序号 p      浏览器本地检索         读一篇只解一个桶
+   └────────────────────┬──────────────────────┘
+                        ▼  tools/bundle.mjs <span class='dim'>(esbuild)</span>
+                  <span class='acc2'>web/ · 纯静态，没有后端</span>
+                        │
+        ┌───────────────┴───────────────┐
+        ▼                               ▼
+  src/solid.js <span class='dim'>three.js r186 WebGL</span>   src/flat.js <span class='dim'>canvas 2D</span>
+        └──── 无 WebGL 自动回落，并明说 ────┘
+                        │
+                        ▼
+        抽屉读正文 · #/doc/ 深链 · BYOK 中文翻译 <span class='dim'>(密钥只留在本机浏览器)</span></pre></div>
+</section>
+
+<section class="wrap" id="quickstart">
+  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>复现</h2></div>
+  <div class="term reveal">
+    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/reproduce.sh</span></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 文档镜像不在仓库里：先把你自己那份 DRIVE OS 7.0.3 镜像按章节目录放好&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ npm install&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ esbuild + three（只有这两个开发依赖）&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ npm run make&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ build + bundle → web/ · graph.json + search.json + docs/*.json&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ npm run dev&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ http://127.0.0.1:8765 · 三维视图；无 WebGL 会自动落到平面并提示&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+  </div>
+</section>
+
+<section class="wrap" id="road">
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线</h2></div>
+  <ul class="road reveal">
+      <li><span class="rk done">已落地</span><p>三维 / 平面双视图、主题簇着色、倒排索引即时检索、章节全文检索、hash 深链、抽屉式正文阅读（含 BYOK 中文翻译）——README 列的六项能力，逐个在 <code>src/</code> 里能找到实现：<code>solid.js</code> / <code>flat.js</code> / <code>app.js</code> 的 <code>#/doc/</code> 分支 / <code>i18n.js</code></p></li>
+      <li><span class="rk done">已落地</span><p>构建产物按「读一篇只解一个桶」切分，并把桶名与桶字节数写进 <code>graph.json</code>；HEAD 提交（<code>275d77b</code>）做的正是让外壳的语料计数取自构建报告，而不是另算一遍</p></li>
+      <li><span class="rk edge">边界</span><p><b>文档镜像不在仓库内</b>（版权原因，<code>.gitignore</code> 逐个列出 <code>/core-concepts/</code>、<code>/platform-customization/</code> 等章节目录）。所以这个仓库<b>无法开箱复现</b>：没有镜像就没有输入，<code>npm run make</code> 无从产出 <code>web/</code>。代码本身 MIT，文档内容版权归 NVIDIA</p></li>
+      <li><span class="rk edge">边界</span><p>README 说的「1627 篇」<b>只是文档断言</b>：镜像不在仓库，这个数字在任何源文件里都找不到（<code>grep -rn 1627</code> 无命中），<code>build.mjs</code> 是运行时算 <code>docs.length</code> 的。本页照录不背书</p></li>
+      <li><span class="rk edge">边界</span><p><b>没有测试，也没有 CI</b>——收例数 0，工作流目录不存在。仓库没有 LICENSE 文件，MIT 只在 README 的「许可」一节声明。<code>package.json</code> 写着 <code>1.0.0</code> 且 <code>private: true</code>，从未打 tag 或发 release</p></li>
+      <li><span class="rk edge">边界</span><p>README 里那个线上实例（<code>driveos-atlas-8nsdsfrx9xv.qoder.zone</code>）在本页写作时<b>连不上</b>：域名能解析，但 TLS 握手以 <code>unexpected eof while reading</code> 失败。所以本页不放「在线演示」按钮——不放一个自己没验过能打开的链接</p></li>
+      <li><span class="rk edge">边界</span><p>BYOK 翻译是按需机翻，质量取决于你填的端点；密钥与译文只在本机 localStorage，清站点数据即失效。默认打开 <code>noThink</code>，因为默认开推理的模型家族做翻译需要把它关掉</p></li>
+  </ul>
+  <p class="lede reveal">仓库没有 Roadmap 一节，issue 区从建库至今是 0 条（open 与 closed 都为 0），所以这里没有「计划」行——只有已落地与边界。同一个问题形状的第二代解法是 <a href="../site-kg/">site-kg</a>：把「一个特定 SDK 的镜像」换成「任意站点 URL 或本地目录」，并加一层 MCP 接口给 agent 用；两者都用 three.js r186。</p>
+</section>
+
+<section class="wrap">
+  <div class="pager reveal">
+    <a href="../site-kg/"><span class="dir">← PREV · 07</span><div class="name">site-kg</div></a>
+    <a class="next" href="../qwenpaw-consensus-rank/"><span class="dir">NEXT · 09 →</span><div class="name">qwenpaw-consensus-rank</div></a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/driveos-atlas" target="_blank" rel="noopener">GitHub ↗</a></p>
+  <p style="margin-top:8px">© 2026 CallMeHFK · 代码 MIT（README 声明）· 文档内容版权归 NVIDIA</p>
+</footer>
+
+<script src="../assets/projects.js"></script>
+</body>
+</html>

@@ -563,6 +563,29 @@ body {
   pointer-events: none; opacity: 0.75;
 }
 .lab3d-noscript { padding: 22px; color: var(--muted); font-size: 13px; }
+
+/* 星座图例：簇名 + 成员数，由 lab3d.js 从 CLUSTERS 生成 */
+.lab3d-legend {
+  position: absolute; left: 14px; bottom: 14px;
+  display: grid; gap: 5px;
+  padding: 11px 13px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: rgba(8, 11, 16, 0.72);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  font-size: 11px; line-height: 1.45;
+}
+.lab3d-legend .lg-cap {
+  color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 9.5px; margin-bottom: 3px;
+}
+.lab3d-legend .lg-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+}
+.lab3d-legend .lg-name { color: var(--text); letter-spacing: 0.02em; }
+.lab3d-legend .lg-row b { color: var(--p); font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (max-width: 1100px) { .lab3d-legend { display: none; } }
+
 body.lab3d-on #bg-canvas { opacity: 0; transition: opacity 0.4s ease; }
 #grid.lab3d-active .hub-grid { display: none; }
 

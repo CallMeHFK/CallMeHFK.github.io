@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0e13">
-<meta name="description" content="CallMeHFK：Agent 系统工程师。两层过程监督策略引擎、tool seam 输出路由、Agent Skill 质量门控，另一边是 Windows APO 驱动与 Renode 周期精确在环。">
+<meta name="description" content="CallMeHFK：Agent 系统工程师。两层过程监督策略引擎、tool seam 输出路由、多 Agent 聊天室运行时、Agent Skill 质量门控，另一边是 Windows APO 驱动与 Renode 周期精确在环。">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://callmehfk.github.io/">
 <meta property="og:site_name" content="CallMeHFK">
 <meta property="og:title" content="CallMeHFK — 给 agent 的过程和输出加约束">
-<meta property="og:description" content="Agent 系统工程师：过程监督 / 输出路由 / 技能质量。9 个开源项目，917 项收例测试，8 仓库 CI 全绿。">
+<meta property="og:description" content="Agent 系统工程师：过程监督 / 输出路由 / 技能质量。13 个开源项目，1,640 项收例测试，9 仓库 CI 全绿。">
 <meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CallMeHFK — 给 agent 的过程和输出加约束">
@@ -56,10 +56,11 @@
     <p class="handle">CallMeHFK · UTC+8<span class="caret" aria-hidden="true"></span></p>
     <p class="tagline"><strong>Agent 系统工程师 · 过程监督 / 输出路由 / 技能质量</strong></p>
     <div class="chips">
-      <span class="chip">CI <b>8/8 repos green</b></span>
+      <span class="chip" title="有 CI 工作流的仓库全部 HEAD 绿；另 4 个仓库没有工作流">CI <b>9/9 repos green</b></span>
       <span class="chip">upstream PR <b>5 merged · 3 open</b></span>
-      <span class="chip">qwenpaw plugins <b>6</b></span>
-      <a class="chip link" href="projects/">项目展厅 <b>3D 星座视图</b></a>
+      <span class="chip" title="口径：仓库内带 QwenPaw plugin.json 的仓库数">qwenpaw plugins <b>7</b></span>
+      <span class="chip" title="pytest --collect-only / go func Test / node:test 实跑，三种口径合计">tests <b>1,640</b></span>
+      <a class="chip link" href="projects/">项目展厅 <b>13 项目 · 3D 星座</b></a>
     </div>
     <div class="icons">
       <img class="sq" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png" alt="python">
@@ -82,24 +83,30 @@
     <div class="sec-head">
       <span class="prompt" aria-hidden="true">$</span>
       <h2>仓库速览</h2>
-      <span class="tag"><a href="projects/">项目展厅 →</a> · 8 repos · CI green · 917 项收例</span>
+      <span class="tag"><a href="projects/">项目展厅 →</a> · 13 repos · CI 9/9 green · 1,640 项收例</span>
     </div>
     <div class="rtbl-wrap" tabindex="0" role="region" aria-label="仓库速览表格，可横向滚动">
       <table class="rtbl">
         <thead><tr><th>仓库</th><th>是什么</th><th>版本</th><th>推送</th></tr></thead>
         <tbody>
+          <tr><td><a href="projects/dispatch-guard/">dispatch-guard</a> <a href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>编排 Agent 输出路由的 tool-seam 中间件</td><td>v0.1.11</td><td class="when">10-14</td></tr>
           <tr><td><a href="projects/agent-shepherd/">agent-shepherd</a> <a href="https://github.com/CallMeHFK/agent-shepherd" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>智能体过程监督：两层检测器 + 离线反事实基准</td><td>v0.4.0</td><td class="when live">10-19</td></tr>
-          <tr><td><a href="projects/dispatch-guard/">dispatch-guard</a> <a href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>编排 Agent 输出路由的 tool-seam 中间件</td><td>v0.1.11</td><td class="when live">10-14</td></tr>
           <tr><td><a href="projects/jev-kernel/">jev-kernel</a> <a href="https://github.com/CallMeHFK/jev-kernel" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配）</td><td>v0.2.1</td><td class="when">10-12</td></tr>
-          <tr><td><a href="projects/qwenpaw-openviking/">qwenpaw-openviking</a> <a href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配）</td><td>v0.2.0</td><td class="when live">10-14</td></tr>
-          <tr><td><a href="projects/site-kg/">site-kg</a> <a href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>站点 URL 或本地目录 → 知识图谱 → 9 工具 MCP 服务</td><td>—</td><td class="when live">10-19</td></tr>
-          <tr><td><a href="projects/qwenpaw-consensus-rank/">qwenpaw-consensus-rank</a> <a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>多评审 LLM 位次平均共识排序</td><td>v1.4.10</td><td class="when">10-09</td></tr>
           <tr><td><a href="projects/agent-task-callback/">agent-task-callback</a> <a href="https://github.com/CallMeHFK/agent-task-callback" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>跨 Agent 后台任务的 push 侧回调</td><td>v0.1.5</td><td class="when">10-12</td></tr>
-          <tr><td><a href="projects/niclane/">niclane</a> <a href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed）</td><td>v0.3.2</td><td class="when">10-07</td></tr>
+          <tr><td><a href="projects/qwenpaw-secret-input/">qwenpaw-secret-input</a> <a href="https://github.com/CallMeHFK/qwenpaw-secret-input" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>运行中途向人要密钥：明文不进模型上下文，只回一次性 ref</td><td>v0.2.0</td><td class="when live">10-21</td></tr>
+          <tr><td><a href="projects/qwenpaw-openviking/">qwenpaw-openviking</a> <a href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配）</td><td>v0.2.0</td><td class="when">10-14</td></tr>
+          <tr><td><a href="projects/site-kg/">site-kg</a> <a href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>站点 URL 或本地目录 → 知识图谱 → 10 工具 MCP 服务</td><td>—</td><td class="when live">10-22</td></tr>
+          <tr><td><a href="projects/driveos-atlas/">driveos-atlas</a> <a href="https://github.com/CallMeHFK/driveos-atlas" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>DRIVE OS 7.0.3 文档镜像 → 可旋转的 3D 引用网络（纯静态）</td><td>—</td><td class="when">10-12</td></tr>
+          <tr><td><a href="projects/qwenpaw-consensus-rank/">qwenpaw-consensus-rank</a> <a href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>多评审 LLM 位次平均共识排序</td><td>v1.4.10</td><td class="when">10-09</td></tr>
+          <tr><td><a href="projects/niclane/">niclane</a> <a href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，候选车道自动故障转移，fail-closed）</td><td>v0.4.0</td><td class="when live">10-22</td></tr>
+          <tr><td><a href="projects/sovereign-echo/">sovereign-echo</a> <a href="https://github.com/CallMeHFK/sovereign-echo" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>把个人数据主权声明注入每一场对话（Shell）</td><td>—</td><td class="when live">10-19</td></tr>
+          <tr><td><a href="projects/agent-chatroom/">agent-chatroom</a> <a href="https://github.com/CallMeHFK/agent-chatroom" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>多 Agent 聊天室：@ 点名、并行应答、SSE 流式、共享画布</td><td>—</td><td class="when live">10-22</td></tr>
+          <tr><td><a href="projects/raspberry-pi/">raspberry-pi</a> <a href="https://github.com/CallMeHFK/raspberry-pi" target="_blank" rel="noopener" title="GitHub">↗</a></td><td>派上实时语音通话（WebRTC），后端是真能执行工具的 CLI agent</td><td>—</td><td class="when live">10-19</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="lede">推送列为各仓库默认分支最近一次推送（2026-10-19 复核）；收例总数 917 与 CI 状态见上方徽标（site-kg 含 2 项 <code>-m slow</code> 规模门禁）。展厅另有 <a href="projects/sovereign-echo/">sovereign-echo</a>，Shell 实现、自带 <code>tests/run-tests.sh</code>，不进此表。</p>
+    <p class="lede">推送列为各仓库默认分支最近一次推送，<code>live</code> 标记＝距 2026-10-22 复核日 7 天以内（13 个里 7 个）。行序与展厅卡片序一致，即 3D 星座的四个簇。</p>
+    <p class="lede"><b>1,640 项收例</b>的口径：Python 取 <code>pytest --collect-only -q</code>（site-kg 另有 2 项 <code>-m slow</code> 规模门禁被默认 deselect，故记 243 而非 245），Go 取 <code>func Test</code>，TypeScript 取 <code>node:test</code> 实跑。逐仓库为 dispatch-guard 210 + agent-shepherd 230 + jev-kernel 46 + agent-task-callback 33 + qwenpaw-secret-input 335 + qwenpaw-openviking 78 + site-kg 243 + qwenpaw-consensus-rank 120 + niclane 46 + agent-chatroom 299 = 1,640。<b>driveos-atlas 与 raspberry-pi 计 0</b>——前者没有测试，后者只有两个手工 e2e 脚本；sovereign-echo 自带 <code>tests/run-tests.sh</code>，不进这个总数。9 个仓库有 CI 且 HEAD 全绿，另 4 个（driveos-atlas、sovereign-echo、agent-chatroom、raspberry-pi）没有工作流。qwenpaw-secret-input 的 CI 只跑静态门（ruff + compileall + <code>node --check</code>），335 条 unittest 要 import 宿主包，只在本地跑。</p>
   </section>
 
   <!-- ══ 系统设计 ══ -->
@@ -107,9 +114,9 @@
     <div class="sec-head">
       <span class="prompt" aria-hidden="true">$</span>
       <h2>系统设计</h2>
-      <span class="tag">2 个</span>
+      <span class="tag">3 个</span>
     </div>
-    <p class="lede">只展开自己从零写的两个；上游移植与宿主适配走上表，不占这一节。</p>
+    <p class="lede">只展开自己从零写的三个系统；宿主插件与上游移植走上表，不占这一节。</p>
 
     <article class="work">
       <h3 class="work-head"><a href="https://github.com/CallMeHFK/agent-shepherd">agent-shepherd</a><span class="work-role">过程监督</span></h3>
@@ -133,6 +140,19 @@
         <li><code>jev</code> 是 opt-in 的第二层，默认关：只补确定性规则判不出的两处——草拟路由时的 P0，和关键词路由指不到在册 owner 的 P1 盲区（原先静默 pass）。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn，其余走原路径；L1 命中和清单读取失败分支零判定调用。判定端点与模型取自内核插件自己的 <code>jev.json</code>（<code>inherit:jev-kernel</code>），并以它的总开关为准——kernel 停了这层也停；客户端是纯标准库的协议镜像</li>
       </ul>
       <p class="work-meta">210 项测试 · 6,925 行 Python（含测试） · v0.1.11 · release 一行安装</p>
+    </article>
+
+    <article class="work">
+      <h3 class="work-head"><a href="https://github.com/CallMeHFK/agent-chatroom">agent-chatroom</a><span class="work-role">多 Agent 运行时</span></h3>
+      <p class="work-lede">用户与多个 CLI agent 同室互聊：@ 点名，agent 之间也能互相唤起。零框架 <code>node:http</code> + SSE，前端单页零构建。</p>
+      <ul class="work-points">
+        <li>和 dispatch-guard 同一条主张：<b>回复路由是策略层，不写在 prompt 里</b>。@ 精确点名、无 @ 全员接力、<code>replyTo</code> 链深 ≤ 3 防无限对轰、发言冷却防抢话；并行应答默认开，同一轮被点名的多个 agent 同时发言，流式事件天然交错</li>
+        <li>三种 driver 并存（ACP 常驻会话 / 本地一次性 CLI / 远程 SSH），所以「本机已装的各家 agent」不必先被改造成同一个协议才能进屋。abort 是一等公民：<code>Driver.send</code> 第三个参数就是 <code>AbortSignal</code>，acp 发 <code>session/cancel</code>，cli / ssh 杀进程组</li>
+        <li>SSE 事件对齐 AG-UI 分类法（<code>TEXT_MESSAGE_*</code> / <code>THINKING_*</code> / <code>CUSTOM</code> / <code>STATE_*</code>），<b>字段名本身就是前后端契约</b>——PLAN.md 的 T8–T12 标题直接写着「前端契约已定，字段不得更改」</li>
+        <li>探针结论落进实现而不是留在脑子里：ACP SDK ^1.8.0 驱动 qodercli 时<b>默认不能调 <code>authenticate</code></b>（会挂起），要直接 <code>session/new</code>，只在失败且 <code>authMethods</code> 非空时回退一次；2026-10-16 实测国际版端点 <code>*.qoder.sh</code> 被 TLS 拦截，改用国内版 qoderclicn</li>
+        <li><code>docs/ISSUES.md</code> 是一份编号到 #43 的外部评审台账，37 行里 <b>25 fixed · 3 deferred · 9 open</b>；open 的 9 条连「本轮不修」的理由与剩余 scope 都写在表里，其中 <code>#39</code> 是 P1（会话 cookie 等价管理员权限，已做响应脱敏的最小止血，管理面加锁明确留待后续）。<code>#42</code> 记的是自己的门禁盲区，批注写着「两条都要配真破坏的负对照，否则是空门」</li>
+      </ul>
+      <p class="work-meta">299 项测试实跑全绿（node:test，2.25s） · 16,153 行 TS/JS（不含 vendor） · <code>package.json</code> 写 0.1.0 但未打 tag · 仓库无 LICENSE、无 CI——两条都记在详情页的边界里</p>
     </article>
   </section>
 
@@ -158,7 +178,7 @@
         </tbody>
       </table>
     </div>
-    <p class="lede">同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-19 的 GitHub 复核。</p>
+    <p class="lede">同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-22 的 GitHub 复核（8 条逐个查过 state 与 merged_at）。</p>
   </section>
 
   <!-- ══ 闭源与内部 ══ -->

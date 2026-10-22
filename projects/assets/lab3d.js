@@ -1,7 +1,8 @@
 /* ══════════════════════════════════════════════════════════
    PROJECT LAB — 3D 星座视图（three.js r186，本地 vendor，零构建）
-   9 个项目 = 9 个发光节点，按主题分三簇；边表示真实的依赖关系
+   每个项目 = 一个发光节点，按主题分四簇；边表示真实的依赖或同一机制
    数据全部来自 .hub-grid 里的卡片 DOM，HTML 仍是唯一事实源
+   簇名与成员数由 CLUSTERS 直接生成图例，不另立一份可漂移的副本
    ══════════════════════════════════════════════════════════ */
 import * as THREE from "./vendor/three/186/three.module.min.js";
 
@@ -54,6 +55,8 @@ import * as THREE from "./vendor/three/186/three.module.min.js";
   var cards = Array.prototype.slice.call(grid.querySelectorAll(".hub-grid .proj"));
   if (!cards.length) return;
 
+  /* 边 = 仓库自己声明的依赖，或两个仓库实现的同一个机制。
+     不为了好看连边：每条都能指到一句文档。 */
   var EDGES = [
     ["dispatch-guard", "jev-kernel"],
     ["dispatch-guard", "agent-shepherd"],
@@ -64,14 +67,30 @@ import * as THREE from "./vendor/three/186/three.module.min.js";
     ["qwenpaw-openviking", "qwenpaw-consensus-rank"],
     ["site-kg", "jev-kernel"],
     ["niclane", "sovereign-echo"],
-    ["sovereign-echo", "dispatch-guard"]
+    ["sovereign-echo", "dispatch-guard"],
+    // tool seam 上的同一件事：调用前后插一道闸
+    ["qwenpaw-secret-input", "dispatch-guard"],
+    ["qwenpaw-secret-input", "jev-kernel"],
+    // 「运行中途问人，答案回流给该 agent」的两种实现
+    ["qwenpaw-secret-input", "agent-chatroom"],
+    ["agent-task-callback", "agent-chatroom"],
+    // 回复路由由策略层决定，不在 prompt 里
+    ["agent-chatroom", "dispatch-guard"],
+    // 文档语料 → 可旋转的 3D 引用网络，两代实现
+    ["driveos-atlas", "site-kg"],
+    // agent-chatroom 作为子项目住在 raspberry-pi 仓库里（其 README 子项目表明示）
+    ["agent-chatroom", "raspberry-pi"],
+    // 让包按预期的那条路出去：一个管网卡，一个管到家庭 LAN 的转发
+    ["raspberry-pi", "niclane"]
   ];
 
-  // 三簇：tool seam 治理 / 记忆与知识 / 边界与主权
+  // 四簇：tool seam 治理 / 记忆与知识 / 边界与主权 / 运行时与端侧
+  // 簇心在 x 上拉开、在 y 上压扁：舞台约 1.95:1，竖着摆会把两侧留白
   var CLUSTERS = [
-    { center: [-3.4, 0.75, 0.3], members: ["dispatch-guard", "jev-kernel", "agent-shepherd", "agent-task-callback"], r: 2.05, squash: 0.7, phase: 0.4 },
-    { center: [3.2, 0.35, -1.0], members: ["qwenpaw-openviking", "site-kg", "qwenpaw-consensus-rank"], r: 1.8, squash: 0.62, phase: 1.9 },
-    { center: [0.2, -2.75, 1.15], members: ["niclane", "sovereign-echo"], r: 1.55, squash: 0.55, phase: 0.9 }
+    { name: "tool seam 治理", center: [-6.2, 1.15, 0.35], members: ["dispatch-guard", "jev-kernel", "agent-shepherd", "agent-task-callback", "qwenpaw-secret-input"], r: 2.25, squash: 0.62, phase: 0.4 },
+    { name: "记忆与知识", center: [6.2, 0.95, -0.55], members: ["qwenpaw-openviking", "site-kg", "driveos-atlas", "qwenpaw-consensus-rank"], r: 2.0, squash: 0.6, phase: 1.9 },
+    { name: "边界与主权", center: [-3.4, -2.7, 1.0], members: ["niclane", "sovereign-echo"], r: 1.45, squash: 0.5, phase: 0.9 },
+    { name: "运行时与端侧", center: [3.4, -2.7, -0.85], members: ["agent-chatroom", "raspberry-pi"], r: 1.45, squash: 0.5, phase: 2.6 }
   ];
 
   var projects = cards.map(function (card) {
@@ -89,6 +108,33 @@ import * as THREE from "./vendor/three/186/three.module.min.js";
 
   var bySlug = {};
   projects.forEach(function (p) { bySlug[p.slug] = p; });
+
+  /* ── 图例：直接从 CLUSTERS 生成，不另存一份会漂移的副本 ── */
+  (function buildLegend() {
+    var old = document.getElementById("lab3d-legend");
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    var box = document.createElement("div");
+    box.className = "lab3d-legend";
+    box.id = "lab3d-legend";
+    var cap = document.createElement("div");
+    cap.className = "lg-cap";
+    cap.textContent = "四簇 · " + projects.length + " 节点 · " + EDGES.length + " 边";
+    box.appendChild(cap);
+    CLUSTERS.forEach(function (cl) {
+      var present = cl.members.filter(function (m) { return bySlug[m]; });
+      if (!present.length) return;
+      var row = document.createElement("div");
+      row.className = "lg-row";
+      var t = document.createElement("span");
+      t.className = "lg-name";
+      t.textContent = cl.name;
+      var n = document.createElement("b");
+      n.textContent = present.length;
+      row.appendChild(t); row.appendChild(n);
+      box.appendChild(row);
+    });
+    stage.appendChild(box);
+  })();
 
   /* ── 布局：簇心 + 局部椭圆轨道 ────────────────────────── */
   projects.forEach(function (p) {
@@ -116,7 +162,7 @@ import * as THREE from "./vendor/three/186/three.module.min.js";
   var v3 = new THREE.Vector3(), v3b = new THREE.Vector3();
   var running = false, visible = true, active = false;
   var hovered = -1;
-  var yawT = 0, pitchT = 0, yaw = 0, pitch = 0, dist = 14.5;
+  var yawT = 0, pitchT = 0, yaw = 0, pitch = 0, dist = 12.8;
   var pointerNDC = new THREE.Vector2(-2, -2);
   var pointerIn = false, dragging = false, dragMoved = 0, lastX = 0, lastY = 0;
   var touchSelected = -1;
