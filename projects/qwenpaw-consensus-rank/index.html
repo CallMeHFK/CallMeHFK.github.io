@@ -41,7 +41,7 @@
     <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-consensus-rank"><span class="grad">qwenpaw-consensus-rank</span></span></h1>
     <p class="hero-tag">跨家族多评审<span class="hl">匿名排序</span>，位次均值出共识。</p>
     <p class="hero-sub">MEAN-RANK CONSENSUS + SPEARMAN REPORT</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v1.4.10</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v1.4.10</b></span><span class="chip">license <b>MIT</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -85,10 +85,10 @@ N × cross-family judges ──► 各自返回完整排序 <span class='dim'>(�
   </div>
 </section>
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地 v1.4.10</span><p>评审跟进：<code>judges_json</code> 帮助文本如实标注内置三评委为示例网关；版本窗口由 CI 测试钉住（套件 119 → 120）</p></li>
-      <li><span class="rk done">已落地 v1.4.9</span><p><code>qwenpaw_version.max</code> 改左闭右开并放开上限，声明 2.1.0 而实测跑在 2.2.1 的回归不再可能。</p></li>
+      <li><span class="rk edge">限制</span><p>内置的三个评委配置指向示例网关，实际使用要换成自己的 judge 端点。</p></li>
+      <li><span class="rk edge">限制</span><p>宿主版本窗口为 QwenPaw 1.1.6 到 2.3.0 之前，max 为右开区间。</p></li>
   </ul>
 </section>
 

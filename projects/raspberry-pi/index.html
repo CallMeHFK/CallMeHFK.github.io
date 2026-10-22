@@ -41,7 +41,7 @@
     <h1 class="hero-title"><span class="glitch" data-text="raspberry-pi"><span class="grad">raspberry-pi</span></span></h1>
     <p class="hero-tag">对着浏览器说话，<span class="hl">派上的 agent 去跑工具</span>，再用语音答回来。</p>
     <p class="hero-sub">WEBRTC VOICE · LIVEKIT · TOOL-EXECUTING AGENT ON THE PI</p>
-    <div class="chips"><span class="chip">lang <b>Python + TS</b></span><span class="chip">tests <b>0</b></span><span class="chip">ver <b>无</b></span><span class="chip">license <b>未声明</b></span><span class="chip">CI <b>无</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python + TS</b></span><span class="chip">ver <b>无</b></span><span class="chip">license <b>未声明</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/raspberry-pi" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -101,17 +101,13 @@ worker agent.py
       <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪜</div><h3>桥有降级链</h3><p>pi-acp（ssh ACP 常驻会话，流式加工具）失败时降到 pi -p（ssh 一次性，按句切块），再失败报错。桥只绑 127.0.0.1:8790。</p></div>
       <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚪</div><h3>端口规则明确</h3><p>8445 TCP 是唯一对外入口，7882 UDP 走媒体。7880 与 7881 未鉴权且因 <code>--network host</code> 绑在所有网卡上，README 要求不对外开。</p></div>
       <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">⏱️</div><h3>冷启动超时已覆盖</h3><p><code>ACP_INIT_TIMEOUT_MS</code> 代码默认 12000，pi-acp 冷启动常超过 12 秒，部署值在 service 文件里覆盖为 30000。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📓</div><h3>评审台账有归宿</h3><p><code>docs/issues/</code> 有 19 条编号发现，每条带 Severity、Evidence（file:line）与 Proposed fix。18 条已修并合入 main，1 条记为接受残余风险。</p></div>
   </div>
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地</span><p>voicekit 全链路：网关、LiveKit、worker、桥。流式 TTS 与 ASR。完整迁移到 Pi。</p></li>
-      <li><span class="rk done">已落地</span><p>两轮评审的 19 条发现中 18 条已修：桥的 capture 上限与泄漏、reaper、send-mutex、ssh env，网关 ws pump，worker backend lock，livekit keys。</p></li>
-      <li><span class="rk edge">限制</span><p>没有自动化测试。<code>test_plugins.py</code> 是手工离线联调脚本，<code>e2e.py</code> 与 <code>e2e_tailnet.py</code> 需要 docker LiveKit、可 ssh 的 Pi 和付费 key 才能运行。</p></li>
-      <li><span class="rk edge">限制</span><p>仓库没有 LICENSE、CI 和版本。根 README 列出的子项目中只有 voicekit 在仓库里，agent-chatroom 已是独立仓库。不传 <code>--keys</code> 时 <code>--dev</code> 会退回占位符密钥，README 把这列为本项目最重要的一条安全约束。</p></li>
+            <li><span class="rk edge">限制</span><p>仓库没有 LICENSE 和版本。根 README 列出的子项目中只有 voicekit 在仓库里，agent-chatroom 已是独立仓库。不传 <code>--keys</code> 时 <code>--dev</code> 会退回占位符密钥，README 把这列为本项目最重要的一条安全约束。</p></li>
   </ul>
 </section>
 

@@ -41,7 +41,7 @@
     <h1 class="hero-title"><span class="glitch" data-text="agent-chatroom"><span class="grad">agent-chatroom</span></span></h1>
     <p class="hero-tag">一个房间，多个 CLI agent，<span class="hl">@ 点名互相唤起</span>。</p>
     <p class="hero-sub">USER + N CLI AGENTS · ACP / CLI / SSH · SSE</p>
-    <div class="chips"><span class="chip">lang <b>TypeScript</b></span><span class="chip">tests <b>299</b></span><span class="chip">ver <b>0.1.0</b></span><span class="chip">license <b>未声明</b></span><span class="chip">CI <b>无</b></span></div>
+    <div class="chips"><span class="chip">lang <b>TypeScript</b></span><span class="chip">ver <b>0.1.0</b></span><span class="chip">license <b>未声明</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/agent-chatroom" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -103,12 +103,11 @@
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地</span><p>PLAN.md 的 T1 到 T17 全部完成：Room 核心、三种 driver、Hub 与 SSE、Web UI、真机冒烟、并行应答、提问通道。认证、移动端适配、agent 能力探测、视觉刷新也已合入 main。</p></li>
-      <li><span class="rk edge">限制</span><p><code>docs/ISSUES.md</code> 台账 37 行中 9 行 open，其中 #39 为 P1：会话 cookie 等价管理员权限。已做响应脱敏的最小止血，管理面收紧留待后续。</p></li>
+      <li><span class="rk edge">限制</span><p>会话 cookie 等价管理员权限：设置接口曾原样回传 TTS apiKey，添加 agent 的配置接口只校验命令非空。已做响应脱敏的最小止血，管理面收紧留待后续。</p></li>
       <li><span class="rk edge">限制</span><p>thought 只经 SSE 广播，不写入历史。ACP 的权限请求一律自动取消，agent 无法执行需授权的写操作。静态资源不设防，只保护 <code>/</code>、<code>/index.html</code> 与 <code>/api/*</code>。</p></li>
-      <li><span class="rk edge">限制</span><p>仓库没有 LICENSE 与 CI，<code>package.json</code> 写 0.1.0 但未打 tag。不设 <code>CHATROOM_PASSWORD</code> 时认证不启用，绑定 0.0.0.0 会在启动时打印安全警告。</p></li>
+      <li><span class="rk edge">限制</span><p>仓库没有 LICENSE，<code>package.json</code> 写 0.1.0 但未打 tag。不设 <code>CHATROOM_PASSWORD</code> 时认证不启用，绑定 0.0.0.0 会在启动时打印安全警告。</p></li>
   </ul>
 </section>
 

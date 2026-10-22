@@ -41,7 +41,7 @@
     <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-openviking"><span class="grad">qwenpaw-openviking</span></span></h1>
     <p class="hero-tag">给 agent 接上<span class="hl">长期语义记忆</span>，原生 Python，免 Node。</p>
     <p class="hero-sub">OPENVIKING MEMORY, NATIVE IN QWENPAW</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">license <b>AGPL-3.0</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">license <b>AGPL-3.0</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -85,10 +85,10 @@ OpenViking server ──► <span class='acc'>长期语义记忆</span> · 向�
   </div>
 </section>
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地 v0.2.0</span><p>环境代理默认旁路（Tailnet/LAN 部署免手调 <code>no_proxy</code>）+ 代理故障双向探测诊断</p></li>
-      <li><span class="rk done">已落地 v0.1.0</span><p>首发：7 个 <code>openviking_*</code> 工具 + 5 个技能，凭据链与 MCP 客户端纯标准库移植</p></li>
+      <li><span class="rk edge">限制</span><p>需要一个可达的 OpenViking 服务端，默认地址 <code>http://127.0.0.1:1933</code>。服务端不可达时工具与钩子 fail-open，只降级成告警。</p></li>
+      <li><span class="rk edge">限制</span><p>7 个工具安装后默认 disabled，要在 QwenPaw 工具设置里逐个启用。宿主版本窗口为 QwenPaw 1.1.6 到 2.3.0 之前。</p></li>
   </ul>
 </section>
 

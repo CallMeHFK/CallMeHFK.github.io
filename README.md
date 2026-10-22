@@ -8,9 +8,7 @@
 
 过程监督 / 输出路由 / 技能质量
 
-![CI](https://img.shields.io/badge/CI-9%2F9%20repos%20green-3fb950?style=flat-square)
 ![upstream](https://img.shields.io/badge/upstream%20PR-5%20merged%20%C2%B7%203%20open-e06a2d?style=flat-square)
-![tests](https://img.shields.io/badge/tests-1%2C640%20collected-79c0ff?style=flat-square)
 ![plugins](https://img.shields.io/badge/qwenpaw%20plugins-7-8b949e?style=flat-square)
 
 <code><img height="20" alt="python" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
@@ -47,9 +45,7 @@
 
 行序与展厅卡片序一致，即 3D 星座的四个簇。
 
-收例总数 **1,640**：Python 用 `pytest --collect-only -q`，Go 用 `func Test`，TypeScript 用 `node:test` 实跑。逐仓库为 dispatch-guard 210 + agent-shepherd 230 + jev-kernel 46 + agent-task-callback 33 + qwenpaw-secret-input 335 + qwenpaw-openviking 78 + site-kg 243 + qwenpaw-consensus-rank 120 + niclane 46 + agent-chatroom 299。raspberry-pi 没有自动化测试，计 0；sovereign-echo 自带 `tests/run-tests.sh`，不进总数。site-kg 另有 2 项 `-m slow` 规模门禁默认不跑，故记 243 而非 245。
-
-9 个仓库有 CI 且 HEAD 全绿；sovereign-echo、agent-chatroom、raspberry-pi 没有工作流。qwenpaw-secret-input 的 CI 只跑静态门（`ruff` + `compileall` + `node --check`），335 条 unittest 要 import 宿主包，只在本地跑。全部数字对 **2026-10-22** 复核。
+推送与版本对 2026-10-22 的 GitHub 复核。
 
 ## 系统设计
 
@@ -83,7 +79,7 @@
 - 探针结论落进实现：ACP SDK ^1.8.0 驱动 qodercli 时默认不能调 `authenticate`（会挂起），要直接 `session/new`，只在失败且 `authMethods` 非空时回退一次。2026-10-16 实测国际版端点 `*.qoder.sh` 被 TLS 拦截，改用国内版 qoderclicn。
 - `docs/ISSUES.md` 是编号到 #43 的评审台账，37 行中 25 fixed、3 deferred、9 open。open 的 9 条都写了不修的理由与剩余范围，其中 #39 是 P1：会话 cookie 等价管理员权限，已做响应脱敏的最小止血，管理面收紧留待后续。
 
-299 项测试实跑全绿（`node:test`，2.25s）· 16,153 行 TS/JS（不含 vendor）· `package.json` 写 0.1.0 但未打 tag · 仓库无 LICENSE、无 CI。
+`package.json` 写 0.1.0 但未打 tag · 仓库无 LICENSE。
 
 ## 上游 PR
 

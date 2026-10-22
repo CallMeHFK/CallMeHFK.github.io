@@ -41,7 +41,7 @@
     <h1 class="hero-title"><span class="glitch" data-text="site-kg"><span class="grad">site-kg</span></span></h1>
     <p class="hero-tag">一个 URL 或一个目录进去，<span class="hl">一座知识图谱</span>出来。</p>
     <p class="hero-sub">URL OR DIR → GRAPH → 10 MCP TOOLS</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">tools <b>10</b></span><span class="chip">tests <b>243</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">tools <b>10</b></span><span class="chip">license <b>MIT</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -98,9 +98,8 @@
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">已落地</span><p><code>mentions_symbol</code> 提供跨文件符号边；<code>render_site</code> 与 <code>render_build</code> 覆盖离线查看与构建回放。</p></li>
       <li><span class="rk plan">计划</span><p>可选语义层：配置 <code>SITE_KG_LLM_KEY</code> 后用 cognee <code>cognify</code> 在结构边旁生成实体/关系边。</p></li>
       <li><span class="rk plan">计划</span><p>Crawl4AI 深爬，覆盖 Playwright 兜底也拿不下的 JS 站点。</p></li>
       <li><span class="rk edge">限制</span><p><code>ask</code> 与语义层依赖外部 LLM 配置，未配置时只有结构层可用。爬取遵守 robots.txt 与限速。</p></li>

@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://callmehfk.github.io/">
 <meta property="og:site_name" content="CallMeHFK">
 <meta property="og:title" content="CallMeHFK — 给 agent 的过程和输出加约束">
-<meta property="og:description" content="Agent 系统工程师：过程监督 / 输出路由 / 技能质量。12 个开源项目，1,640 项收例测试，9 仓库 CI 全绿。">
+<meta property="og:description" content="Agent 系统工程师：过程监督 / 输出路由 / 技能质量。12 个开源项目：过程监督 / 输出路由 / 技能质量 / 多 Agent 运行时。">
 <meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="CallMeHFK — 给 agent 的过程和输出加约束">
@@ -46,20 +46,18 @@
         </div>
         <div class="tty-body">
           <div><span class="cmd">CallMeHFK:~$</span> whoami</div>
-          <div class="stdout-ok">CallMeHFK — 给 agent 的过程和输出加约束</div>
-          <div><span class="cmd">CallMeHFK:~$</span> ./soul</div>
-          <div class="stdout-accent">14 mental models · 14 hard red lines · 0 寒暄 · 100% 结论先行</div>
+          <div class="stdout-ok">CallMeHFK · Agent 系统工程师</div>
+          <div><span class="cmd">CallMeHFK:~$</span> cat focus.txt</div>
+          <div class="stdout-accent">过程监督 / 输出路由 / 技能质量 / 多 Agent 运行时</div>
           <div><span class="cmd">CallMeHFK:~$</span><span class="caret" aria-hidden="true"></span></div>
         </div>
       </div>
     </div>
     <p class="handle">CallMeHFK · UTC+8<span class="caret" aria-hidden="true"></span></p>
-    <p class="tagline"><strong>Agent 系统工程师 · 过程监督 / 输出路由 / 技能质量</strong></p>
+    <p class="tagline"><strong>给 agent 的过程和输出加约束</strong></p>
     <div class="chips">
-      <span class="chip" title="有 CI 工作流的仓库全部 HEAD 绿；另 4 个仓库没有工作流">CI <b>9/9 repos green</b></span>
       <span class="chip">upstream PR <b>5 merged · 3 open</b></span>
       <span class="chip" title="口径：仓库内带 QwenPaw plugin.json 的仓库数">qwenpaw plugins <b>7</b></span>
-      <span class="chip" title="pytest --collect-only / go func Test / node:test 实跑，三种口径合计">tests <b>1,640</b></span>
       <a class="chip link" href="projects/">项目展厅 <b>12 项目 · 3D 星座</b></a>
     </div>
     <div class="icons">
@@ -83,7 +81,7 @@
     <div class="sec-head">
       <span class="prompt" aria-hidden="true">$</span>
       <h2>仓库速览</h2>
-      <span class="tag"><a href="projects/">项目展厅 →</a> · 12 repos · CI 9/9 green · 1,640 项收例</span>
+      <span class="tag"><a href="projects/">项目展厅 →</a> · 12 repos</span>
     </div>
     <div class="rtbl-wrap" tabindex="0" role="region" aria-label="仓库速览表格，可横向滚动">
       <table class="rtbl">
@@ -105,7 +103,6 @@
       </table>
     </div>
     <p class="lede">推送列是各仓库默认分支最近一次推送。live 表示距 2026-10-22 复核日不到 7 天，12 个仓库里 7 个。行序与展厅卡片一致，即 3D 星座的四个簇。</p>
-    <p class="lede">1,640 项收例的口径：Python 用 <code>pytest --collect-only -q</code>，Go 用 <code>func Test</code>，TypeScript 用 <code>node:test</code> 实跑。逐仓库：dispatch-guard 210、agent-shepherd 230、qwenpaw-secret-input 335、qwenpaw-openviking 78、site-kg 243、qwenpaw-consensus-rank 120、jev-kernel 46、niclane 46、agent-task-callback 33、agent-chatroom 299。raspberry-pi 没有自动化测试，计 0；sovereign-echo 用自己的 <code>tests/run-tests.sh</code>，不进总数。site-kg 另有 2 项 <code>-m slow</code> 规模门禁默认不跑，所以记 243 而不是 245。9 个仓库有 CI 且 HEAD 全绿；sovereign-echo、agent-chatroom、raspberry-pi 没有 CI 工作流。qwenpaw-secret-input 的 CI 只跑 ruff、compileall、<code>node --check</code> 三个静态门，335 条用例要 import 宿主包，只在本地跑。</p>
   </section>
 
   <!-- ══ 系统设计 ══ -->
@@ -127,7 +124,7 @@
         <li>0.4.0 把判定层接回规则本：每条真正注入的纠偏留待下次 judge review，按准入线标 agreed 或 disagreed；条目排序混合 adherence 与贴否率的收缩 Wilson 下界，累计 4 次以上且贴否过半的条目从 header 剔除。</li>
         <li><code>shepherd uninstall</code> 只删安装写进去的条目，改前备份，<code>--dry-run</code> 出计划。<code>shepherd stop</code> 按 <code>/health</code> 报的 pid 分拣手动进程与 systemd unit。</li>
       </ul>
-      <p class="work-meta">230 项测试 · 11,037 行 Python（含测试） · v0.4.0 · 不在 PyPI，git 或 release wheel 安装</p>
+      <p class="work-meta">v0.4.0 · 不在 PyPI，从 git 或 release wheel 安装</p>
     </article>
 
     <article class="work">
@@ -138,7 +135,7 @@
         <li><code>routes.json</code> 按 mtime 热加载，并自审矛盾规则、死规则、未知 mode。无配置时从各 agent 声明的派发策略草拟 warn 模式的 <code>routes.draft.json</code>，改名后才生效。</li>
         <li><code>jev</code> 是 opt-in 第二层，默认关，只补确定性规则判不出的两处：草拟路由的 P0，和关键词路由指不到在册 owner 的 P1。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn。判定端点与模型取自 jev-kernel 的 <code>jev.json</code>，kernel 停这层也停。</li>
       </ul>
-      <p class="work-meta">210 项测试 · 6,925 行 Python（含测试） · v0.1.11 · release 一行安装</p>
+      <p class="work-meta">v0.1.11 · release 一行安装</p>
     </article>
 
     <article class="work">
@@ -149,9 +146,8 @@
         <li>三种 driver 并存（ACP 常驻会话 / 本地一次性 CLI / 远程 SSH），所以「本机已装的各家 agent」不必先被改造成同一个协议才能进屋。abort 是一等公民：<code>Driver.send</code> 第三个参数就是 <code>AbortSignal</code>，acp 发 <code>session/cancel</code>，cli / ssh 杀进程组</li>
         <li>SSE 事件对齐 AG-UI 分类法（<code>TEXT_MESSAGE_*</code> / <code>THINKING_*</code> / <code>CUSTOM</code> / <code>STATE_*</code>），<b>字段名本身就是前后端契约</b>——PLAN.md 的 T8–T12 标题直接写着「前端契约已定，字段不得更改」</li>
         <li>探针结论落进实现：ACP SDK ^1.8.0 驱动 qodercli 时默认不能调 <code>authenticate</code>（会挂起），要直接 <code>session/new</code>，只在失败且 <code>authMethods</code> 非空时回退一次。2026-10-16 实测国际版端点 <code>*.qoder.sh</code> 被 TLS 拦截，改用国内版 qoderclicn。</li>
-        <li><code>docs/ISSUES.md</code> 是编号到 #43 的评审台账，37 行中 25 fixed、3 deferred、9 open。open 的 9 条都写了不修的理由与剩余范围，其中 #39 是 P1：会话 cookie 等价管理员权限，已做响应脱敏的最小止血，管理面收紧留待后续。</li>
       </ul>
-      <p class="work-meta">299 项测试实跑全绿（node:test，2.25s） · 16,153 行 TS/JS（不含 vendor） · <code>package.json</code> 写 0.1.0 但未打 tag · 仓库无 LICENSE、无 CI</p>
+      <p class="work-meta"><code>package.json</code> 写 0.1.0 但未打 tag · 仓库无 LICENSE</p>
     </article>
   </section>
 

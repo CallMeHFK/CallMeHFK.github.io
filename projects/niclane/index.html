@@ -41,7 +41,7 @@
     <h1 class="hero-title"><span class="glitch" data-text="niclane"><span class="grad">niclane</span></span></h1>
     <p class="hero-tag">每张网卡一条车道，出口硬绑定，接口不健康时<span class="hl">拒绝新连接</span>。</p>
     <p class="hero-sub">PER-INTERFACE EGRESS ISOLATION FOR LOCAL PROXIES</p>
-    <div class="chips"><span class="chip">lang <b>Go</b></span><span class="chip">ver <b>v0.4.0</b></span><span class="chip">tests <b>46</b></span><span class="chip">license <b>MIT</b></span><span class="chip">CI <b>green</b></span></div>
+    <div class="chips"><span class="chip">lang <b>Go</b></span><span class="chip">ver <b>v0.4.0</b></span><span class="chip">license <b>MIT</b></span></div>
     <div class="cta-row">
       <a class="btn btn-primary" href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
       <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
@@ -61,7 +61,7 @@
   <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
   <div class="term reveal">
     <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 构建；也可以 go install 或从 Releases 取二进制&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ make build&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ make test&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 即 go test -race ./...；收例口径为 func Test，共 46 项&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 300}, {&quot;text&quot;: &quot;# 起服务：一条车道绑定一张网卡&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ niclane serve -c niclane.yaml&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 lanes up · fail-closed · metrics @ /metrics&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ niclane status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ niclane test 核对每条车道的出口 IP，niclane discover 看当前扫描结果&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
+    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 构建；也可以 go install 或从 Releases 取二进制&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ make build&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;# 起服务：一条车道绑定一张网卡&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ niclane serve -c niclane.yaml&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 lanes up · fail-closed · metrics @ /metrics&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ niclane status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ niclane test 核对每条车道的出口 IP，niclane discover 看当前扫描结果&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
   </div>
 </section>
 
@@ -97,12 +97,10 @@ app C ──► 127.0.0.1:7893 <span class='dim'>(lane "roam")</span> ──cand
 </section>
 
 <section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>版本与限制</h2></div>
+  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
   <ul class="road reveal">
-      <li><span class="rk done">v0.4.0</span><p>候选车道与自动故障转移：有序 <code>(interface, upstream)</code> 候选、每连接锁定一个候选、Linux 网关自动发现与可维护的端口清单。</p></li>
-      <li><span class="rk done">v0.3.2</span><p>agent skill 进包，curl 一行安装。v0.3.1 修了泄漏、半关、空闲与热重载四类问题。</p></li>
       <li><span class="rk edge">限制</span><p>设备级绑定只在 Linux 与 macOS 上是硬隔离，其他平台回退到绑定源 IP。自动发现仅在 Linux 可用，其他平台的 <code>discover:</code> 车道只保留静态候选。</p></li>
-      <li><span class="rk edge">限制</span><p>TTL 感知的 DNS 应答缓存与 SOCKS5 BIND 命令尚未实现，两项列在 README 的 Roadmap。</p></li>
+      <li><span class="rk plan">计划</span><p>README 的 Roadmap 列了两项未实现：TTL 感知的 DNS 应答缓存、SOCKS5 BIND 命令。</p></li>
   </ul>
 </section>
 
