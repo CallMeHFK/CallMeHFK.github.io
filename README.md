@@ -6,7 +6,7 @@
 
 **`CallMeHFK`** · UTC+8 · Agent 系统工程师
 
-过程监督 / 输出路由 / 技能质量
+过程监督 / 输出路由 / 技能质量 / 多 Agent 运行时
 
 ![upstream](https://img.shields.io/badge/upstream%20PR-5%20merged%20%C2%B7%203%20open-e06a2d?style=flat-square)
 ![plugins](https://img.shields.io/badge/qwenpaw%20plugins-7-8b949e?style=flat-square)
@@ -57,7 +57,7 @@
 
 - 两层检测。Tier 0 是确定性检测器，覆盖 loop、regression、越权编辑、binding drift、context rot，另有一路 CUSUM 漂移告警。Tier 1 是 PRM 式 LLM 判定，只在 natural checkpoint 或 CUSUM 接近告警线时唤醒。
 - 阈值来自测量。漂移阈值用蒙特卡洛仿真标定到会话级误报预算，判定阈值用 conformal risk control 按实测拟合。工具结局先做 failed / ok / unknown 三态分类，错误串文法只作兜底。规则本条目按 Wilson 下界排序。
-- `shepherd eval` 注入单点故障，按检测器报 precision、recall、detection latency、supervision cost，CI 以 `--fail-under-f1 0.8` 为门。
+- `shepherd eval` 注入单点故障，按检测器报 precision、recall、detection latency、supervision cost。
 - 0.4.0 把判定层接回规则本：每条真正注入的纠偏留待下次 judge review，按准入线标 agreed 或 disagreed；条目排序混合 adherence 与贴否率的收缩 Wilson 下界，累计 4 次以上且贴否过半的条目从 header 剔除。
 - `shepherd uninstall` 只删安装写进去的条目，改前备份，`--dry-run` 出计划。`shepherd stop` 按 `/health` 报的 pid 分拣手动进程与 systemd unit。
 
@@ -75,9 +75,8 @@
 
 - 和 dispatch-guard 同一条主张：**回复路由是策略层，不写在 prompt 里**。@ 精确点名、无 @ 全员接力、`replyTo` 链深 ≤ 3 防无限对轰、发言冷却防抢话；并行应答默认开，同一轮被点名的多个 agent 同时发言，流式事件天然交错。
 - 三种 driver 并存（ACP 常驻会话 / 本地一次性 CLI / 远程 SSH），所以「本机已装的各家 agent」不必先被改造成同一个协议才能进屋。abort 是一等公民：`Driver.send` 第三个参数就是 `AbortSignal`，acp 发 `session/cancel`，cli / ssh 杀进程组。
-- SSE 事件对齐 AG-UI 分类法（`TEXT_MESSAGE_*` / `THINKING_*` / `CUSTOM` / `STATE_*`），**字段名本身就是前后端契约**——PLAN.md 的 T8–T12 标题直接写着「前端契约已定，字段不得更改」。
-- 探针结论落进实现：ACP SDK ^1.8.0 驱动 qodercli 时默认不能调 `authenticate`（会挂起），要直接 `session/new`，只在失败且 `authMethods` 非空时回退一次。2026-10-16 实测国际版端点 `*.qoder.sh` 被 TLS 拦截，改用国内版 qoderclicn。
-- `docs/ISSUES.md` 是编号到 #43 的评审台账，37 行中 25 fixed、3 deferred、9 open。open 的 9 条都写了不修的理由与剩余范围，其中 #39 是 P1：会话 cookie 等价管理员权限，已做响应脱敏的最小止血，管理面收紧留待后续。
+- SSE 事件对齐 AG-UI 分类法（`TEXT_MESSAGE_*` / `THINKING_*` / `CUSTOM` / `STATE_*`），字段名本身就是前后端契约。
+- 接入结论落在实现里：ACP 驱动 qodercli 时默认不调 `authenticate`（会挂起），直接 `session/new`，失败且 `authMethods` 非空时才回退一次。国际版端点 `*.qoder.sh` 被 TLS 拦截，默认配置改用国内版 qoderclicn。
 
 `package.json` 写 0.1.0 但未打 tag · 仓库无 LICENSE。
 
@@ -94,7 +93,7 @@
 | [ResearchStudio](https://github.com/microsoft/ResearchStudio) | [#60](https://github.com/microsoft/ResearchStudio/pull/60) | open | 安装器并列加 QwenPaw 与 Qoder 两个宿主 |
 | [text-to-cad](https://github.com/earthtojake/text-to-cad) | [#429](https://github.com/earthtojake/text-to-cad/pull/429) | open | README 与首页补 ZCode / QwenPaw 安装路径 |
 
-同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-22 的 GitHub 复核（8 条逐个查过 state 与 merged_at）。
+同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-22 的 GitHub 复核。
 
 ## 闭源与内部
 

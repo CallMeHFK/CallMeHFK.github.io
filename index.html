@@ -145,7 +145,7 @@
         <li>和 dispatch-guard 同一条主张：<b>回复路由是策略层，不写在 prompt 里</b>。@ 精确点名、无 @ 全员接力、<code>replyTo</code> 链深 ≤ 3 防无限对轰、发言冷却防抢话；并行应答默认开，同一轮被点名的多个 agent 同时发言，流式事件天然交错</li>
         <li>三种 driver 并存（ACP 常驻会话 / 本地一次性 CLI / 远程 SSH），所以「本机已装的各家 agent」不必先被改造成同一个协议才能进屋。abort 是一等公民：<code>Driver.send</code> 第三个参数就是 <code>AbortSignal</code>，acp 发 <code>session/cancel</code>，cli / ssh 杀进程组</li>
         <li>SSE 事件对齐 AG-UI 分类法（<code>TEXT_MESSAGE_*</code> / <code>THINKING_*</code> / <code>CUSTOM</code> / <code>STATE_*</code>），<b>字段名本身就是前后端契约</b>——PLAN.md 的 T8–T12 标题直接写着「前端契约已定，字段不得更改」</li>
-        <li>探针结论落进实现：ACP SDK ^1.8.0 驱动 qodercli 时默认不能调 <code>authenticate</code>（会挂起），要直接 <code>session/new</code>，只在失败且 <code>authMethods</code> 非空时回退一次。2026-10-16 实测国际版端点 <code>*.qoder.sh</code> 被 TLS 拦截，改用国内版 qoderclicn。</li>
+        <li>接入结论落在实现里：ACP 驱动 qodercli 时默认不调 <code>authenticate</code>（会挂起），直接 <code>session/new</code>，失败且 <code>authMethods</code> 非空时才回退一次。国际版端点 <code>*.qoder.sh</code> 被 TLS 拦截，默认配置改用国内版 qoderclicn。</li>
       </ul>
       <p class="work-meta"><code>package.json</code> 写 0.1.0 但未打 tag · 仓库无 LICENSE</p>
     </article>
