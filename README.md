@@ -95,17 +95,6 @@
 
 同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-22 的 GitHub 复核。
 
-## 闭源与内部
-
-<details>
-<summary>三个不公开的条目</summary>
-
-- **[redacted-project] MCP Server** — 截屏与鼠标键盘注入的 MCP 工具集，stdio / HTTP / SSE 三种 transport，`mouse_click` 与 `key_press` 带 duration 参数
-- **Windows capture APO** — WDK `CBaseAudioProcessingObject` + ATL，[redacted-module] 回声消除后接自研因果流式降噪核（DD-Wiener / MCRA，无前瞻）；audiodg 内 CPU 用户态实时运行，不经 DSP/NPU offload
-- **[redacted-project]** — AgentScope Agent Team：Leader 编排多类 Worker，配领域 Skill、长期记忆中间件与多租户隔离
-
-</details>
-
 ## 图解
 
 <details>
