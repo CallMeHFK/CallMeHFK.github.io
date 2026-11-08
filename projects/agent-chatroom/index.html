@@ -3,126 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="多 Agent 聊天室：用户与 qoder / claude / codex / qwenpaw 等 CLI agent 同室互聊，@ 点名、并行应答、SSE 流式 — CallMeHFK PROJECT LAB">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://callmehfk.github.io/projects/agent-chatroom/">
-<meta property="og:title" content="agent-chatroom · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="一个房间，多个 CLI agent。回复路由由策略层决定。299 项 node:test 实跑全绿。">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>agent-chatroom · CallMeHFK PROJECT LAB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/projects.css">
+<title>已并入项目档案 · CallMeHFK</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=/projects/#agent-chatroom">
+<link rel="canonical" href="https://callmehfk.github.io/projects/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  html { background: #f2efe8; color: #1c1a17; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         font: 400 15px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  p { max-width: 34em; padding: 0 24px; text-align: center; }
+  a { color: #1c1a17; text-underline-offset: 3px; }
+</style>
 </head>
-<body style="--p:#b2e658;--p-rgb:178,230,88;--p2:#d2a8ff;--p2-rgb:210,168,255">
-<a class="skip-link" href="#why">跳到正文</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">MULTI-AGENT ROOM · 11/12</span>
-    <h1 class="hero-title"><span class="glitch" data-text="agent-chatroom"><span class="grad">agent-chatroom</span></span></h1>
-    <p class="hero-tag">一个房间，多个 CLI agent，<span class="hl">@ 点名互相唤起</span>。</p>
-    <p class="hero-sub">USER + N CLI AGENTS · ACP / CLI / SSH · SSE</p>
-    <div class="chips"><span class="chip">lang <b>TypeScript</b></span><span class="chip">ver <b>0.1.0</b></span><span class="chip">license <b>未声明</b></span></div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CallMeHFK/agent-chatroom" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
-    </div>
-  </div>
-  <div class="scroll-hint">SCROLL</div>
-</header>
-
-<div class="marquee"><div class="marquee-track"><span>@MENTION</span><span>PARALLEL REPLIES</span><span>AG-UI EVENTS</span><span>SHARED CANVAS</span><span>@MENTION</span><span>PARALLEL REPLIES</span><span>AG-UI EVENTS</span><span>SHARED CANVAS</span></div></div>
-
-<section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
-  <p class="lede reveal">多 Agent 聊天室。用户 @ 某个 agent 提问，agent 在回复里再 @ 其他 agent 即可互相唤起，Web UI 流式展示回复与思考过程。qoder、claude、codex、codebuddy、grok、qwenpaw、远程 pi 都可以进同一个房间。服务端是零框架的 <code>node:http</code> 加 SSE，前端是单页静态文件，没有构建步骤。</p>
-</section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ npm install&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;# 仓库带默认 agents.yaml；确认各家 CLI 可用且已登录&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ export CHATROOM_PASSWORD=你的口令&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ npm start&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ http://0.0.0.0:8788/ · 设了口令时先跳登录页&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ npm test&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ tests 299 · pass 299 · fail 0&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ npm run smoke&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 真机冒烟：@ 首个 acp agent 走 ping-pong 全链路，90s 上限&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
-  </div>
-</section>
-
-<section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
-  <div class="flow reveal"><pre>浏览器 ──POST /api/rooms/:id/messages──► RoomManager <span class='dim'>(rooms.json · 默认 lobby)</span>
-                                              │
-                                              ▼
-                                     policy 层决定谁接话
-                    <span class='dim'>@ 点名 · 无 @ 全员接力 · replyTo 链深 ≤ 3 · 发言冷却</span>
-                                              │
-              ┌───────────────────────────────┼───────────────────────────────┐
-              ▼                               ▼                               ▼
-        <span class='acc'>ACP driver</span>                      <span class='acc'>CLI driver</span>                     <span class='acc'>SSH driver</span>
-     常驻会话 · 流式                 一次性 stdin/stdout               远程 pi
-              └───────────────────────────────┼───────────────────────────────┘
-                                              ▼
-                                 Delta{kind: text | thought}
-                                              │
-                              ┌───────────────┼───────────────┐
-                              ▼               ▼               ▼
-                          canvas 插件      voice 插件     ui-proposal 插件
-                              └───────────────┼───────────────┘
-                                              ▼
-                          <span class='acc2'>SSE /api/rooms/:id/stream</span>
-                          <span class='dim'>事件对齐 AG-UI 分类法，字段名即前后端契约</span></pre></div>
-</section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🗣️</div><h3>路由在策略层</h3><p>谁接这句话由代码判定：@ 精确点名，无 @ 全员接力，<code>replyTo</code> 链深上限 3，发言冷却防抢话。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">⚡</div><h3>并行应答</h3><p>同一轮被点名的多个 agent 同时发言，流式事件交错。设 <code>parallel: false</code> 回串行。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔌</div><h3>三种 driver</h3><p>ACP 常驻会话流式，本地 CLI 一次性 stdin/stdout，SSH 送命令到远程 pi。abort 经 <code>AbortSignal</code> 传到每一路。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔇</div><h3>停止与提问</h3><p><code>/stop</code> 中止全部进行中的回复并全员静音，<code>/resume</code> 恢复。agent 输出 <code>ASK: 主题 | 问题</code> 即挂起等用户答复，可配钉钉通知。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🖼️</div><h3>共享画布</h3><p>agent 回复中的 <code>```canvas</code> 块（OpenUI Lang）生成图表 widget，全房间一份，用户只读。插件另有 voice 与 ui-proposal。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧮</div><h3>多房间与预算</h3><p>RoomManager 用 <code>rooms.json</code> 持久化多个房间，每房间独立参与者、画布与事件流。上下文预算默认 6000 token，超预算截断并保留主题锚点。</p></div>
-  </div>
-</section>
-
-<section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
-  <ul class="road reveal">
-      <li><span class="rk edge">限制</span><p>会话 cookie 等价管理员权限：设置接口曾原样回传 TTS apiKey，添加 agent 的配置接口只校验命令非空。已做响应脱敏的最小止血，管理面收紧留待后续。</p></li>
-      <li><span class="rk edge">限制</span><p>thought 只经 SSE 广播，不写入历史。ACP 的权限请求一律自动取消，agent 无法执行需授权的写操作。静态资源不设防，只保护 <code>/</code>、<code>/index.html</code> 与 <code>/api/*</code>。</p></li>
-      <li><span class="rk edge">限制</span><p>仓库没有 LICENSE，<code>package.json</code> 写 0.1.0 但未打 tag。不设 <code>CHATROOM_PASSWORD</code> 时认证不启用，绑定 0.0.0.0 会在启动时打印安全警告。</p></li>
-  </ul>
-</section>
-
-<section class="wrap">
-  <div class="pager reveal">
-    <a href="../sovereign-echo/"><span class="dir">← PREV · 10</span><div class="name">sovereign-echo</div></a>
-    <a class="next" href="../raspberry-pi/"><span class="dir">NEXT · 12 →</span><div class="name">raspberry-pi</div></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/agent-chatroom" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · 仓库未声明 license</p>
-</footer>
-
-<script src="../assets/projects.js"></script>
+<body>
+<p>「agent-chatroom」的独立页面已并入<a href="/projects/#agent-chatroom">项目档案</a>。</p>
 </body>
 </html>

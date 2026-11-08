@@ -3,117 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="QwenPaw 插件：agent 需要凭据时向人要一次，明文不进模型上下文，模型只拿到一次性 ref — CallMeHFK PROJECT LAB">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://callmehfk.github.io/projects/qwenpaw-secret-input/">
-<meta property="og:title" content="qwenpaw-secret-input · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="三个工具、四个端点、一道出站擦洗中间件。密钥不进模型上下文，只有一句话 ref 进。">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>qwenpaw-secret-input · CallMeHFK PROJECT LAB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/projects.css">
+<title>已并入项目档案 · CallMeHFK</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=/projects/#qwenpaw-secret-input">
+<link rel="canonical" href="https://callmehfk.github.io/projects/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  html { background: #f2efe8; color: #1c1a17; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         font: 400 15px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  p { max-width: 34em; padding: 0 24px; text-align: center; }
+  a { color: #1c1a17; text-underline-offset: 3px; }
+</style>
 </head>
-<body style="--p:#ba55ff;--p-rgb:186,85,255;--p2:#79c0ff;--p2-rgb:121,192,255">
-<a class="skip-link" href="#why">跳到正文</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">SECRET CHANNEL · 05/12</span>
-    <h1 class="hero-title long"><span class="glitch" data-text="qwenpaw-secret-input"><span class="grad">qwenpaw-secret-input</span></span></h1>
-    <p class="hero-tag">agent 需要凭据时向人要一次，<span class="hl">明文不进模型上下文</span>。</p>
-    <p class="hero-sub">QWENPAW PLUGIN · ONE-TIME REF · EGRESS SCRUB</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.2.0</b></span><span class="chip">license <b>MIT</b></span></div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CallMeHFK/qwenpaw-secret-input" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
-    </div>
-  </div>
-  <div class="scroll-hint">SCROLL</div>
-</header>
-
-<div class="marquee"><div class="marquee-track"><span>ONE-TIME REF</span><span>MEMORY ONLY</span><span>EGRESS SCRUB</span><span>CONSENT CARD</span><span>ONE-TIME REF</span><span>MEMORY ONLY</span><span>EGRESS SCRUB</span><span>CONSENT CARD</span></div></div>
-
-<section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
-  <p class="lede reveal">QwenPaw 后端插件。agent 执行到一半需要凭据（推代码、调 API、签请求）时调用 <code>request_secret</code>，人在私有卡片里输入，模型只收到一个一次性 <code>ref</code>。明文保存在插件内存中，<code>secret_exec</code> 在进程内完成替换，工具输出里出现的原值被替换成 <code>***</code>。</p>
-</section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 宿主在跑时热装，不需要重启&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ qwenpaw plugin install /path/to/secret_input --force&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ secret-input: swept ...&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 在 agent 的工具设置里打开三个工具（首装默认关闭）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;request_secret / secret_exec / secret_export&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 之后直接对模型说：用 request_secret 向我要一个 GitHub token&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;# 本地跑全量用例（需要宿主解释器）&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ python3.12 -m unittest discover -s tests -t . -v&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ Ran 335 tests ... OK&quot;, &quot;cls&quot;: &quot;ok&quot;}]"></div>
-  </div>
-</section>
-
-<section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
-  <div class="flow reveal"><pre>模型 ──request_secret(label, reason)──► 私有卡片 <span class='dim'>(overlay / 独立答页)</span>
-                                            │ 人输入明文
-                                            ▼
-                                  <span class='acc'>插件内存 · 不落盘 · 有 TTL</span>
-                                            │
-模型 ◄── {"status":"saved","ref":"sr_…"} ───┘
-
-模型 ──secret_exec(ref, cmd)──► 确认卡：<span class='acc'>完整命令 + cwd</span> ──批准──► 进程内替换 {{secret}} 执行
-                                                                       │
-                                                                       ▼
-                                                              <span class='acc2'>出站中间件：原值 → ***</span>
-模型 ──secret_export(ref, env_key)──► 确认卡：<span class='acc'>env 名</span> ──批准──► 宿主加密 env 存储
-                                                                     <span class='dim'>后续 shell 用 $ENV_KEY</span>
-拒绝 / 超时 / 取消 ──► ref 不消费，仍可用于其他动作</pre></div>
-  <p class="lede reveal">四个 HTTP 端点挂在 <code>/api/secret-input</code> 下，只接受 loopback 或已认证调用方。卡片有两种渲染：阻塞时的 overlay，和一个自包含答页。</p>
-</section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🔑</div><h3>三个工具</h3><p><code>request_secret</code> 阻塞等人并返回一次性 ref。<code>secret_exec</code> 在进程内替换占位符后执行命令。<code>secret_export</code> 把值写入宿主加密 env 存储。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🧽</div><h3>出站擦洗</h3><p>一道中间件在工具结果进入 transcript、记忆和磁盘卸载路径之前改写它，作用于所有工具的结果。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🛃</div><h3>消费前确认</h3><p>花掉 ref 之前弹确认卡，显示完整命令、工作目录或 env 名。控制字符转义显示，超过 4000 字符的命令在开卡前拒绝。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚫</div><h3>确认由插件自带</h3><p>QwenPaw 2.2.2 上实测 <code>secret_exec</code> 执行时宿主审批列表为空，宿主不拦插件工具，所以这道闸在插件里。</p></div>
-  </div>
-</section>
-
-<section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
-  <ul class="road reveal">
-      <li><span class="rk edge">限制</span><p>确认卡提供知情与可见性，不构成沙箱：同机 loopback 进程可以读取待确认项并自行批准。短于 8 字符的值不做出站擦洗。</p></li>
-      <li><span class="rk edge">限制</span><p>宿主版本窗口为 QwenPaw 2.1.0 到 2.99.0 之前，使用宿主自带的 Python 3.12。三个工具安装后默认 disabled，要在 agent 设置里启用。</p></li>
-  </ul>
-</section>
-
-<section class="wrap">
-  <div class="pager reveal">
-    <a href="../agent-task-callback/"><span class="dir">← PREV · 04</span><div class="name">agent-task-callback</div></a>
-    <a class="next" href="../qwenpaw-openviking/"><span class="dir">NEXT · 06 →</span><div class="name">qwenpaw-openviking</div></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/qwenpaw-secret-input" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
-</footer>
-
-<script src="../assets/projects.js"></script>
+<body>
+<p>「qwenpaw-secret-input」的独立页面已并入<a href="/projects/#qwenpaw-secret-input">项目档案</a>。</p>
 </body>
 </html>

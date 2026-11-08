@@ -1,64 +1,50 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="paper">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0a0e13">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f2efe8">
+<script>
+(function(){var d=document.documentElement,t;try{t=localStorage.getItem("cmk-theme");}catch(e){}
+if(!t){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"ink":"paper";}
+d.setAttribute("data-theme",t);d.classList.add("js");var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="ink"?"#131210":"#f2efe8");})();
+</script>
 <meta name="robots" content="noindex">
-<meta name="description" content="404 — 这个路径在 CallMeHFK 的站点上不存在。回到首页或项目展厅。">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="CallMeHFK">
-<meta property="og:title" content="404 — 找不到这个页面">
-<meta property="og:description" content="路径不存在。首页与项目展厅仍在。">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>404 — 找不到这个页面 · CallMeHFK</title>
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<meta name="description" content="页面不存在。可返回首页或项目档案。">
+<title>404 — 页面不存在 · CallMeHFK</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
 <a class="skip-link" href="#main">跳到正文</a>
-<main class="shell" id="main">
-  <div class="appbar">
-    <span class="traffic" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></span>
-    <span class="appbar-title">CallMeHFK — ~/404.html</span>
-    <a class="appbar-link" href="projects/">项目展厅 →</a>
-    <span class="appbar-meta">zh-CN</span>
-  </div>
 
-  <div class="screen">
-    <h1 class="nf-code">HTTP <span class="nf-status">404</span><span class="caret" aria-hidden="true"></span></h1>
-    <p class="nf-sub">没有匹配到这个路径。文件可能改名了，也可能从来没有人写过。</p>
-
-    <div class="terminal">
-      <div class="terminal-bar">
-        <i class="r"></i><i class="y"></i><i class="g"></i>
-        <span>CallMeHFK:~$ ls ./该路径</span>
-      </div>
-      <div class="rules">
-        <div class="rule"><span class="num">[x]</span><span class="rname">no such file</span><span class="rtext">请求的路径不在仓库的静态文件里</span></div>
-        <div class="rule"><span class="num">[i]</span><span class="rname">site map</span><span class="rtext">根目录只有 index.html、404.html 与 projects/</span></div>
-        <div class="rule"><span class="num">[&gt;]</span><span class="rname">recover</span><span class="rtext">从下面两个入口任选一个继续</span></div>
-      </div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>CallMeHFK<small>dossier</small></a>
+    <div class="top-actions" style="margin-left:auto">
+      <a class="icon-btn" href="/" aria-label="返回首页">返回首页</a>
     </div>
+  </div>
+</header>
 
-    <nav class="nf-links" aria-label="恢复导航">
-      <a class="nf-link primary" href="index.html">← 返回首页</a>
-      <a class="nf-link" href="projects/">进入项目展厅</a>
-      <a class="nf-link" href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+<main id="main" class="wrap">
+  <section class="err">
+    <p class="sec-no">Error — 404</p>
+    <p class="code" aria-hidden="true">4<em>0</em>4</p>
+    <h1>页面不存在</h1>
+    <p>请求的地址没有对应记录。以下三处可用。</p>
+
+    <nav class="err-links" aria-label="可用页面">
+      <a href="/"><span>01</span>首页：四处接缝、信息边界与运行原则</a>
+      <a href="/projects/"><span>02</span>项目档案：15 条记录，按接缝与可见性筛选</a>
+      <a href="/#boundary"><span>03</span>信息边界：公开与未开源的写法对照</a>
     </nav>
 
-    <p class="nf-exit">CallMeHFK:~$ exit<span class="caret" aria-hidden="true"></span></p>
-  </div>
-
-  <div class="statusbar" aria-hidden="true">
-    <span><span class="ok">●</span> ready</span>
-    <span>utf-8 · dark · #e06a2d</span>
-  </div>
+    <p class="caption" style="margin-top:26px">从旧链接进入时，原站的多级路径未保留对应关系。</p>
+  </section>
 </main>
+
+<script src="/assets/app.js"></script>
 </body>
 </html>

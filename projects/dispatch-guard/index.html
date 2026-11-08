@@ -3,106 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="编排 Agent 输出路由的 tool-seam 中间件：交付物写入拦截 + 可选语义仲裁层 — CallMeHFK PROJECT LAB">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://callmehfk.github.io/projects/dispatch-guard/">
-<meta property="og:title" content="dispatch-guard · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="编排 Agent 输出路由的 tool-seam 中间件：交付物写入拦截 + 可选语义仲裁层 — CallMeHFK PROJECT LAB">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>dispatch-guard · CallMeHFK PROJECT LAB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/projects.css">
+<title>已并入项目档案 · CallMeHFK</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=/projects/#dispatch-guard">
+<link rel="canonical" href="https://callmehfk.github.io/projects/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  html { background: #f2efe8; color: #1c1a17; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         font: 400 15px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  p { max-width: 34em; padding: 0 24px; text-align: center; }
+  a { color: #1c1a17; text-underline-offset: 3px; }
+</style>
 </head>
-<body style="--p:#e06a2d;--p-rgb:224,106,45;--p2:#ffbd2e;--p2-rgb:255,189,46">
-<a class="skip-link" href="#why">跳到正文</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">QWENPAW MIDDLEWARE · 01/12</span>
-    <h1 class="hero-title"><span class="glitch" data-text="dispatch-guard"><span class="grad">dispatch-guard</span></span></h1>
-    <p class="hero-tag">把派发约束从提示词移到<span class="hl">工具层</span>。</p>
-    <p class="hero-sub">ENFORCEMENT AT THE TOOL SEAM, NOT THE PROMPT</p>
-    <div class="chips"><span class="chip">lang <b>Python</b></span><span class="chip">ver <b>v0.1.11</b></span><span class="chip">license <b>MIT</b></span></div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
-    </div>
-  </div>
-  <div class="scroll-hint">SCROLL</div>
-</header>
-
-<div class="marquee"><div class="marquee-track"><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>DISPATCH TABLE</span><span>ZERO DEP</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>DISPATCH TABLE</span><span>ZERO DEP</span></div></div>
-
-<section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
-  <p class="lede reveal">QwenPaw 中间件插件。多 agent 宿主里的默认 agent 常常自己动手写交付物，提示词中的派单规则压不住它。dispatch-guard 在工具缝拦截交付物形状的写入并拒绝，拒绝消息里写明该派给哪个 agent。实现为纯标准库，无 pip 依赖。</p>
-</section>
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;$ qwenpaw plugin install ~/.qwenpaw/plugins/dispatch-guard&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ attached · mode = unconfigured (non-blocking)&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 500}, {&quot;text&quot;: &quot;$ # 与 agent 共建 routes.json 后切到 enforcing&quot;, &quot;cls&quot;: &quot;out&quot;}, {&quot;text&quot;: &quot;✓ guard on · 3 rules · 4 modes · 0 deps&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
-  </div>
-</section>
-<section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
-  <div class="flow reveal"><pre>orchestrator ──► write_file(<span class='acc'>deliverable.md</span>)
-        │
-        ▼
-dispatch-guard · 交付物形状? <span class='acc'>YES</span> ── 归属专家存在? <span class='acc'>YES</span>
-        │
-        ▼
-<span class='acc'>DENIED</span> · 写入从未落盘 · 回复：<span class='acc2'>「派给 @Specialist-Agent」</span></pre></div>
-</section>
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">⛔</div><h3>工具缝拦截</h3><p>write 调用被中间件拦下：命中交付物形状且环境中存在归属专家 agent 时拒绝写入，返回派单提示。无归属者不拦。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🛡️</div><h3>spawn 兜底</h3><p><code>spawn_subagent</code> 与 <code>spawn_agent</code> 在 enforce、warn、unconfigured 三种模式下都拒绝，作为配置层禁用之外的兜底。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🐚</div><h3>shell 计入写入</h3><p>重定向、<code>tee</code>、<code>dd of=</code>、<code>curl -o</code>、打包与编译器 <code>-o</code>、<code>sed -i</code>、<code>cp</code>/<code>mv</code> 目标都计为一次写。默认只警告，开 <code>shell_enforce</code> 才拦截。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔍</div><h3>路由表热加载</h3><p><code>routes.json</code> 按 mtime 热加载，并自审矛盾规则、死规则、未知 mode。无配置时从各 agent 声明的派发策略草拟 warn 模式的 <code>routes.draft.json</code>，改名后生效。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">⚖️</div><h3>可选语义仲裁</h3><p><code>jev</code> 层默认关，只补确定性规则判不出的两处：草拟路由的 P0 与关键词路由指不到在册 owner 的 P1。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🧾</div><h3>审计日志脱敏</h3><p>每次拦截追加进 <code>logs/dispatch_guard.jsonl</code>，超 1 MB 滚动。spawn 入参只记 sha256 前 16 位、长度与脱敏摘要，原始命令不进日志。</p></div>
-  </div>
-</section>
-<section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
-  <ul class="road reveal">
-      <li><span class="rk edge">限制</span><p>判定端点与总开关继承 jev-kernel 插件的 <code>jev.json</code>。kernel 停止时该层同时停止。</p></li>
-  </ul>
-</section>
-
-<section class="wrap">
-  <div class="pager reveal">
-    <a href="../raspberry-pi/"><span class="dir">← PREV · 12</span><div class="name">raspberry-pi</div></a>
-    <a class="next" href="../agent-shepherd/"><span class="dir">NEXT · 02 →</span><div class="name">agent-shepherd</div></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
-</footer>
-
-<script src="../assets/projects.js"></script>
+<body>
+<p>「dispatch-guard」的独立页面已并入<a href="/projects/#dispatch-guard">项目档案</a>。</p>
 </body>
 </html>

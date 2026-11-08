@@ -3,126 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="树莓派实验仓：voicekit 用 LiveKit WebRTC 做实时语音通话，LLM 后端是派上真能执行工具的 CLI agent — CallMeHFK PROJECT LAB">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://callmehfk.github.io/projects/raspberry-pi/">
-<meta property="og:title" content="raspberry-pi · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="对着浏览器说话，助手听懂，交给派上能执行工具的 agent，再用语音答回来。">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>raspberry-pi · CallMeHFK PROJECT LAB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/projects.css">
+<title>已并入项目档案 · CallMeHFK</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=/projects/#raspberry-pi">
+<link rel="canonical" href="https://callmehfk.github.io/projects/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  html { background: #f2efe8; color: #1c1a17; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         font: 400 15px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  p { max-width: 34em; padding: 0 24px; text-align: center; }
+  a { color: #1c1a17; text-underline-offset: 3px; }
+</style>
 </head>
-<body style="--p:#40e08c;--p-rgb:64,224,140;--p2:#f0b429;--p2-rgb:240,180,41">
-<a class="skip-link" href="#why">跳到正文</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">EDGE · REALTIME VOICE · 12/12</span>
-    <h1 class="hero-title"><span class="glitch" data-text="raspberry-pi"><span class="grad">raspberry-pi</span></span></h1>
-    <p class="hero-tag">对着浏览器说话，<span class="hl">派上的 agent 去跑工具</span>，再用语音答回来。</p>
-    <p class="hero-sub">WEBRTC VOICE · LIVEKIT · TOOL-EXECUTING AGENT ON THE PI</p>
-    <div class="chips"><span class="chip">lang <b>Python + TS</b></span><span class="chip">ver <b>无</b></span><span class="chip">license <b>未声明</b></span></div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CallMeHFK/raspberry-pi" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
-    </div>
-  </div>
-  <div class="scroll-hint">SCROLL</div>
-</header>
-
-<div class="marquee"><div class="marquee-track"><span>WEBRTC</span><span>LIVEKIT</span><span>PI-ACP</span><span>PORT 8445 ONLY</span><span>WEBRTC</span><span>LIVEKIT</span><span>PI-ACP</span><span>PORT 8445 ONLY</span></div></div>
-
-<section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
-  <p class="lede reveal">个人树莓派与家庭服务器实验仓，活跃开发在 <code>voicekit/</code>：浏览器和语音助手开一场实时语音通话，你说中文，助手听懂、回答、用语音说回来。LLM 后端是跑在派上的 <code>pi</code> / sol-pi CLI agent，经 ssh 走 ACP 协议，所以助手能真的在派上执行工具。语音链路基于 LiveKit，信令走 HTTPS/WSS，媒体走 WebRTC UDP。</p>
-</section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/voicekit</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 前提：docker、Python venv、到 Pi 的 ssh 免密已就绪&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ cd voicekit &amp;&amp; ./start.sh start&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ livekit-server(docker) + bridge / worker / gateway 三个 systemd --user unit&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python e2e.py&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 期望结尾打印 E2E_OK：agent 音频 &gt; 32000 字节且有转写文本&quot;, &quot;cls&quot;: &quot;hl2&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ python e2e_tailnet.py&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 期望 E2E_TAILNET_OK (url=..., audio=...B)&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
-  </div>
-</section>
-
-<section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
-  <div class="flow reveal"><pre>浏览器 <span class='dim'>(iPhone Safari / 桌面 Chrome)</span>
-   │ HTTPS + WSS
-   ▼
-<span class='acc'>gateway.py :8445</span> <span class='dim'>aiohttp + TLS · 唯一对外入口</span>
-   /login /logout <span class='dim'>HMAC cookie · 10 分钟内 5 次失败返回 429 锁 10 分钟</span>
-   /tk            <span class='dim'>铸 LiveKit token · 注册表存 sha256 · TTL 2h</span>
-   /livekit/**    <span class='dim'>wss + http 反向代理</span>
-   │ ws://127.0.0.1:7880
-   ▼
-livekit-server <span class='dim'>docker --network host</span>
-   TCP 7880 信令 · TCP 7881 媒体兜底 · <span class='acc2'>UDP 7882 媒体 ICE 直连</span>
-   │
-   ▼
-worker agent.py
-   VAD  livekit 内置本地 silero
-   STT  SiliconFlow ASR → XingChenAGI/XingChenGSR-V1.0 <span class='dim'>非流式</span>
-   LLM  GatewayLLM 回退链 <span class='acc'>solpi → newapi → siliconflow → platform</span>
-   TTS  MiMo mimo-v2.5-tts <span class='dim'>SSE 流式 · pcm16 / 24 kHz 单声道</span>
-        │
-        ▼
-   bridge/index.ts :8790 <span class='dim'>只绑 127.0.0.1 · POST /utterance 走 SSE</span>
-        │ ssh
-        ▼
-   <span class='acc2'>pi-acp on the Pi</span> <span class='dim'>ACP · 流式 + 工具 · 降级链 pi-acp → pi -p → error</span></pre></div>
-</section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🎙️</div><h3>四段链路可换后端</h3><p>VAD 用 livekit 内置 silero。STT 走 SiliconFlow ASR。LLM 是 GatewayLLM 回退链，顺序由 <code>VOICEKIT_LLM_BACKENDS</code> 配置。TTS 是 MiMo，SSE 流式返回 pcm16 / 24 kHz。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🔗</div><h3>工具能力来自派上</h3><p>GatewayLLM 本身不支持工具调用，<code>tools</code> 参数会被忽略。工具能力来自 pi-acp 那一侧的 agent。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🪜</div><h3>桥有降级链</h3><p>pi-acp（ssh ACP 常驻会话，流式加工具）失败时降到 pi -p（ssh 一次性，按句切块），再失败报错。桥只绑 127.0.0.1:8790。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🚪</div><h3>端口规则明确</h3><p>8445 TCP 是唯一对外入口，7882 UDP 走媒体。7880 与 7881 未鉴权且因 <code>--network host</code> 绑在所有网卡上，README 要求不对外开。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">⏱️</div><h3>冷启动超时已覆盖</h3><p><code>ACP_INIT_TIMEOUT_MS</code> 代码默认 12000，pi-acp 冷启动常超过 12 秒，部署值在 service 文件里覆盖为 30000。</p></div>
-  </div>
-</section>
-
-<section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
-  <ul class="road reveal">
-            <li><span class="rk edge">限制</span><p>仓库没有 LICENSE 和版本。根 README 列出的子项目中只有 voicekit 在仓库里，agent-chatroom 已是独立仓库。不传 <code>--keys</code> 时 <code>--dev</code> 会退回占位符密钥，README 把这列为本项目最重要的一条安全约束。</p></li>
-  </ul>
-</section>
-
-<section class="wrap">
-  <div class="pager reveal">
-    <a href="../agent-chatroom/"><span class="dir">← PREV · 11</span><div class="name">agent-chatroom</div></a>
-    <a class="next" href="../dispatch-guard/"><span class="dir">NEXT · 01 →</span><div class="name">dispatch-guard</div></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/raspberry-pi" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · 仓库未声明 license</p>
-</footer>
-
-<script src="../assets/projects.js"></script>
+<body>
+<p>「raspberry-pi」的独立页面已并入<a href="/projects/#raspberry-pi">项目档案</a>。</p>
 </body>
 </html>

@@ -3,119 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） — CallMeHFK PROJECT LAB">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://callmehfk.github.io/projects/niclane/">
-<meta property="og:title" content="niclane · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed） — CallMeHFK PROJECT LAB">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>niclane · CallMeHFK PROJECT LAB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/projects.css">
+<title>已并入项目档案 · CallMeHFK</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=/projects/#niclane">
+<link rel="canonical" href="https://callmehfk.github.io/projects/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  html { background: #f2efe8; color: #1c1a17; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         font: 400 15px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  p { max-width: 34em; padding: 0 24px; text-align: center; }
+  a { color: #1c1a17; text-underline-offset: 3px; }
+</style>
 </head>
-<body style="--p:#00add8;--p-rgb:0,173,216;--p2:#3fb950;--p2-rgb:63,185,80">
-<a class="skip-link" href="#why">跳到正文</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">NETWORK ISOLATION · GO · 09/12</span>
-    <h1 class="hero-title"><span class="glitch" data-text="niclane"><span class="grad">niclane</span></span></h1>
-    <p class="hero-tag">每张网卡一条车道，出口硬绑定，接口不健康时<span class="hl">拒绝新连接</span>。</p>
-    <p class="hero-sub">PER-INTERFACE EGRESS ISOLATION FOR LOCAL PROXIES</p>
-    <div class="chips"><span class="chip">lang <b>Go</b></span><span class="chip">ver <b>v0.4.0</b></span><span class="chip">license <b>MIT</b></span></div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
-    </div>
-  </div>
-  <div class="scroll-hint">SCROLL</div>
-</header>
-
-<div class="marquee"><div class="marquee-track"><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>CANDIDATE LANES</span><span>SOCKS5</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>CANDIDATE LANES</span><span>SOCKS5</span></div></div>
-
-<section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
-  <p class="lede reveal">niclane 是本地的 SOCKS5 / HTTP 代理，每个监听端口的出口硬绑定到一张指定网卡：Linux 用 <code>SO_BINDTODEVICE</code>，macOS 用 <code>IP_BOUND_IF</code>。车道之间不共享路由，接口不健康且 <code>strict</code> 为真时立即拒绝新连接。v0.4.0 起一条车道可以持有一组有序候选，切换只发生在该车道自己声明过的候选之间。</p>
-</section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/quickstart.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 构建；也可以 go install 或从 Releases 取二进制&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ make build&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;# 起服务：一条车道绑定一张网卡&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ niclane serve -c niclane.yaml&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ 3 lanes up · fail-closed · metrics @ /metrics&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;$ niclane status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ niclane test 核对每条车道的出口 IP，niclane discover 看当前扫描结果&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
-  </div>
-</section>
-
-<section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
-  <div class="flow reveal"><pre>app A ──► 127.0.0.1:7891 <span class='dim'>(lane "wifi")</span> ──[SO_BINDTODEVICE]──► WiFi NIC
-app B ──► 127.0.0.1:7892 <span class='dim'>(lane "dock")</span> ──[SO_BINDTODEVICE]──► USB NIC
-app C ──► 127.0.0.1:7893 <span class='dim'>(lane "roam")</span> ──candidates──┬─[1] dock · socks5://   <span class='dim'>静态 1000</span>
-                                                     ├─[2] discover:wifi      <span class='dim'>发现 100</span>
-                                                     └─[3] tun · http://      <span class='dim'>静态 1000</span>
-   <span class='dim'>排序 = 优先级 → 探测延迟 → 配置顺序；一条连接在 resolve / dial / UDP 全程锁定同一候选</span>
-        │
-        ▼  传输层失败：拨号错误 / 超时 / 握手 IO / fail-closed 拒绝
-   <span class='acc'>健康探测经候选自己的网卡：连续 2 次失败判死，1 次成功复活 → 转下一个候选</span>
-        │
-        ▼  候选全灭且 strict
-   <span class='acc2'>SOCKS5 0x01 / HTTP 502，拒绝新连接，不改道到车道之外</span>
-   <span class='dim'>上游应用层拒绝（SOCKS5 reply ≠ 0 / CONNECT 非 2xx）原样回客户端，不扣健康分</span>
-   <span class='dim'>监视器每 2 秒复查接口；DNS 经本车道解析，支持 DoH（AliDNS / Cloudflare）</span></pre></div>
-  <p class="lede reveal">单网卡车道没有回退路径，候选车道只在自己的候选集合内切换。配置里 <code>interface</code>/<code>upstream</code> 与 <code>candidates</code>/<code>discover</code> 混写会被校验拒绝。</p>
-</section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">📌</div><h3>出口硬绑定</h3><p>Linux 用 <code>SO_BINDTODEVICE</code>，macOS 用 <code>IP_BOUND_IF</code>，把 socket 钉在一张网卡上。<code>bind_mode: ip</code> 只绑源地址，隔离性更弱。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🚧</div><h3>失败即拒</h3><p>监视器每 2 秒复查接口是否在线、是否有地址。不健康且 <code>strict</code> 时拨号直接拒绝，返回 SOCKS5 0x01 或 HTTP 502。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🔎</div><h3>车道内 DNS</h3><p>域名解析经本车道拨出，回环 nameserver 会被替换成 <code>dns_servers</code>。<code>dns: doh</code> 走 DNS-over-HTTPS，默认端点是 AliDNS 与 Cloudflare。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔀</div><h3>候选与转移</h3><p>一条车道可持有有序的 <code>(interface, upstream)</code> 候选，排序按优先级、探测延迟、配置顺序。只有传输层失败触发转移，上游的应用层拒绝原样回给客户端。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧭</div><h3>自动发现</h3><p>Linux 下 <code>discover:</code> 枚举网卡并解析每张网卡自己的网关，只对该网关做 TCP 端口探测。发现的候选优先级 100，排在静态候选的 1000 之后。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">📊</div><h3>上游与计量</h3><p>可链 <code>socks5://</code> 或 <code>http://</code> 上游，上游连接本身也走本车道；UDP ASSOCIATE 经车道绑定的 socket 中继。连接数、拒绝数、双向字节、DNS 查询按 Prometheus 格式导出。</p></div>
-  </div>
-</section>
-
-<section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
-  <ul class="road reveal">
-      <li><span class="rk edge">限制</span><p>设备级绑定只在 Linux 与 macOS 上是硬隔离，其他平台回退到绑定源 IP。自动发现仅在 Linux 可用，其他平台的 <code>discover:</code> 车道只保留静态候选。</p></li>
-      <li><span class="rk plan">计划</span><p>README 的 Roadmap 列了两项未实现：TTL 感知的 DNS 应答缓存、SOCKS5 BIND 命令。</p></li>
-  </ul>
-</section>
-
-<section class="wrap">
-  <div class="pager reveal">
-    <a href="../qwenpaw-consensus-rank/"><span class="dir">← PREV · 08</span><div class="name">qwenpaw-consensus-rank</div></a>
-    <a class="next" href="../sovereign-echo/"><span class="dir">NEXT · 10 →</span><div class="name">sovereign-echo</div></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
-</footer>
-
-<script src="../assets/projects.js"></script>
+<body>
+<p>「niclane」的独立页面已并入<a href="/projects/#niclane">项目档案</a>。</p>
 </body>
 </html>

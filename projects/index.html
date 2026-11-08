@@ -1,173 +1,358 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="paper">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="CallMeHFK 开源项目展厅 — 13 个 agent 基础设施与工具链项目：过程监督、输出路由、判定内核、密钥通道、记忆、知识图谱、网络隔离、多 Agent 运行时、端侧实时语音。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f2efe8">
+<script>
+(function(){var d=document.documentElement,t;try{t=localStorage.getItem("cmk-theme");}catch(e){}
+if(!t){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"ink":"paper";}
+d.setAttribute("data-theme",t);d.classList.add("js");var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="ink"?"#131210":"#f2efe8");})();
+</script>
+<meta name="description" content="CallMeHFK 项目档案：12 个公开仓库与 3 个未开源条目，按接缝与可见性筛选。未开源条目各仅展示一个可见组件。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://callmehfk.github.io/projects/">
-<meta property="og:site_name" content="CallMeHFK">
-<meta property="og:title" content="PROJECT LAB · CallMeHFK">
-<meta property="og:description" content="给 agent 的过程与输出加约束的开源工具链。12 个项目：过程监督 / 输出路由 / 记忆 / 网络隔离 / 多 Agent 运行时。">
+<meta property="og:title" content="项目档案 · CallMeHFK">
+<meta property="og:description" content="12 个公开项目逐条列出功能、语言与版本；3 个未开源条目各仅展示一个可见组件。">
 <meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CallMeHFK — 在 agent 的接缝上做判断">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PROJECT LAB · CallMeHFK">
-<meta name="twitter:description" content="给 agent 的过程与输出加约束的开源工具链。">
 <meta name="twitter:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<title>PROJECT LAB · CallMeHFK</title>
+<title>项目档案 · CallMeHFK — 15 条记录</title>
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/projects.css">
-<link rel="modulepreload" href="assets/vendor/three/186/three.module.min.js">
-<link rel="modulepreload" href="assets/vendor/three/186/three.core.js">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="importmap">
+{"imports":{"three":"../assets/vendor/three/186/three.module.min.js"}}
+</script>
 </head>
-<body style="--p:#e06a2d;--p-rgb:224,106,45;--p2:#79c0ff;--p2-rgb:121,192,255">
-<a class="skip-link" href="#grid">跳到项目列表</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../projects/" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
+<body>
+<a class="skip-link" href="#arc-ledger">跳到项目台账</a>
+<div class="progress-line" id="progress-line" aria-hidden="true"></div>
 
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">OPEN SOURCE · 2026</span>
-    <h1 class="hero-title"><span class="glitch" data-text="PROJECT LAB"><span class="grad">PROJECT LAB</span></span></h1>
-    <p class="hero-tag">给 <span class="hl">agent 的过程与输出</span>加约束的开源工具链。</p>
-    <p class="hero-sub">12 PROJECTS · PROCESS SUPERVISION · OUTPUT ROUTING · MEMORY · NETWORK ISOLATION · MULTI-AGENT RUNTIME</p>
-    <div class="chips">
-      <span class="chip">projects <b>12</b></span>
-      <span class="chip" title="9 个仓库带 MIT LICENSE 文件（sovereign-echo 另含 CC0），1 个 AGPL-3.0；agent-chatroom 与 raspberry-pi 未声明">license <b>9 MIT · 1 AGPL · 2 待补</b></span>
-    </div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#grid"><span class="shine"></span>进入展厅 ↓</a>
-      <a class="btn btn-ghost" href="../index.html">返回首页</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>CallMeHFK<small>archive</small></a>
+    <nav class="topnav" aria-label="主导航">
+      <a href="../index.html#overview">接缝</a>
+      <a href="./" aria-current="page">档案</a>
+      <a href="../index.html#boundary">信息边界</a>
+      <a href="../index.html#systems">系统设计</a>
+      <a href="../index.html#principles">运行原则</a>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" type="button" id="palette-open" aria-label="打开检索，快捷键 Ctrl 加 K">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="5.5"/><path d="M13.2 13.2 17 17"/></svg>
+        <span class="kbd">⌘K</span>
+      </button>
+      <button class="icon-btn theme-btn" type="button" id="theme-toggle" aria-label="切换浅色或深色主题">
+        <span class="i-paper" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.6"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.4 4.4l1.4 1.4M14.2 14.2l1.4 1.4M15.6 4.4l-1.4 1.4M5.8 14.2l-1.4 1.4"/></svg></span>
+        <span class="i-ink" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M16 12.2A6.6 6.6 0 0 1 7.8 4a6.6 6.6 0 1 0 8.2 8.2Z"/></svg></span>
+      </button>
     </div>
   </div>
-  <div class="scroll-hint">SCROLL</div>
 </header>
 
-<div class="marquee"><div class="marquee-track"><span>dispatch-guard</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>agent-shepherd</span><span>SUPERVISION</span><span>MID-LOOP</span><span>jev-kernel</span><span>JUDGMENT</span><span>TOOL SEAM</span><span>agent-task-callback</span><span>PUSH</span><span>CALLBACK</span><span>qwenpaw-secret-input</span><span>ONE-TIME REF</span><span>NEVER IN CONTEXT</span><span>qwenpaw-openviking</span><span>MEMORY</span><span>OPENVIKING</span><span>site-kg</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>qwenpaw-consensus-rank</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>niclane</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>sovereign-echo</span><span>SOVEREIGNTY</span><span>DATA RIGHTS</span><span>agent-chatroom</span><span>@MENTION</span><span>PARALLEL REPLIES</span><span>raspberry-pi</span><span>WEBRTC</span><span>LIVEKIT</span><span>dispatch-guard</span><span>TOOL SEAM</span><span>OUTPUT ROUTING</span><span>agent-shepherd</span><span>SUPERVISION</span><span>MID-LOOP</span><span>jev-kernel</span><span>JUDGMENT</span><span>TOOL SEAM</span><span>agent-task-callback</span><span>PUSH</span><span>CALLBACK</span><span>qwenpaw-secret-input</span><span>ONE-TIME REF</span><span>NEVER IN CONTEXT</span><span>qwenpaw-openviking</span><span>MEMORY</span><span>OPENVIKING</span><span>site-kg</span><span>KNOWLEDGE GRAPH</span><span>MCP</span><span>qwenpaw-consensus-rank</span><span>CONSENSUS</span><span>ANONYMIZED</span><span>niclane</span><span>SO_BINDTODEVICE</span><span>FAIL-CLOSED</span><span>sovereign-echo</span><span>SOVEREIGNTY</span><span>DATA RIGHTS</span><span>agent-chatroom</span><span>@MENTION</span><span>PARALLEL REPLIES</span><span>raspberry-pi</span><span>WEBRTC</span><span>LIVEKIT</span></div></div>
+<main id="main">
+  <div class="wrap">
 
-<section class="wrap" id="grid">
-  <div class="sec-head reveal"><span class="sec-num">INDEX</span><h2 class="sec-title"><span class="prompt">$</span>全部项目</h2>
-    <div class="view-switch" role="group" aria-label="展厅视图切换">
-      <button type="button" class="vs-btn" id="view-3d" aria-pressed="false">3D 星座</button>
-      <button type="button" class="vs-btn" id="view-list" aria-pressed="true">列表</button>
+    <section class="arc-hero" aria-labelledby="arc-title">
+      <div>
+        <p class="kicker">项目档案 · 2026</p>
+        <h1 id="arc-title">项目档案</h1>
+        <p class="lede">12 个公开仓库按条目列出功能、语言与版本；3 个未开源条目各只列一个可见组件。分类沿用首页的四处接缝。</p>
+      </div>
+      <div class="arc-stats" aria-label="档案统计">
+        <div class="stat"><b>15</b><span>条目</span></div>
+        <div class="stat"><b>12</b><span>公开</span></div>
+        <div class="stat"><b>3</b><span>未开源</span></div>
+        <div class="stat"><b>4</b><span>主题簇</span></div>
+      </div>
+    </section>
+
+    <div class="toolbar" role="group" aria-label="档案检索与筛选">
+      <div class="flt-group">
+        <span class="lbl">可见性</span>
+        <button class="flt" type="button" data-vis="all" aria-pressed="true">全部<span class="c">15</span></button>
+        <button class="flt" type="button" data-vis="public" aria-pressed="false">公开<span class="c">12</span></button>
+        <button class="flt" type="button" data-vis="private" aria-pressed="false">未开源<span class="c">3</span></button>
+      </div>
+      <div class="flt-group">
+        <span class="lbl">主题</span>
+        <button class="flt" type="button" data-cluster="all" aria-pressed="true">全部</button>
+        <button class="flt" type="button" data-cluster="governance" aria-pressed="false">工具接缝<span class="c">5</span></button>
+        <button class="flt" type="button" data-cluster="memory" aria-pressed="false">记忆接缝<span class="c">3</span></button>
+        <button class="flt" type="button" data-cluster="boundary" aria-pressed="false">网络接缝<span class="c">2</span></button>
+        <button class="flt" type="button" data-cluster="runtime" aria-pressed="false">会话接缝<span class="c">2</span></button>
+      </div>
+      <label class="search-box" for="arc-search">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="5.5"/><path d="M13.2 13.2 17 17"/></svg>
+        <input id="arc-search" type="search" placeholder="按名称、用途检索…" autocomplete="off">
+      </label>
     </div>
-  </div>
-  <div class="lab3d-stage reveal" id="lab3d">
-    <canvas id="lab3d-canvas"></canvas>
-    <div class="lab3d-labels" id="lab3d-labels"></div>
-    <div class="lab3d-hint" aria-hidden="true">拖拽旋转 · 悬停查看 · 点击节点进入项目</div>
-    <noscript><p class="lab3d-noscript">3D 视图需要 JavaScript；下方列表视图不受影响。</p></noscript>
-  </div>
-  <div class="hub-grid">
-    <a class="proj tilt reveal" href="dispatch-guard/" style="--c-rgb:224,106,45">
-      <div class="pnum">PROJECT 01</div>
-      <div class="pname">dispatch-guard</div>
-      <p class="pdesc">编排 Agent 输出路由的 tool-seam 中间件：交付物写入拦截 + 可选语义仲裁层</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.1.11</span><span class="tagx when">pushed 10-14</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="agent-shepherd/" style="--c-rgb:210,168,255">
-      <div class="pnum">PROJECT 02</div>
-      <div class="pname">agent-shepherd</div>
-      <p class="pdesc">过程监督：观测编码 agent 的推理与工具调用流，漂移时注入一句纠偏</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.4.0</span><span class="tagx when live">pushed 10-19</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="jev-kernel/" style="--c-rgb:255,107,94">
-      <div class="pnum">PROJECT 03</div>
-      <div class="pname">jev-kernel</div>
-      <p class="pdesc">工具缝上的 mu 式判断内核：每个决策点回答一个有校准概率的有界问题</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.2.1</span><span class="tagx when">pushed 10-12</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="agent-task-callback/" style="--c-rgb:63,185,80">
-      <div class="pnum">PROJECT 04</div>
-      <div class="pname">agent-task-callback</div>
-      <p class="pdesc">跨 Agent 后台任务的 push 侧回调：终态自动回投注册会话</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.1.5</span><span class="tagx when">pushed 10-12</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="qwenpaw-secret-input/" style="--c-rgb:186,85,255">
-      <div class="pnum">PROJECT 05</div>
-      <div class="pname long">qwenpaw-secret-input</div>
-      <p class="pdesc">运行中途向人要一个密钥：明文只留在内存，模型只拿到一次性 ref</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v0.2.0</span><span class="tagx when live">pushed 10-21</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="qwenpaw-openviking/" style="--c-rgb:88,230,217">
-      <div class="pnum">PROJECT 06</div>
-      <div class="pname">qwenpaw-openviking</div>
-      <p class="pdesc">OpenViking 长期语义记忆服务的 QwenPaw 原生插件（上游 Node.js 代理的 Python 移植）</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">AGPL-3.0</span><span class="tagx">v0.2.0</span><span class="tagx when">pushed 10-14</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="site-kg/" style="--c-rgb:255,126,219">
-      <div class="pnum">PROJECT 07</div>
-      <div class="pname">site-kg</div>
-      <p class="pdesc">站点 URL 或本地目录 → 知识图谱 → 10 工具 MCP 服务，结构层零 LLM</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">10 tools</span><span class="tagx when live">pushed 10-22</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="qwenpaw-consensus-rank/" style="--c-rgb:121,192,255">
-      <div class="pnum">PROJECT 08</div>
-      <div class="pname long">qwenpaw-consensus-rank</div>
-      <p class="pdesc">多评审 LLM 位次平均共识排序：跨家族评委各自独立匿名排序</p>
-      <div class="pmeta"><span class="tagx">Python</span><span class="tagx">MIT</span><span class="tagx">v1.4.10</span><span class="tagx when">pushed 10-09</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="niclane/" style="--c-rgb:0,173,216">
-      <div class="pnum">PROJECT 09</div>
-      <div class="pname">niclane</div>
-      <p class="pdesc">本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，fail-closed）</p>
-      <div class="pmeta"><span class="tagx">Go</span><span class="tagx">MIT</span><span class="tagx">v0.4.0</span><span class="tagx when live">pushed 10-22</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="sovereign-echo/" style="--c-rgb:240,180,41">
-      <div class="pnum">PROJECT 10</div>
-      <div class="pname">sovereign-echo</div>
-      <p class="pdesc">给编码 agent 的插件：把个人数据主权声明注入每一场对话</p>
-      <div class="pmeta"><span class="tagx">Shell</span><span class="tagx">MIT · CC0</span><span class="tagx">run-tests.sh</span><span class="tagx when live">pushed 10-19</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="agent-chatroom/" style="--c-rgb:178,230,88">
-      <div class="pnum">PROJECT 11</div>
-      <div class="pname">agent-chatroom</div>
-      <p class="pdesc">多 Agent 聊天室：用户与 qoder / claude / codex / qwenpaw 等 CLI agent 同室互聊，@ 点名、并行应答、SSE 流式</p>
-      <div class="pmeta"><span class="tagx">TypeScript</span><span class="tagx">无 LICENSE</span><span class="tagx">未发版</span><span class="tagx when live">pushed 10-22</span></div>
-      <span class="go">→</span>
-    </a>
-    <a class="proj tilt reveal" href="raspberry-pi/" style="--c-rgb:64,224,140">
-      <div class="pnum">PROJECT 12</div>
-      <div class="pname">raspberry-pi</div>
-      <p class="pdesc">树莓派 / 家庭服务器实验仓：voicekit 用 LiveKit WebRTC 做实时语音，后端是派上真能执行工具的 CLI agent</p>
-      <div class="pmeta"><span class="tagx">Python + TS</span><span class="tagx">无 LICENSE</span><span class="tagx">voicekit</span><span class="tagx when live">pushed 10-19</span></div>
-      <span class="go">→</span>
-    </a>
-  </div>
-</section>
 
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../index.html">返回首页</a> · <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
-</footer>
+    <div class="toolbar" style="border-top:0">
+      <span class="toolbar-note" id="arc-count" role="status" aria-live="polite">显示 15 / 15 条</span>
+      <div class="viewswitch" role="group" aria-label="视图切换" style="margin-left:auto">
+        <button type="button" id="view-table" aria-pressed="true">台账</button>
+        <button type="button" id="view-graph" aria-pressed="false">关系图</button>
+      </div>
+    </div>
 
-<script src="assets/projects.js"></script>
-<script type="module" src="assets/lab3d.js"></script>
+    <div class="graph-stage" id="graph-stage" hidden>
+      <canvas id="graph-canvas" aria-hidden="true"></canvas>
+      <div class="graph-legend" aria-hidden="true">
+        <span><i style="background:var(--accent)"></i>公开项目</span>
+        <span><i style="border:1px solid var(--ink-3);background:transparent"></i>未开源（孤立，不连线）</span>
+        <span><i style="background:var(--ink-2)"></i>主题簇</span>
+      </div>
+      <p class="graph-hint" aria-hidden="true">拖拽旋转 · 点击公开节点打开仓库</p>
+      <p class="graph-fallback" id="graph-fallback" hidden>当前设备不支持关系图（需 WebGL 与桌面视口）。台账视图不受影响。</p>
+    </div>
+
+    <div class="ledger arc-ledger" id="arc-ledger">
+      <div class="arc-head" aria-hidden="true">
+        <span>No.</span><span>项目</span><span>主题</span><span>类型 / 版本</span><span></span>
+      </div>
+
+      <!-- ══ 公开 12 ══ -->
+      <div class="lrow" data-vis="public" data-cluster="governance" data-name="dispatch-guard" data-text="输出路由 派发 交付物 中间件 tool seam">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P01</span><span class="lrow-name">dispatch-guard</span>
+          <span class="lrow-tag">工具接缝</span><span class="lrow-kind">Python · MIT · v0.1.11</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          编排 agent 输出路由的 tool-seam 中间件：在交付物写入时拦截，并在拒绝结果中返回应接收的执行者。
+          <a class="go" href="https://github.com/CallMeHFK/dispatch-guard" target="_blank" rel="noopener">github.com/CallMeHFK/dispatch-guard ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="governance" data-name="agent-shepherd" data-text="过程监督 偏航 纠正 检测器 基准">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P02</span><span class="lrow-name">agent-shepherd</span>
+          <span class="lrow-tag">工具接缝</span><span class="lrow-kind">Python · MIT · v0.4.0</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          过程监督：观测编码 agent 的推理与工具调用序列，检测到偏离时注入纠偏指令。
+          <a class="go" href="https://github.com/CallMeHFK/agent-shepherd" target="_blank" rel="noopener">github.com/CallMeHFK/agent-shepherd ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="governance" data-name="jev-kernel" data-text="判定内核 校准概率 分级裁决">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P03</span><span class="lrow-name">jev-kernel</span>
+          <span class="lrow-tag">工具接缝</span><span class="lrow-kind">Python · MIT · v0.2.1</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          工具接缝上的判定内核：对边界明确的问题给出带校准概率的分级裁决。
+          <a class="go" href="https://github.com/CallMeHFK/jev-kernel" target="_blank" rel="noopener">github.com/CallMeHFK/jev-kernel ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="governance" data-name="agent-task-callback" data-text="后台任务 回调 注册会话 终态">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P04</span><span class="lrow-name">agent-task-callback</span>
+          <span class="lrow-tag">工具接缝</span><span class="lrow-kind">Python · MIT · v0.1.5</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          跨 agent 后台任务的回调侧：任务进入终态后自动回投注册会话，无需轮询。
+          <a class="go" href="https://github.com/CallMeHFK/agent-task-callback" target="_blank" rel="noopener">github.com/CallMeHFK/agent-task-callback ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="governance" data-name="qwenpaw-secret-input" data-text="密钥 输入 一次性引用 上下文">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P05</span><span class="lrow-name">qwenpaw-secret-input</span>
+          <span class="lrow-tag">工具接缝</span><span class="lrow-kind">Python · MIT · v0.2.0</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          在运行过程中请求密钥输入：明文不进入模型上下文，只返回一次性引用。
+          <a class="go" href="https://github.com/CallMeHFK/qwenpaw-secret-input" target="_blank" rel="noopener">github.com/CallMeHFK/qwenpaw-secret-input ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="memory" data-name="qwenpaw-openviking" data-text="长期语义记忆 插件 移植">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P06</span><span class="lrow-name">qwenpaw-openviking</span>
+          <span class="lrow-tag">记忆接缝</span><span class="lrow-kind">Python · AGPL-3.0 · v0.2.0</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          长期语义记忆服务的 QwenPaw 原生插件（上游 Node.js 代理的 Python 移植）。
+          <a class="go" href="https://github.com/CallMeHFK/qwenpaw-openviking" target="_blank" rel="noopener">github.com/CallMeHFK/qwenpaw-openviking ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="memory" data-name="site-kg" data-text="知识图谱 站点 MCP 工具">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P07</span><span class="lrow-name">site-kg</span>
+          <span class="lrow-tag">记忆接缝</span><span class="lrow-kind">Python · MIT · 未发版</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          将站点 URL 或本地目录构建为知识图谱，对外提供 10 个工具的 MCP 服务；结构层不使用大模型。
+          <a class="go" href="https://github.com/CallMeHFK/site-kg" target="_blank" rel="noopener">github.com/CallMeHFK/site-kg ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="memory" data-name="qwenpaw-consensus-rank" data-text="共识排序 多评审 匿名">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P08</span><span class="lrow-name">qwenpaw-consensus-rank</span>
+          <span class="lrow-tag">记忆接缝</span><span class="lrow-kind">Python · MIT · v1.4.10</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          多评审 LLM 位次平均共识排序：跨家族评委各自独立匿名排序。
+          <a class="go" href="https://github.com/CallMeHFK/qwenpaw-consensus-rank" target="_blank" rel="noopener">github.com/CallMeHFK/qwenpaw-consensus-rank ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="boundary" data-name="niclane" data-text="代理 网卡 出口 隔离 SOCKS5">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P09</span><span class="lrow-name">niclane</span>
+          <span class="lrow-tag">网络接缝</span><span class="lrow-kind">Go · MIT · v0.4.0</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          本地 SOCKS5 / HTTP 代理，按网卡隔离出口；失败时关闭连接，不做放行降级。
+          <a class="go" href="https://github.com/CallMeHFK/niclane" target="_blank" rel="noopener">github.com/CallMeHFK/niclane ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="boundary" data-name="sovereign-echo" data-text="数据主权 声明 插件">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P10</span><span class="lrow-name">sovereign-echo</span>
+          <span class="lrow-tag">网络接缝</span><span class="lrow-kind">Shell · MIT / CC0 · 未发版</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          编码 agent 插件：在每轮对话中注入个人数据主权声明。
+          <a class="go" href="https://github.com/CallMeHFK/sovereign-echo" target="_blank" rel="noopener">github.com/CallMeHFK/sovereign-echo ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="runtime" data-name="agent-chatroom" data-text="聊天室 点名 并行 流式 画布 多 agent">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P11</span><span class="lrow-name">agent-chatroom</span>
+          <span class="lrow-tag">会话接缝</span><span class="lrow-kind">TypeScript · 未发版</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          多 agent 聊天室：@ 点名、并行应答、流式输出、共享画布。
+          <a class="go" href="https://github.com/CallMeHFK/agent-chatroom" target="_blank" rel="noopener">github.com/CallMeHFK/agent-chatroom ↗</a>
+        </div></div></div>
+      </div>
+
+      <div class="lrow" data-vis="public" data-cluster="runtime" data-name="raspberry-pi" data-text="树莓派 语音 通话 实时 端侧">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">P12</span><span class="lrow-name">raspberry-pi</span>
+          <span class="lrow-tag">会话接缝</span><span class="lrow-kind">Python + TS · 未发版（实验仓）</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          在树莓派上运行实时语音通话：前端处理实时对话，后端为可实际执行工具的 CLI agent。
+          <a class="go" href="https://github.com/CallMeHFK/raspberry-pi" target="_blank" rel="noopener">github.com/CallMeHFK/raspberry-pi ↗</a>
+        </div></div></div>
+      </div>
+
+      <!-- ══ 未开源 3：每行只有一个可见组件，无外链 ══ -->
+      <div class="lrow is-private" data-vis="private" data-cluster="private" data-name="内部项目甲" data-text="占位 示例 未开源 入口">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">N01</span><span class="lrow-name">内部项目 · 甲</span>
+          <span class="lrow-tag">未开源</span><span class="lrow-kind">单个组件 · 无外链</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          <span class="priv-comp">组件 / 一处入口</span>
+          <p style="margin-top:10px">每日高频入口集中到同一处；打开即用，无需记忆路径。</p>
+          <p class="priv-seal" style="border-top:1px dashed var(--rule);display:block">占位示例 · 仅此一个组件 · 不提供外链</p>
+        </div></div></div>
+      </div>
+
+      <div class="lrow is-private" data-vis="private" data-cluster="private" data-name="内部项目乙" data-text="占位 示例 未开源 进度">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">N02</span><span class="lrow-name">内部项目 · 乙</span>
+          <span class="lrow-tag">未开源</span><span class="lrow-kind">单个组件 · 无外链</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          <span class="priv-comp">组件 / 一张进度卡</span>
+          <p style="margin-top:10px">显示任务当前阶段与进度；完成后保留在原位，不打断当前操作。</p>
+          <p class="priv-seal" style="border-top:1px dashed var(--rule);display:block">占位示例 · 仅此一个组件 · 不提供外链</p>
+        </div></div></div>
+      </div>
+
+      <div class="lrow is-private" data-vis="private" data-cluster="private" data-name="内部项目丙" data-text="占位 示例 未开源 确认">
+        <button class="lrow-btn" type="button" aria-expanded="false">
+          <span class="lrow-n">N03</span><span class="lrow-name">内部项目 · 丙</span>
+          <span class="lrow-tag">未开源</span><span class="lrow-kind">单个组件 · 无外链</span>
+          <span class="plus" aria-hidden="true"></span>
+        </button>
+        <div class="lrow-body"><div class="lrow-inner"><div class="lrow-desc">
+          <span class="priv-comp">组件 / 一次确认</span>
+          <p style="margin-top:10px">执行前请求确认；确认后继续，取消则不产生任何变更。</p>
+          <p class="priv-seal" style="border-top:1px dashed var(--rule);display:block">占位示例 · 仅此一个组件 · 不提供外链</p>
+        </div></div></div>
+      </div>
+    </div>
+
+    <p class="empty-state" id="arc-empty" hidden>无匹配条目。清除筛选或更换关键词。</p>
+
+    <p class="caption" style="margin-top:20px;max-width:74ch">
+      三项未开源条目为占位示例，不对应任何真实项目。每项仅含一个可见组件，不含技术方案、结构、依赖、接口或可推断内部实现的内容，不提供外链。
+    </p>
+  </div>
+
+  <footer class="footer wrap">
+    <div class="footer-top">
+      <div>
+        <h2>CallMeHFK / 项目档案</h2>
+        <p>公开条目信息取自公开仓库，版本截至 2026-10-22；未开源条目仅展示一个可见组件。</p>
+      </div>
+      <nav class="footer-links" aria-label="页脚链接">
+        <a href="../index.html">首页</a>
+        <a href="../index.html#boundary">信息边界</a>
+        <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="#main">回到顶部 ↑</a>
+      </nav>
+    </div>
+    <div class="colophon">
+      <span>Records <b>15</b></span>
+      <span>Public <b>12</b></span>
+      <span>Private <b>3</b></span>
+      <span>© 2026 <b>MIT</b></span>
+    </div>
+  </footer>
+</main>
+
+<button class="to-top" id="to-top" type="button" aria-label="回到顶部">
+  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4M5 9l5-5 5 5"/></svg>
+</button>
+
+<div class="palette" id="palette" hidden>
+  <div class="palette-box" role="dialog" aria-modal="true" aria-labelledby="palette-label">
+    <p id="palette-label" hidden>站内检索</p>
+    <div class="palette-in">
+      <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" style="stroke:var(--ink-3);fill:none;stroke-width:1.6"><circle cx="9" cy="9" r="5.5"/><path d="M13.2 13.2 17 17"/></svg>
+      <input id="palette-input" type="text" placeholder="检索项目、章节、页面…" autocomplete="off" aria-controls="palette-list" aria-autocomplete="list">
+      <span class="kbd">esc</span>
+    </div>
+    <div class="palette-list" id="palette-list" role="listbox" aria-label="检索结果"></div>
+    <p class="palette-empty" id="palette-empty" hidden>无匹配结果。可检索「kernel」「边界」「shepherd」。</p>
+    <div class="palette-foot"><span>↑↓ 移动</span><span>↵ 打开</span><span>esc 关闭</span></div>
+  </div>
+</div>
+
+<noscript><p class="caption" style="padding:16px 0">未启用 JavaScript 时，15 条记录仍完整可读；筛选、检索与关系图不可用。</p></noscript>
+
+<script src="../assets/app.js"></script>
+<script type="module" src="../assets/figures.js"></script>
 </body>
 </html>

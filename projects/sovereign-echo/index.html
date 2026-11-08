@@ -3,118 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#05070b">
-<meta name="description" content="给编码 agent 的插件：一条声明文本挂到四个宿主的注入点（UserPromptSubmit / AGENTS.md） — CallMeHFK PROJECT LAB">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://callmehfk.github.io/projects/sovereign-echo/">
-<meta property="og:title" content="sovereign-echo · CallMeHFK PROJECT LAB">
-<meta property="og:description" content="给编码 agent 的插件：一条声明文本挂到四个宿主的注入点（UserPromptSubmit / AGENTS.md） — CallMeHFK PROJECT LAB">
-<meta property="og:image" content="https://callmehfk.github.io/assets/og-cover.png">
-<meta name="twitter:card" content="summary_large_image">
-<title>sovereign-echo · CallMeHFK PROJECT LAB</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
-<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/projects.css">
+<title>已并入项目档案 · CallMeHFK</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=/projects/#sovereign-echo">
+<link rel="canonical" href="https://callmehfk.github.io/projects/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<style>
+  html { background: #f2efe8; color: #1c1a17; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         font: 400 15px/1.75 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  p { max-width: 34em; padding: 0 24px; text-align: center; }
+  a { color: #1c1a17; text-underline-offset: 3px; }
+</style>
 </head>
-<body style="--p:#f0b429;--p-rgb:240,180,41;--p2:#e06a2d;--p2-rgb:224,106,45">
-<a class="skip-link" href="#why">跳到正文</a>
-<div id="progress"></div>
-<canvas id="bg-canvas"></canvas>
-<div class="aurora"></div>
-<div class="grid-overlay"></div>
-<div class="vignette"></div>
-<div id="cursor-glow"></div>
-<nav class="nav">
-  <a class="nav-logo" href="../../index.html"><span class="dot"></span>CallMeHFK</a>
-  <div class="nav-links">
-    <a href="../" class="active">展厅</a>
-    <a href="https://github.com/CallMeHFK" target="_blank" rel="noopener">GitHub ↗</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="kicker">AGENT HOOK · 10/12</span>
-    <h1 class="hero-title"><span class="glitch" data-text="sovereign-echo"><span class="grad">sovereign-echo</span></span></h1>
-    <p class="hero-tag">一条声明文本，<span class="hl">挂到四个宿主的注入点</span>。</p>
-    <p class="hero-sub">PER-TURN DATA RIGHTS NOTICE</p>
-    <div class="chips"><span class="chip">lang <b>Shell</b></span><span class="chip">ver <b>—</b></span><span class="chip">license <b>MIT · CC0</b></span><span class="chip">install <b>1 cmd</b></span></div>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://github.com/CallMeHFK/sovereign-echo" target="_blank" rel="noopener"><span class="shine"></span>GitHub 仓库 ↗</a>
-      <a class="btn btn-ghost" href="#quickstart">快速开始 ↓</a>
-    </div>
-  </div>
-  <div class="scroll-hint">SCROLL</div>
-</header>
-
-<div class="marquee"><div class="marquee-track"><span>USERPROMPTSUBMIT</span><span>AGENTS.MD</span><span>SEALED NOTICE</span><span>DECLARATION TEXT</span><span>USERPROMPTSUBMIT</span><span>AGENTS.MD</span><span>SEALED NOTICE</span><span>DECLARATION TEXT</span></div></div>
-
-<section class="wrap" id="why">
-  <div class="sec-head reveal"><span class="sec-num">SEC.01</span><h2 class="sec-title"><span class="prompt">$</span>做什么</h2></div>
-  <p class="lede reveal">sovereign-echo 是给编码 agent 用的插件，把一份数据权利声明写进每场对话的上下文。Claude Code 走 <code>UserPromptSubmit</code> 钩子逐轮注入，Codex 与 QwenPaw 读各自 <code>AGENTS.md</code> 里的块，其余读 AGENTS.md 的宿主由 install.sh 指向 <code>GENERIC_FILE</code>。默认注入的是国密信封，服务方拿到密文，只有持有 <code>sm2-private.pem</code> 的人能读回原文。</p>
-</section>
-
-<section class="wrap" id="quickstart">
-  <div class="sec-head reveal"><span class="sec-num">SEC.02</span><h2 class="sec-title"><span class="prompt">$</span>快速开始</h2></div>
-  <div class="term reveal">
-    <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="term-title">~/install.sh</span></div>
-    <div class="term-body" data-typer="[{&quot;text&quot;: &quot;# 克隆仓库，一条命令挂上检测到的所有宿主&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ git clone https://github.com/CallMeHFK/sovereign-echo &amp;&amp; cd sovereign-echo&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --target all&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;✓ claude + codex + qwenpaw hooked&quot;, &quot;cls&quot;: &quot;ok&quot;, &quot;pause&quot;: 400}, {&quot;text&quot;: &quot;# 只读报告：运行时位置、KeyId、每个宿主是否已挂&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --status&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;# 看每轮实际注入的内容&quot;, &quot;cls&quot;: &quot;c&quot;}, {&quot;text&quot;: &quot;$ ./install.sh --print-sealed&quot;, &quot;cls&quot;: &quot;&quot;}, {&quot;text&quot;: &quot;→ 卸载用 ./install.sh --uninstall，钩子与块被移除，密钥保留&quot;, &quot;cls&quot;: &quot;hl2&quot;}]"></div>
-  </div>
-</section>
-
-<section class="wrap" id="how">
-  <div class="sec-head reveal"><span class="sec-num">SEC.03</span><h2 class="sec-title"><span class="prompt">$</span>架构</h2></div>
-  <div class="flow reveal"><pre>install.sh ──► ~/.sovereign-echo/                <span class='dim'>运行时脚本 + keys/</span>
-     │
-     ├─► ~/.claude/settings.json                 <span class='dim'>UserPromptSubmit 钩子一条，改写前留备份</span>
-     ├─► ~/.codex/AGENTS.md                      <span class='dim'>声明块，每会话加载</span>
-     ├─► ~/.qwenpaw/workspaces/default/AGENTS.md <span class='dim'>声明块，每会话加载</span>
-     └─► $GENERIC_FILE                           <span class='dim'>ZCode / opencode / Gemini CLI / Cursor</span>
-
-每轮对话 ──► scripts/emit-notice.sh ──► <span class='acc'>SM2 密钥协商 + SM4-GCM + SM3</span> ──► 信封进上下文
-                                                 │
-                                                 ▼
-                                 <span class='acc2'>只有 sm2-private.pem 能打开</span>  <span class='dim'>丢失即不可读，无托管</span>
-密封失败（缺 python3 / 缺密钥）──► 不注入任何内容 <span class='dim'>fail-closed</span>
-SOVEREIGN_ECHO_SEAL=plain ──► 改为明文注入</pre></div>
-  <p class="lede reveal">install.sh 可重复运行，只挂它检测到的宿主。声明文本在 <code>declarations/</code> 下，中英两份加一份 compact 版，改成自己的措辞后仍走同一条注入路径。</p>
-</section>
-
-<section class="wrap" id="features">
-  <div class="sec-head reveal"><span class="sec-num">SEC.04</span><h2 class="sec-title"><span class="prompt">$</span>要点</h2></div>
-  <div class="cards">
-      <div class="card tilt reveal"><span class="idx">F01</span><div class="card-icon">🔁</div><h3>逐轮注入</h3><p>Claude Code 走 <code>UserPromptSubmit</code> 钩子，每一轮都把声明送进上下文。</p></div>
-      <div class="card tilt reveal"><span class="idx">F02</span><div class="card-icon">🤖</div><h3>三宿主原生</h3><p>Claude Code、OpenAI Codex、QwenPaw 各用自己的挂载点，一次装好。</p></div>
-      <div class="card tilt reveal"><span class="idx">F03</span><div class="card-icon">🌍</div><h3>通用挂载</h3><p>ZCode、opencode、Gemini CLI、Cursor 等读 AGENTS.md 的宿主，用 <code>GENERIC_FILE</code> 指向目标文件。</p></div>
-      <div class="card tilt reveal"><span class="idx">F04</span><div class="card-icon">🔏</div><h3>国密信封</h3><p>SM2 密钥协商包一个 SM4-GCM 会话密钥，SM3 做摘要与签名。<code>SOVEREIGN_ECHO_SEAL=plain</code> 可切回明文。</p></div>
-      <div class="card tilt reveal"><span class="idx">F05</span><div class="card-icon">🧩</div><h3>幂等安装</h3><p>一条 install.sh 挂好检测到的所有宿主，可以反复运行。改写 <code>settings.json</code> 前留时间戳备份。</p></div>
-      <div class="card tilt reveal"><span class="idx">F06</span><div class="card-icon">🏪</div><h3>自带插件市场</h3><p>本仓库即 Claude Code 插件 marketplace，<code>/plugin marketplace add CallMeHFK/sovereign-echo</code> 一行安装。</p></div>
-  </div>
-</section>
-
-<section class="wrap" id="road">
-  <div class="sec-head reveal"><span class="sec-num">SEC.05</span><h2 class="sec-title"><span class="prompt">$</span>路线与限制</h2></div>
-  <ul class="road reveal">
-      <li><span class="rk edge">限制</span><p>这是声明性工具，作用是把立场写进对话上下文并留档。它不做技术强制，也不替代官方提供的退出渠道。</p></li>
-      <li><span class="rk edge">限制</span><p>密封只挡住读取。<code>sm2-private.pem</code> 丢失后已密封的信封无法开启，没有恢复机制，也没有托管。</p></li>
-  </ul>
-</section>
-
-<section class="wrap">
-  <div class="pager reveal">
-    <a href="../niclane/"><span class="dir">← PREV · 09</span><div class="name">niclane</div></a>
-    <a class="next" href="../agent-chatroom/"><span class="dir">NEXT · 11 →</span><div class="name">agent-chatroom</div></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>PROJECT LAB · <a href="../">返回展厅</a> · <a href="../../index.html">首页</a> · <a href="https://github.com/CallMeHFK/sovereign-echo" target="_blank" rel="noopener">GitHub ↗</a></p>
-  <p style="margin-top:8px">© 2026 CallMeHFK · MIT License</p>
-</footer>
-
-<script src="../assets/projects.js"></script>
+<body>
+<p>「sovereign-echo」的独立页面已并入<a href="/projects/#sovereign-echo">项目档案</a>。</p>
 </body>
 </html>

@@ -1,131 +1,76 @@
-<div align="center">
+# CallMeHFK.github.io — 重构版（DOSSIER）
 
-<img src="assets/terminal-header.svg" alt="whoami" width="760">
+原站是「终端风首页 + 独立 PROJECT LAB 展厅」两套视觉、两份项目数据；这一版合并成一套**技术档案 / 规格书**式设计语言，并把「个人介绍口径」统一成一条主线：**agent 的四个接缝**。
 
-<br>
+## 设计语言
 
-**`CallMeHFK`** · UTC+8 · Agent 系统工程师
+| 维度 | 做法 |
+|---|---|
+| 版式 | 封面 masthead → 目录 → 章节（编号 + 发丝线）→ 台账条目 → 页脚 colophon |
+| 字体 | 标题衬线（Palatino / 宋体），正文无衬线，编号与元数据等宽；全部系统字体，零外部请求 |
+| 色彩 | 纸（`#f2efe8`）与墨（`#15140f`）双主题，单一朱红强调色；深色主题可手动切换并记忆 |
+| 信息层级 | 概览用「编号 + 接缝名 + 何时触发 + 做什么 + 仓库数」的台账行；项目用可展开条目，而非卡片墙 |
+| 动效 | 阅读进度、侧栏索引高亮、条目展开、系统 tab、名录走马、主题圆形揭示、站内检索；全部可降级 |
 
-过程监督 / 输出路由 / 技能质量 / 多 Agent 运行时
+## 目录
 
-![upstream](https://img.shields.io/badge/upstream%20PR-5%20merged%20%C2%B7%203%20open-e06a2d?style=flat-square)
-![plugins](https://img.shields.io/badge/qwenpaw%20plugins-7-8b949e?style=flat-square)
-
-<code><img height="20" alt="python" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"></code>
-<code><img height="20" alt="typescript" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/typescript/typescript.png"></code>
-<code><img height="20" alt="go" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/go/go.png"></code>
-<code><img height="20" alt="c" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/c/c.png"></code>
-<code><img height="20" alt="cpp" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/cpp/cpp.png"></code>
-<code><img height="20" alt="linux" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/linux/linux.png"></code>
-<code><img height="20" alt="windows" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/windows/windows.png"></code>
-<code><img height="20" alt="git" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/git/git.png"></code>
-![WDK · APO](https://img.shields.io/badge/WDK%20·%20APO-0078D4?style=flat-square)
-![Renode](https://img.shields.io/badge/Renode-5A6B7B?style=flat-square)
-![MCP](https://img.shields.io/badge/MCP-6E7F80?style=flat-square)
-![AgentScope · QwenPaw](https://img.shields.io/badge/AgentScope%20·%20QwenPaw-E06A2D?style=flat-square)
-
-</div>
-
-## 仓库速览
-
-| 仓库 | 是什么 | 版本 |
-|---|---|---|
-| [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) | 编排 Agent 输出路由的 tool-seam 中间件 | v0.1.11 |
-| [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) | 智能体过程监督：两层检测器 + 离线反事实基准 | v0.4.0 |
-| [jev-kernel](https://github.com/CallMeHFK/jev-kernel) | mu 式判定内核：tool seam 上的分级裁决与校准概率（上游移植适配） | v0.2.1 |
-| [agent-task-callback](https://github.com/CallMeHFK/agent-task-callback) | 跨 Agent 后台任务的 push 侧回调 | v0.1.5 |
-| [qwenpaw-secret-input](https://github.com/CallMeHFK/qwenpaw-secret-input) | 运行中途向人要密钥：明文不进模型上下文，只回一次性 ref | v0.2.0 |
-| [qwenpaw-openviking](https://github.com/CallMeHFK/qwenpaw-openviking) | OpenViking 记忆服务的 QwenPaw 原生插件（上游移植适配） | v0.2.0 |
-| [site-kg](https://github.com/CallMeHFK/site-kg) | 站点 URL 或本地目录 → 知识图谱 → 10 工具 MCP 服务 | — |
-| [qwenpaw-consensus-rank](https://github.com/CallMeHFK/qwenpaw-consensus-rank) | 多评审 LLM 位次平均共识排序 | v1.4.10 |
-| [niclane](https://github.com/CallMeHFK/niclane) | 本地 SOCKS5 / HTTP 代理的 per-NIC 出口隔离（Go，候选车道自动故障转移，fail-closed） | v0.4.0 |
-| [sovereign-echo](https://github.com/CallMeHFK/sovereign-echo) | 把个人数据主权声明注入每一场对话（Shell） | — |
-| [agent-chatroom](https://github.com/CallMeHFK/agent-chatroom) | 多 Agent 聊天室：@ 点名、并行应答、SSE 流式、共享画布 | — |
-| [raspberry-pi](https://github.com/CallMeHFK/raspberry-pi) | 派上实时语音通话（WebRTC），后端是真能执行工具的 CLI agent | — |
-
-行序与展厅卡片序一致，即 3D 星座的四个簇。
-
-推送与版本对 2026-10-22 的 GitHub 复核。
-
-## 系统设计
-
-只展开自己从零写的三个系统；宿主插件与上游移植走上表，不占这一节。
-
-### [agent-shepherd](https://github.com/CallMeHFK/agent-shepherd) — 过程监督
-
-观测 QwenPaw / Claude Code / Codex 的 reasoning 与 tool call 流，偏航时注入纠正。
-
-- 两层检测。Tier 0 是确定性检测器，覆盖 loop、regression、越权编辑、binding drift、context rot，另有一路 CUSUM 漂移告警。Tier 1 是 PRM 式 LLM 判定，只在 natural checkpoint 或 CUSUM 接近告警线时唤醒。
-- 阈值来自测量。漂移阈值用蒙特卡洛仿真标定到会话级误报预算，判定阈值用 conformal risk control 按实测拟合。工具结局先做 failed / ok / unknown 三态分类，错误串文法只作兜底。规则本条目按 Wilson 下界排序。
-- `shepherd eval` 注入单点故障，按检测器报 precision、recall、detection latency、supervision cost。
-- 0.4.0 把判定层接回规则本：每条真正注入的纠偏留待下次 judge review，按准入线标 agreed 或 disagreed；条目排序混合 adherence 与贴否率的收缩 Wilson 下界，累计 4 次以上且贴否过半的条目从 header 剔除。
-- `shepherd uninstall` 只删安装写进去的条目，改前备份，`--dry-run` 出计划。`shepherd stop` 按 `/health` 报的 pid 分拣手动进程与 systemd unit。
-
-### [dispatch-guard](https://github.com/CallMeHFK/dispatch-guard) — 输出路由
-
-把派发约束从 system prompt 移到 tool seam：`on_acting` 拦截交付物形状的写入并 deny，回填该派给谁。
-
-- 写入按交付物目录与扩展名加白名单判定，命中且存在归属专家 agent 时拒绝，并回填该派给谁。shell 侧默认 warn，开 `shell_enforce` 才拦重定向旁路。`spawn_subagent` 是配置层之外的兜底 deny。读与基础文件 IO 不拦。
-- `routes.json` 按 mtime 热加载，并自审矛盾规则、死规则、未知 mode。无配置时从各 agent 声明的派发策略草拟 warn 模式的 `routes.draft.json`，改名后才生效。
-- `jev` 是 opt-in 第二层，默认关，只补确定性规则判不出的两处：草拟路由的 P0，和关键词路由指不到在册 owner 的 P1。p ≥ 0.85 才在 enforce 下 deny 并点名 owner，0.6 到 0.85 转 warn。判定端点与模型取自 jev-kernel 的 `jev.json`，kernel 停这层也停。
-
-### [agent-chatroom](https://github.com/CallMeHFK/agent-chatroom) — 多 Agent 运行时
-
-用户与多个 CLI agent 同室互聊：@ 点名，agent 之间也能互相唤起。零框架 `node:http` + SSE，前端单页零构建。
-
-- 和 dispatch-guard 同一条主张：**回复路由是策略层，不写在 prompt 里**。@ 精确点名、无 @ 全员接力、`replyTo` 链深 ≤ 3 防无限对轰、发言冷却防抢话；并行应答默认开，同一轮被点名的多个 agent 同时发言，流式事件天然交错。
-- 三种 driver 并存（ACP 常驻会话 / 本地一次性 CLI / 远程 SSH），所以「本机已装的各家 agent」不必先被改造成同一个协议才能进屋。abort 是一等公民：`Driver.send` 第三个参数就是 `AbortSignal`，acp 发 `session/cancel`，cli / ssh 杀进程组。
-- SSE 事件对齐 AG-UI 分类法（`TEXT_MESSAGE_*` / `THINKING_*` / `CUSTOM` / `STATE_*`），字段名本身就是前后端契约。
-- 接入结论落在实现里：ACP 驱动 qodercli 时默认不调 `authenticate`（会挂起），直接 `session/new`，失败且 `authMethods` 非空时才回退一次。国际版端点 `*.qoder.sh` 被 TLS 拦截，默认配置改用国内版 qoderclicn。
-
-`package.json` 写 0.1.0 但未打 tag · 仓库无 LICENSE。
-
-## 上游 PR
-
-| 仓库 | PR | 状态 | 内容 |
-|---|---|---|---|
-| [skillsgate](https://github.com/skillsgate/skillsgate) | [#31](https://github.com/skillsgate/skillsgate/pull/31) | merged 2026-10-12 | 投递 Qoder / Qoder CN / QwenPaw / ZCode 四个宿主，+47/−5 |
-| [sepia](https://github.com/Nanako0129/sepia) | [#289](https://github.com/Nanako0129/sepia/pull/289) | merged 2026-10-09 | 零 Skill 安装改为显式失败，撤掉 `/sepia` 命令，+199/−171 |
-| [sepia](https://github.com/Nanako0129/sepia) | [#250](https://github.com/Nanako0129/sepia/pull/250) | merged 2026-09-17 | `.qwenpaw-plugin/` 插件包 + `/sepia` 斜杠命令，+318/−25 |
-| [ncdownloader](https://github.com/shiningw/ncdownloader) | [#158](https://github.com/shiningw/ncdownloader/pull/158) | merged 2024-06-06 | 修复「搜索音乐」条目下载失败（issue #136），+1/−1 |
-| [nacos](https://github.com/alibaba/nacos) | [#12127](https://github.com/alibaba/nacos/pull/12127) | merged 2024-06-03 | Python services sample，+198/−2 |
-| [SemaPLC](https://github.com/midea-ai/SemaPLC) | [#6](https://github.com/midea-ai/SemaPLC/pull/6) | open | QwenPaw / Claude Code / Cursor 三平台接入 |
-| [ResearchStudio](https://github.com/microsoft/ResearchStudio) | [#60](https://github.com/microsoft/ResearchStudio/pull/60) | open | 安装器并列加 QwenPaw 与 Qoder 两个宿主 |
-| [text-to-cad](https://github.com/earthtojake/text-to-cad) | [#429](https://github.com/earthtojake/text-to-cad/pull/429) | open | README 与首页补 ZCode / QwenPaw 安装路径 |
-
-同一套 Skill 内容不动，只改 manifest 与路由。数字与状态对 2026-10-22 的 GitHub 复核。
-
-## 图解
-
-<details>
-<summary>技能循环与决策边界</summary>
-
-<img src="assets/skill-loop.png" alt="Agent Skill 生态闭环：安装 → 运行 → 蒸馏 → 评分（SkillLens 9 维），再由 SkillOpt 门控优化回到安装" width="760">
-
-<img src="assets/decision-boundary.png" alt="决策边界：参数调优触及物理上限即立即转向；回路由建立基线、改进、对比基线构成" width="760">
-
-技能侧按带 `SKILL.md` 的目录安装，配 9 维评分与门控优化，评分口径参照 SkillLens 的实证基线。
-
-</details>
-
-## 运行原则
-
-用数据与事实做决策，不用感觉。先盘点再行动，确认了快速推进。质量是底线，效率是目标。
-
-```console
-CallMeHFK:~$ cat principles.txt
-[0] 先盘点，再行动      建立基线 → 改进 → 对比基线，不盲目启动
-[1] 数据驱动不迷信      源码 > 配置 > 运行态；禁止口算，工具算完再输出
-[2] 逐字保真            源数据神圣不可改；可加标注，禁止「优化」改写
-[3] 物理极限即边界      参数调优空间可迭代，碰物理上限立即转向，不死磕
-[4] 诚实纠错            新数据推翻旧结论 → 明确记录「上一轮我说 X 是错误的」
-[5] 工具链即基础设施    按任务安装不膨胀；必须有退路，否则不上
+```
+refactored-site/
+├── index.html               档案首页：封面 / 四个接缝 / 项目 / 信息边界 / 系统设计 / 上游 / 原则
+├── projects/index.html      项目档案：筛选 + 检索 + 15 条台账 + 关系图视图
+├── 404.html                 恢复页（noindex，绝对路径，任意深度可用）
+├── projects/<name>/index.html  旧详情页的跳转桩：meta refresh 到 /projects/#<name>
+├── assets/
+│   ├── site.css             设计系统（tokens、双主题、响应式、减弱动效、打印）
+│   ├── app.js               交互层（classic script，无依赖）
+│   ├── figures.js           图示层（three.js ES Module：图 1 + 关系图）
+│   ├── favicon.svg
+│   ├── og-cover.png         分享封面 1200×630（og:image / twitter:image）
+│   └── vendor/three/186/    本地 three.js 0.186.1（MIT）
+├── CONTENT-RULES.md         内容红线 + 介绍口径 + 文风规范 + 替换流程
+└── LICENSE
 ```
 
----
+## 本地预览
 
-<div align="center">
+ES Module 与 importmap 需要 HTTP 服务，**不要用 `file://` 打开**：
 
-*「写得进去的部分，已经足够强大。」—— 但做不出来，比说不清楚更致命。*
+```bash
+cd refactored-site
+python -m http.server 8000
+# http://localhost:8000/            首页
+# http://localhost:8000/projects/   项目档案（?view=graph 直达关系图）
+```
 
-</div>
+## 部署
+
+推到 `CallMeHFK/CallMeHFK.github.io` 的 `master` 根目录即可，纯静态零构建。原站 12 个项目详情页已并入档案页，路径下保留跳转桩（`meta refresh` + `canonical`），旧链接不会 404。原站的 `assets/terminal-header.svg`、`assets/consensus-flow.png` 等插画已不再引用。
+
+## 这一版改了什么
+
+| 项 | 原站 | 重构后 |
+|---|---|---|
+| 视觉 | 深色霓虹 + 终端窗口 + 卡片网格 | 纸墨档案风：衬线标题、发丝线、编号章节、台账行 |
+| 个人介绍 | 说法前后不一（标题讲过程/输出，正文列四方向，项目页又是另一套分类） | 统一为「四个接缝」：工具 / 记忆 / 网络 / 会话，标题、概览、分类、关系图、页脚同一套词 |
+| 文案语气 | 格言句、破折号反问、拟人化动词、站长备注混入正文 | 技术陈述句：对象、条件、动作、结果；数据口径写明「截至 2026-10-22」 |
+| 信息密度 | 卡片并列，主次不清 | 目录 + 章节 + 可展开条目：默认只给一行，需要时展开 |
+| 公开/私有 | 未区分 | 分区标注 + 信息边界对照表 + 红线清单，私有条目无链接、无技术词 |
+| 3D | 首页星点背景 + 展厅星座 | 图 1（结构示意，声明不承载数据）+ 关系图（公开连线，私有孤立） |
+| 可访问性 | 表格硬裁切、动效偏多 | skip link、focus-visible、tab 键盘导航、reduced-motion 全降级、表格横向可滚 |
+
+## 交互清单
+
+- **全局**：滚动进度线、侧栏索引高亮与已读百分比、`⌘K / Ctrl+K` 站内检索（章节 / 项目 / 页面）、主题切换（圆形揭示，跟随系统或手动记忆）、返回顶部。
+- **首页**：名录走马（悬停暂停）、条目点击展开、系统设计纵向 tab（方向键可切）、滚动揭示（错峰）、图 1 自动旋转。
+- **档案页**：可见性 × 接缝筛选、实时检索与计数、台账/关系图切换（`?view=graph` 可分享）、关系图拖拽旋转、悬停标签、点击公开节点开仓库。
+- **降级**：无 JS → 全部内容与链接可用，条目默认收起但正文仍在 DOM；无 WebGL / 模块失败 → 图 1 显示占位说明，关系图退回台账；`prefers-reduced-motion` → 停用旋转、走马与揭示；窄屏 → 关系图按钮禁用并提示。
+
+## 还需要你确认
+
+1. **`open-source-repo-rules` 仓库当前 404**（页面、raw、REST API、仓库搜索均已核实）。本次按你消息里的约束执行，详见 `CONTENT-RULES.md` 第 0 节。
+2. **三个未开源条目是安全占位示例**，不对应任何真实项目。按 `CONTENT-RULES.md` 第 5 节替换名称与组件文案即可，不用改代码。
+3. 首页统计与上游 PR 状态沿用原站 2026-10-22 的复核口径，发布前建议重新核对。
+
+## 许可
+
+站点内容 MIT（见 `LICENSE`）；`assets/vendor/three/186/` 为 three.js 0.186.1（MIT），许可文本随目录附带。
